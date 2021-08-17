@@ -1,5 +1,7 @@
 <?php
 
+use App\Services\IcalManager;
+use App\Services\IcalProvider;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
@@ -14,4 +16,7 @@ return [
         ]);
         return $e;
     },
+
+    IcalProvider::class => DI\Autowire(),
+    IcalManager::class => DI\Autowire()
 ];

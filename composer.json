@@ -25,7 +25,8 @@
         "laminas/laminas-diactoros": "^2.4",
         "laminas/laminas-httphandlerrunner": "^1.2",
         "php-di/php-di": "^6.3",
-        "johngrogg/ics-parser": "^2"
+        "johngrogg/ics-parser": "^2",
+        "ext-curl": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.1"
