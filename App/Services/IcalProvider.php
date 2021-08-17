@@ -21,20 +21,20 @@ class IcalProvider
         ]);
     }
 
-    private function refresh_ical_instance()
+    private function refresh_ical_instance(string $group)
     {
         // only refresh if needed
-        if ($this->manager->should_refresh())
+        if ($this->manager->should_refresh($group))
         {
-            $this->manager->refresh_ical();
+            $this->manager->refresh_ical($group);
         }
 
-        $this->ical->initFile(IcalManager::FILE_PATH);
+        $this->ical->initFile($this->manager->file_name_from_group($group));
     }
 
-    public function get_ical()
+    public function get_ical(string $group)
     {
-        $this->refresh_ical_instance();
+        $this->refresh_ical_instance($group);
 
         try {
             return $this->ical->eventsFromRange("2021-06-14", "2021-06-18");
