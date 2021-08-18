@@ -3,6 +3,12 @@ namespace App\Factories;
 
 use DI\ContainerBuilder;
 
+/**
+ * Creates the container by building it with the production const and the different config files
+ *
+ * @package App\Factories
+ * @author Vasco Compain
+ */
 class ContainerFactory {
 
     public function __invoke()

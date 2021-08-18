@@ -7,6 +7,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Middleware that forces the request to be without a trailing slash (to avoid confusion with folders)
+ *
+ * @package App\Middlewares
+ * @author Fabien Zoccola, Vasco Compain
+ */
 class TralingSlashMiddleware implements MiddlewareInterface {
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

@@ -10,6 +10,12 @@ use function curl_exec;
 use function curl_init;
 use function curl_setopt;
 
+/**
+ * Manages and sanitizes the Ical when updating them
+ * Has util functions for {@link IcalProvider}
+ * @package App\Services
+ * @author Fabien Zoccola
+ */
 class IcalManager
 {
     public const ICS_PATH = __DIR__ . "/ics/";
@@ -22,11 +28,21 @@ class IcalManager
         $this->container = $container;
     }
 
+    /**
+     * Check if a group name exists
+     * @param string $name the group name
+     * @return bool whether the group exists or not
+     */
     public function group_exists(string $name): bool
     {
         return preg_match("/^iut-s[1-6]$/i", $name) != false;
     }
 
+    /**
+     * Returns the ICS file name from the given group
+     * @param string $name the group name
+     * @return string the file name
+     */
     public function file_name_from_group(string $name): string
     {
         [$major, $group] = explode("-", trim($name));
@@ -37,6 +53,11 @@ class IcalManager
         return self::ICS_PATH . "$major-$group" . self::FILE_EXT;
     }
 
+    /**
+     * Returns the container's data key (entry, of form ics.url.data.SOMETHING) from the given group name
+     * @param string $name the group name
+     * @return string the data key
+     */
     public function data_key_from_group(string $name): string
     {
         [$major, $group] = explode("-", trim($name));
@@ -47,6 +68,11 @@ class IcalManager
         return "ics.url.data.$major.$group";
     }
 
+    /**
+     * Checks if the given group's calendar needs to be refreshed from URL
+     * @param string $group the group name
+     * @return bool whether the current group's calendar should be refreshes
+     */
     public function should_refresh(string $group): bool
     {
         if (!file_exists($this->file_name_from_group($group)))
@@ -72,6 +98,11 @@ class IcalManager
         return $deltaMinutes >= $this->container->get("ics.refresh_threshold");
     }
 
+    /**
+     * Refreshes the Ical from a given URL to a given file
+     * (see {@link data_key_from_group}, {@link file_name_from_group})
+     * @param string $group the group name
+     */
     public function refresh_ical(string $group)
     {
         $url = $this->container->get("ics.url.base.iut") . $this->container->get($this->data_key_from_group($group));
@@ -97,6 +128,11 @@ class IcalManager
         }
     }
 
+    /**
+     * Cleans up and sanitizes the Ical output before writing it to the file
+     * @param string $str the content pulled by {@link refresh_ical}
+     * @return string the edited file content
+     */
     private function clean_ical_lines(string $str)
     {
         return preg_replace(

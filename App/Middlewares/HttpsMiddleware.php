@@ -8,6 +8,12 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use const PRODUCTION;
 
+/**
+ * Middleware that forces HTTPS when in production mode
+ *
+ * @package App\Middlewares
+ * @author Fabien Zoccola, Vasco Compain
+ */
 class HttpsMiddleware implements MiddlewareInterface {
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

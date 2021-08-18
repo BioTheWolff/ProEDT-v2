@@ -16,6 +16,9 @@ use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
 
 /**
  * This strategy aims to provide smooth error handling by displaying an appropriate response to the end user.
+ *
+ * @package App\Strategies
+ * @author Fabien Zoccola
  */
 class FancyStrategy extends AbstractStrategy implements ContainerAwareInterface
 {
