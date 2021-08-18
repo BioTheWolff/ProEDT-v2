@@ -6,5 +6,6 @@ return [
     "config/advanced/definitions.php",
     "config/advanced/routes.php",
 
-    "config/ics.php"
+    "config/api/config.api.php",
+    "config/api/tokens.api.php",
 ];

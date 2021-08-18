@@ -22,8 +22,8 @@ return [
         'api' => [
             'controller' => APIController::class,
             'routes' => [
-                'json' => "json",
-                'ical' => "ical"
+                'ical.json' => "ical_json",
+                'ical.raw' => "ical_raw"
             ]
         ]
         // etc.
