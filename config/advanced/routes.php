@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\APIController;
 use App\Controllers\VisualController;
 
 return [
@@ -15,6 +16,14 @@ return [
             'controller' => VisualController::class,
             'routes' => [
                 'calendar' => "calendar"
+            ]
+        ],
+        // API
+        'api' => [
+            'controller' => APIController::class,
+            'routes' => [
+                'json' => "json",
+                'ical' => "ical"
             ]
         ]
         // etc.

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'ics.refresh_threshold' => 5,  // minutes
+    'ics.refresh_threshold' => -1,  // minutes
 
     'ics.url.base.iut' => "https://proseconsult.umontpellier.fr/jsp/custom/modules/plannings/direct_cal.jsp?data=",
 

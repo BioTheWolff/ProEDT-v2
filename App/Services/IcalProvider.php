@@ -34,6 +34,12 @@ class IcalProvider
 
     public function get_ical(string $group)
     {
+        if (!$this->manager->group_exists($group))
+        {
+            // bad group
+            return false;
+        }
+
         $this->refresh_ical_instance($group);
 
         try {
