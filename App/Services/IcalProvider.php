@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Psr\Container\ContainerInterface;
 
 class IcalProvider
@@ -32,6 +33,12 @@ class IcalProvider
         $this->ical->initFile($this->manager->file_name_from_group($group));
     }
 
+    public function gathered_timestamp(string $group): int
+    {
+        if (!file_exists($this->manager->file_name_from_group($group))) return -1;
+        return filemtime($this->manager->file_name_from_group($group));
+    }
+
     public function get_ical(string $group)
     {
         if (!$this->manager->group_exists($group))
@@ -44,7 +51,7 @@ class IcalProvider
 
         try {
             return $this->ical->eventsFromRange("2021-06-14", "2021-06-18");
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             die($e->getMessage());
         }
     }

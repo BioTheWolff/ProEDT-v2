@@ -3,7 +3,12 @@
 namespace App\Services;
 
 
+use DateTime;
 use Psr\Container\ContainerInterface;
+use function curl_close;
+use function curl_exec;
+use function curl_init;
+use function curl_setopt;
 
 class IcalManager
 {
@@ -44,16 +49,13 @@ class IcalManager
 
     public function should_refresh(string $group): bool
     {
-        try
-        {
-            $stamp = filemtime($this->file_name_from_group($group));
-        }
-        catch (\ErrorException $e) // if the file is not found
+        if (!file_exists($this->file_name_from_group($group)))
         {
             $this->refresh_ical($group);
             return false;
         }
 
+        $stamp = filemtime($this->file_name_from_group($group));
         if ($stamp === false)
         {
             // the file doesnt exist, create it
@@ -61,11 +63,11 @@ class IcalManager
             return false;
         }
 
-        $edited_at = new \DateTime();
+        $edited_at = new DateTime();
         $edited_at->setTimestamp($stamp);
 
-        $dateDiff = $edited_at->diff(new \DateTime(), true);
-        $deltaMinutes = ((new \DateTime())->setTimeStamp(0)->add($dateDiff)->getTimeStamp()) / 60;
+        $dateDiff = $edited_at->diff(new DateTime(), true);
+        $deltaMinutes = ((new DateTime())->setTimeStamp(0)->add($dateDiff)->getTimeStamp()) / 60;
 
         return $deltaMinutes >= $this->container->get("ics.refresh_threshold");
     }
@@ -74,12 +76,12 @@ class IcalManager
     {
         $url = $this->container->get("ics.url.base.iut") . $this->container->get($this->data_key_from_group($group));
 
-        $curl = \curl_init($url);
-        \curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-        $result = \curl_exec($curl);
+        $result = curl_exec($curl);
 
-        \curl_close($curl);
+        curl_close($curl);
 
         if ($result != false)
         {
@@ -87,7 +89,7 @@ class IcalManager
 
             $file = fopen($this->file_name_from_group($group), "w");
 
-            $time = new \DateTime();
+            $time = new DateTime();
             $time = $time->format(DATE_ATOM);
 
             fwrite($file, "$cleaned\n");
@@ -123,7 +125,7 @@ class IcalManager
                 "/(DESCRIPTION):\\\\n(.*)(A[1-2]-Semestre-[1-2]|S[1-6]|G[1-4]|Q[1-4])(.*)\\\\n/",
 
                 // [6] another layer of formatting to remove leading and trailing "\n"
-                "/^(DESCRIPTION:Professeurs): (\\\\n)*(.*?)(\\\\n)*$/m",
+                "/^(DESCRIPTION:.* \| Professeurs): (\\\\n)*(.*?)(\\\\n)*$/m",
 
                 // [7] merge the many description's "\n" literals into one
                 "/(\\\\n){2,}/",
@@ -138,7 +140,7 @@ class IcalManager
                 "", "", "", "", "", // [2]
                 "", "", "", // [3]
                 "\n", // [4]
-                "$1:Groupe: $3\n$1:Professeurs: $2$4", // [5]
+                "$1:Groupe: $3 | Professeurs: $2$4", // [5]
                 "$1: $3", // [6]
                 "\\\\n", ", ", // [7]
                 " ", // [8]

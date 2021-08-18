@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Services\IcalProvider;
-use ICal\Event;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,22 +14,32 @@ class APIController extends AbstractController
         return new JsonResponse($data, $status);
     }
 
-    private function format_events_to_json(array $events)
+    private function format_events_to_json(array $events, int $gathered_at)
     {
         if (empty($events)) return [];
 
         $final = [
-            'generated_at' => $events[0]->dtstamp,
+            'status' => "success",
+            'generated_at' => time(),
+            'gathered_at' => $gathered_at,
             'events' => []
         ];
 
         foreach ($events as $e)
         {
+            [$group, $teachers] = explode(" | ", $e->description);
+
+            $group = str_replace("Groupe: ", "", $group);
+            $teachers = explode(", ", str_replace("Professeurs: ", "", $teachers));
+
             $final['events'][] = [
                 "summary" => $e->summary,
                 "start" => $e->dtstart,
                 "end" => $e->dtend,
-                "description" => $e->description,
+                "description" => [
+                    "group" => $group,
+                    "teachers" => $teachers
+                ],
                 "location" => $e->location
             ];
         }
@@ -45,15 +54,17 @@ class APIController extends AbstractController
         $group_name = $args['major'] . '-' . $args['group'];
         $calendar = $provider->get_ical($group_name);
 
+        $gathered_at = $provider->gathered_timestamp($group_name);
+
         if ($calendar === false)
         {
             // bad group, create json and send it
             return $this->prepare_send_json([
-                'code' => 404,
-                'error' => 'bad group provided'
+                'status' => "error",
+                'error' => 'unkown major/group combination provided'
             ], 404);
         }
 
-        return $this->prepare_send_json($this->format_events_to_json($calendar));
+        return $this->prepare_send_json($this->format_events_to_json($calendar, $gathered_at));
     }
 }

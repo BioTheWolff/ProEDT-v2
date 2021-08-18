@@ -1,8 +1,8 @@
 <?php
 
-# Setup the path
 use function App\map_from_routes;
 
+# Setup the path
 chdir(dirname(__DIR__));
 require_once 'vendor/autoload.php';
 
