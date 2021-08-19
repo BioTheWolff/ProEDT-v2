@@ -1,5 +1,6 @@
 <?php
 
+use function App\array_resolve;
 use function App\map_from_routes;
 
 # Setup the path
@@ -10,14 +11,13 @@ require_once 'vendor/autoload.php';
 $container = (new App\Factories\ContainerFactory)();
 
 $strategy = (new App\Strategies\FancyStrategy())->setContainer($container);
-$router   = (new League\Route\Router)->setStrategy($strategy);
+$router   = (new App\PDTR\PDTRRouter)->setStrategy($strategy);
 
 # Setup the middlewares
-$router->middlewares([
-    new App\Middlewares\HttpsMiddleware(),
-    new App\Middlewares\MethodDetectorMiddleware(),
-    new App\Middlewares\TralingSlashMiddleware()
-]);
+$router->middlewares(array_resolve([
+    App\Middlewares\HttpsMiddleware::class,
+    App\Middlewares\MethodDetectorMiddleware::class
+], $container));
 
 # Create the routes
 map_from_routes($router, $container, "advanced.routes");

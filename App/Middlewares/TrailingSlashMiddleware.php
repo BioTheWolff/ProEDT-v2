@@ -13,7 +13,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  * @package App\Middlewares
  * @author Fabien Zoccola, Vasco Compain
  */
-class TralingSlashMiddleware implements MiddlewareInterface {
+class TrailingSlashMiddleware implements MiddlewareInterface {
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
