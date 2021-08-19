@@ -11,7 +11,7 @@ $this->layout('_template', ['page_title' => 'Calendrier']) ?>
     <div class="column col-4 login">
 
         <p>
-            <?php var_dump($cal ?? "test") ?>
+
         </p>
 
     </div>

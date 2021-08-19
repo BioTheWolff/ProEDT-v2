@@ -20,8 +20,6 @@ class VisualController extends AbstractController
 
     function calendar(): ResponseInterface
     {
-        return $this->html_render("calendar", [
-            "cal" => $this->container->get(IcalProvider::class)->get_ical("iut-s6")
-        ]);
+        return $this->html_render("calendar");
     }
 }
