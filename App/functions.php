@@ -77,6 +77,19 @@ function map_from_routes(Router $router, ContainerInterface $container, string $
 
     // then add all the calculated routes to the router
     foreach ($calculated_routes as $r) {
-        $router->map($r[0], $container->get($r[1]), $r[2]);
+        $endpoint = $container->get($r[1]);
+
+        if (is_array($endpoint))
+        {
+            foreach ($endpoint as $e)
+            {
+                $router->map($r[0], $e, $r[2]);
+            }
+        }
+        else
+        {
+            $router->map($r[0], $endpoint, $r[2]);
+        }
+
     }
 }
