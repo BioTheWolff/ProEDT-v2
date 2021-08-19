@@ -3,11 +3,8 @@
 namespace App\Controllers;
 
 use App\Services\IcalProvider;
-use DateInterval;
-use DateTime;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
-use Laminas\Diactoros\Response\TextResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -55,29 +52,13 @@ class APIController extends AbstractController
         $date = isset($args['date']) ? $args['date'] : null;
 
         // if date was passed to the API
-        if (!is_null($date))
+        if (!is_null($date) && !$provider->is_date_valid($date))
         {
-            if (!$provider->is_date_valid($date))
-            {
-                // refuse if date isn't correct
-                return new JsonResponse([
-                    'status' => $this->container->get("api.status.error.ical.date"),
-                    'error' => 'invalid date format (expected YYYY-mm-dd)'
-                ], 400);
-            }
-            else
-            {
-                // check if the date is a monday, if not move it to the monday of that week
-                $dt = DateTime::createFromFormat("Y-m-d", $date);
-                $day = (int)$dt->format("N");
-                if ($day > 1)
-                {
-                    $sub = $day-1;
-                    $date = DateTime::createFromFormat("Y-m-d", $date)
-                        ->sub(new DateInterval("P" . $sub . "D"))
-                        ->format("Y-m-d");
-                }
-            }
+            // refuse if date isn't correct
+            return new JsonResponse([
+                'status' => $this->container->get("api.status.error.ical.date"),
+                'error' => 'invalid date format (expected YYYY-mm-dd)'
+            ], 400);
         }
 
         // refuse if group isn't correct
@@ -91,7 +72,7 @@ class APIController extends AbstractController
 
         // request the calendar and check for unexpected refusal
         $calendar = $provider->get_ical($group_name, $date);
-        if ($calendar === false)
+        if ($calendar == null)
         {
             return new JsonResponse([
                 'status' => $this->container->get("api.status.error.internal"),
@@ -113,13 +94,13 @@ class APIController extends AbstractController
         {
             // success if the current date is the same as the one requested, partial if we had to change it
             $status = [
-                "status" => $date === $args['date']
+                "status" => $provider->date_is_start_of_week($date)
                     ? $this->container->get("api.status.success")
                     : $this->container->get("api.status.partial.date")
             ];
-            if ($date != $args['date'])
+            if (($d = $provider->get_start_of_week($date)) != $args['date'])
             {
-                $status['partial'] = "Had to revert the date back to monday of the week ($date), was " . $args['date'];
+                $status['partial'] = "Set date to monday [$d], was [" . $args['date'] . "]";
             }
         }
         else $status = ["status" => $this->container->get("api.status.success")];

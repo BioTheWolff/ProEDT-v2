@@ -5,6 +5,7 @@ namespace App\Services;
 use DateInterval;
 use DateTime;
 use Exception;
+use ICal\ICal;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -24,7 +25,7 @@ class IcalProvider
         $this->container = $container;
         $this->manager = $manager;
 
-        $this->ical = new ResetableIcal(false, [
+        $this->ical = new ICal(false, [
             'defaultTimeZone'             => 'UTC+1',
             'disableCharacterReplacement' => true
         ]);
@@ -81,6 +82,25 @@ class IcalProvider
             $m[3] <= ($is_leap_year ? 28 : ($is_in_month_with_31_days ? 31 : 30)); // DAY high limit
     }
 
+    public function date_is_start_of_week(string $date): bool
+    {
+        return DateTime::createFromFormat("Y-m-d", $date)->format("N") == '1';
+    }
+
+    public function get_start_of_week(string $date): string
+    {
+        if ($this->date_is_start_of_week($date)) return $date;
+
+        $dt = DateTime::createFromFormat("Y-m-d", $date);
+
+        $day = (int)$dt->format("N");
+        $sub = $day-1;
+
+        return DateTime::createFromFormat("Y-m-d", $date)
+            ->sub(new DateInterval("P" . $sub . "D"))
+            ->format("Y-m-d");
+    }
+
     /**
      * Returns the Ical events of the requested group
      *
@@ -88,11 +108,11 @@ class IcalProvider
      * @param string|null $date the date starting the week
      * @return array|false false if the group doesn't exist, else the array of events
      */
-    public function get_ical(string $group, string $date = null)
+    public function get_ical(string $group, string $date = null): ?array
     {
         if (!$this->manager->group_exists($group) || (!is_null($date) && !$this->is_date_valid($date)))
         {
-            return false; // malformed request
+            return null; // malformed request
         }
 
         $this->refresh_ical_instance($group);
@@ -100,13 +120,15 @@ class IcalProvider
         try {
             if (!is_null($date))
             {
+                $start = $this->get_start_of_week($date);
+
                 // evaluate the "end of range" date
                 $end = DateTime::createFromFormat("Y-m-d", $date)
                     ->add(new DateInterval("P4D"))
                     ->format("Y-m-d");
 
                 // return the events in the evaluated range
-                return $this->ical->eventsFromRange($date, $end);
+                return $this->ical->eventsFromRange($start, $end);
             }
             else return $this->ical->events();
         } catch (Exception $e) {
