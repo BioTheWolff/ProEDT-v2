@@ -104,5 +104,5 @@ modules.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/phpstorm+all,composer
 
-App/Services/ics/*
+App/Services/Ical/ics
 config/api/tokens.api.php

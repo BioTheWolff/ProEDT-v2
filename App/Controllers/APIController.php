@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Services\IcalProvider;
+use App\Services\Ical\IcalProvider;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;

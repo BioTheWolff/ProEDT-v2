@@ -1,13 +1,14 @@
 <?php
 
-use App\Services\IcalManager;
-use App\Services\IcalProvider;
+use App\Services\Ical\IcalManager;
+use App\Services\Ical\IcalProvider;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
 return [
     'templates_root' => dirname(__DIR__) . '/../templates',
 
+    // league/plates Engine
     Engine::class => function (ContainerInterface $c) {
         $e = new Engine($c->get('templates_root'));
         $e->addData([
@@ -17,6 +18,7 @@ return [
         return $e;
     },
 
+    // Ical service
     IcalProvider::class => DI\Autowire(),
     IcalManager::class => DI\Autowire()
 ];
