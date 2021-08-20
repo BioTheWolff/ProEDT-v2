@@ -26,8 +26,10 @@
         "laminas/laminas-httphandlerrunner": "^1.2",
         "php-di/php-di": "^6.3",
         "johngrogg/ics-parser": "^2",
+        "robmorgan/phinx": "^0.12.5",
         "ext-curl": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.1"
