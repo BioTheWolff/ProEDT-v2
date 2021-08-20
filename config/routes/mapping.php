@@ -4,10 +4,7 @@ use App\Controllers\APIController;
 use App\Controllers\VisualController;
 
 return [
-    // index route path; should remain like that unless errors appear
-    'path.index' => "/",
-
-    // the routes
+    // routes mapping
     'advanced.routes' => [
         // index page
         'index' => [ VisualController::class, "index" ],
