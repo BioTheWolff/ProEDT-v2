@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\APIController;
+use App\Controllers\UserController;
 use App\Controllers\VisualController;
 
 return [
@@ -13,6 +14,16 @@ return [
             'controller' => VisualController::class,
             'routes' => [
                 'calendar' => "calendar"
+            ]
+        ],
+        'user' => [
+            'controller' => UserController::class,
+            'routes' => [
+                'login' => [
+                    'GET'  => 'login_GET',
+                    'POST' => 'login_POST'
+                ],
+                'logout' => 'logout'
             ]
         ],
         // API

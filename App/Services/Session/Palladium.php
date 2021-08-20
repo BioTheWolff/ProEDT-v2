@@ -11,7 +11,7 @@ use Exception;
  * @author Vasco Compain
  * @author Fabien Zoccola
  */
-class Lithium implements SessionInterface {
+class Palladium implements SessionInterface {
 
     const CREATE_SESSION_IF_ABSENT = 0;
     const IGNORE_SESSION_CREATION = 1;

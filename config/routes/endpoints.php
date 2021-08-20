@@ -9,6 +9,9 @@ return [
     // Paths to the endpoints
     'path.visual.calendar' => '/calendar',
 
+    'path.user.login' => '/login',
+    'path.user.logout' => '/logout',
+
     'path.api.ical.json' => [
         "/api/ical/json/{major}/{group}",
         "/api/ical/json/{major}/{group}/{date}"
