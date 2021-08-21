@@ -1,9 +1,10 @@
 <?php
 
 use App\Database\Interactions\UserInteraction;
-use App\Services\Database\UserDatabaseManager;
+use App\Database\Managers\UserManager;
 use App\Services\Ical\IcalManager;
 use App\Services\Ical\IcalProvider;
+use App\Services\Neon;
 use App\Services\Session\Palladium;
 use App\Services\Session\SessionInterface;
 use League\Plates\Engine;
@@ -16,6 +17,7 @@ return [
     Engine::class => function (ContainerInterface $c) {
         $e = new Engine($c->get('templates_root'));
         $e->addData([
+            'container' => $c,
             'site_title' => $c->get('site.title'),
             'is_production' => PRODUCTION
         ]);
@@ -52,8 +54,9 @@ return [
 
     // Database Interactions & Managers
     UserInteraction::class => DI\Autowire(),
-    UserDatabaseManager::class => DI\Autowire(),
+    UserManager::class => DI\Autowire(),
 
-    // Session service
+    // Session & flash services
     SessionInterface::class => DI\Autowire(Palladium::class),
+    Neon::class => DI\Autowire(),
 ];

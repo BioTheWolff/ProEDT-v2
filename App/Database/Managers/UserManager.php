@@ -5,7 +5,7 @@ namespace App\Database\Managers;
 
 use function App\e;
 
-class UserDatabaseManager extends AbstractDatabaseManager
+class UserManager extends AbstractManager
 {
 
     const PASSWORD_ALGORITHM = PASSWORD_BCRYPT;

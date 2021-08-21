@@ -3,7 +3,7 @@
 namespace App\Database\Interactions;
 
 
-use App\Database\Managers\UserDatabaseManager;
+use App\Database\Managers\UserManager;
 use App\Services\Session\SessionInterface;
 
 class UserInteraction
@@ -16,11 +16,11 @@ class UserInteraction
     protected $session;
 
     /**
-     * @var UserDatabaseManager $database;
+     * @var UserManager $database;
      */
     protected $manager;
 
-    public function __construct(SessionInterface $session, UserDatabaseManager $manager)
+    public function __construct(SessionInterface $session, UserManager $manager)
     {
         $this->session = $session;
         $this->manager = $manager;

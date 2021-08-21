@@ -1,10 +1,23 @@
 <?php
 $site_title = isset($site_title) && !empty($site_title) ? $this->e($site_title) : 'Pro EDT';
-$displayed_title = $site_title; // setting up the page title if there is any $page_title =
-isset($page_title) ? $this->e($page_title) : ''; if (!empty($page_title)) $displayed_title .= " |
-$page_title"; ?>
+$displayed_title = $site_title;
 
-<html>
+// setting up the page title if there is any
+$page_title = isset($page_title) ? $this->e($page_title) : '';
+if (!empty($page_title)) $displayed_title .= " | $page_title";
+
+$neon = isset($container) ? $container->get(App\Services\Neon::class) : null;
+$this->flashes = $neon->get();
+?>
+
+<html lang="fr">
+  <head>
+        <title><?= $displayed_title ?></title>
+        <link rel="shortcut icon" href="/assets/favicon.ico">
+        <link rel="stylesheet" href="/assets/css/spectre.min.css">
+        <link rel="stylesheet" href="/assets/css/main.css">
+  </head>
+<body>
 
 <head>
   <title><?= $displayed_title ?></title>
@@ -27,15 +40,23 @@ $page_title"; ?>
 <body>
   <header class="navbar">
     <section class="navbar-section">
-      <!-- Main page of the SSO auth server -->
-      <a href="/" class="btn btn-link">Pro EDT</a>
+        <!-- Main page -->
+        <a href="/" class="btn btn-link">Pro EDT</a>
     </section>
     <section class="navbar-center">
-      <!-- You can put a link to your main website here (say you have accounts.example.com, you could point to example.com here) -->
-      <img src="/assets/img/logo.png" alt="LOGO" />
+        <img src="/assets/img/logo.png" alt="LOGO">
     </section>
     <section class="navbar-section"></section>
   </header>
+
+  <!-- Flash message -->
+  <?php if($this->flashes): ?>
+      <?php foreach ($this->flashes as $flash): ?>
+          <div class="bg-<?= $flash['type'] ?>">
+              <?= $flash['message'] ?>
+          </div>
+      <?php endforeach; ?>
+  <?php endif; ?>
 
   <!-- Container -->
   <div class="container">
@@ -56,8 +77,9 @@ $page_title"; ?>
           <!--</router-link>-->
         </v-app-bar>
 
-        <div>
-          <?=$this->section('content')?>
+          <div>
+              <?= $this->section('content') ?>
+          </div>
 
           <img v-if="this.loading" src="/imgs/loading.gif" alt="Loading animation" id="loadingImg" />
         </div>

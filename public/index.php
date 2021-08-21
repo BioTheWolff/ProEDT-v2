@@ -16,7 +16,8 @@ $router   = (new App\PDTR\PDTRRouter)->setStrategy($strategy);
 # Setup the middlewares
 $router->middlewares(array_resolve([
     App\Middlewares\HttpsMiddleware::class,
-    App\Middlewares\MethodDetectorMiddleware::class
+    App\Middlewares\MethodDetectorMiddleware::class,
+    App\Middlewares\RequiresDatabaseMiddleware::class,
 ], $container));
 
 # Create the routes

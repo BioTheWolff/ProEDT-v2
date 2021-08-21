@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Database\Interactions\UserInteraction;
+use App\Services\Neon;
 use App\Services\Session\SessionInterface;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -33,19 +34,21 @@ class UserController extends AbstractController
 
         $body = $request->getParsedBody();
         $interaction = $this->container->get(UserInteraction::class);
+        $neon = $this->container->get(Neon::class);
 
         if (!$interaction->checkFormFull(['username', 'password'], $body))
         {
+            $neon->error("Form is not full");
             return $this->html_render("user/login");
         }
-
         if (!$interaction->checkUserValid($body))
         {
+            $neon->error("Invalid username or password");
             return $this->html_render("user/login");
         }
-
         if (!$interaction->loginUser($body))
         {
+            $neon->error("Unexpected error. Please contact administrators.");
             return $this->html_render("user/login");
         }
 

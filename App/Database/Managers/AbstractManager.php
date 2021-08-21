@@ -6,7 +6,7 @@ namespace App\Database\Managers;
 
 use PDO;
 
-abstract class AbstractDatabaseManager
+abstract class AbstractManager
 {
     /**
      * @var PDO $connection
