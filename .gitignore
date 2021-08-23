@@ -106,3 +106,4 @@ modules.xml
 
 App/Services/Ical/ics
 config/api/tokens.php
+composer.lock
