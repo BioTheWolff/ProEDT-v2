@@ -65,7 +65,12 @@ if (!empty($page_title)) $displayed_title .= " | $page_title";
           </router-link>
         </v-app-bar>
 
-        <?=$this->section('content')?>
+
+        <div>
+          <?=$this->section('content')?>
+
+          <img v-if="this.loading" src="/imgs/loading.gif" alt="Loading animation" id="loadingImg">
+        </div>
       </v-app>
     </div>
   </div>
@@ -85,6 +90,7 @@ if (!empty($page_title)) $displayed_title .= " | $page_title";
         weekday: [1, 2, 3, 4, 5, 6, 0],
         value: "",
         events: [],
+        loading: true,
       }
     },
     created() {
@@ -97,7 +103,7 @@ if (!empty($page_title)) $displayed_title .= " | $page_title";
       }) {
         const events = [];
         const firstDate = this.$refs.calendar.value;
-        console.log(firstDate)
+        this.loading = true;
         axios
           .get(`/api/ical/json/iut/s2/${firstDate}`)
           .then(response => {
@@ -110,6 +116,11 @@ if (!empty($page_title)) $displayed_title .= " | $page_title";
                 timed: true,
               });
             });
+            this.loading = false;
+          })
+          .catch(e => {
+            this.loading = false;
+            console.log(e);
           })
         this.events = events;
       },
@@ -133,11 +144,11 @@ if (!empty($page_title)) $displayed_title .= " | $page_title";
         var strMin = icalStr.substr(11, 2);
         var strSec = icalStr.substr(13, 2);
 
-        var oDate = new Date(strYear, strMonth, strDay, strHour, strMin, strSec)
-
-        return oDate;
+        return this.convertTZ(`${strYear}/${strDay}/${strMonth} ${strHour}:${strMin}:${strSec} +0000`, "Europe/Paris");
+      },
+      convertTZ(date, tzString) {
+        return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));   
       }
-
     },
   })
   </script>
