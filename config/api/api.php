@@ -2,11 +2,13 @@
 
 return [
     // API
-    'api.status.success'          => "SUCCESS",
+    'api.status.success' => "SUCCESS",
 
-    'api.status.partial.date'     => "PARTIAL_DATE_CHANGED",
+    'api.status.partial.date' => "PARTIAL_DATE_CHANGED",
 
-    'api.status.error.internal'   => "ERR_INTERNAL",
+    'api.status.error.internal'    => "ERR_INTERNAL",
+    'api.status.error.unavailable' => "ERR_SERVICE_UNAVAILABLE",
+
     'api.status.error.ical.date'  => "ERR_ICAL_FORMAT_DATE",
     'api.status.error.ical.group' => "ERR_ICAL_UNKNOWN_GROUP",
 

@@ -2,6 +2,7 @@
 
 return [
     'advanced.path_prefix' => "path",
+    'advanced.api_prefix' => "/api",
 
     // index route path; should remain like that unless errors appear
     'path.index' => "/",
