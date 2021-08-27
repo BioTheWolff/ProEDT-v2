@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class UserController extends AbstractController
 {
-    private function check_not_connected()
+    private function check_not_connected(): ?RedirectResponse
     {
         $session = $this->container->get(SessionInterface::class);
         if (!is_null($session->get('__user')))
