@@ -93,6 +93,9 @@ $this->flashes = $neon->get();
         value: '',
         events: [],
         loading: true,
+        selectedEvent: {},
+        selectedElement: null,
+        selectedOpen: false,
       };
     },
     created() {
@@ -107,7 +110,8 @@ $this->flashes = $neon->get();
         let firstDate = this.$refs.calendar.value;
         if (firstDate === '') {
           let ds = new Date();
-          firstDate = `${ds.getUTCFullYear()}-${ds.getMonth() + 1}-${ds.getDate()}`;
+          //firstDate = `${ds.getUTCFullYear()}-${ds.getMonth() + 1}-${ds.getDate()}`;
+          firstDate = '2021-06-10'
         }
         this.loading = true;
         axios
@@ -116,10 +120,12 @@ $this->flashes = $neon->get();
             response.data.events.forEach((e) => {
               events.push({
                 name: e.summary,
+                location: `${this.joinV(e.location)}`,
                 start: this.calenDate(e.start),
                 end: this.calenDate(e.end),
                 color: 'blue',
                 timed: true,
+                teachers: this.joinV(e.description.teachers.join(", "))
               });
             });
             this.loading = false;
@@ -146,6 +152,27 @@ $this->flashes = $neon->get();
 
         return new Date(Date.UTC(strYear, strMonth, strDay, strHour, strMin, strSec));
       },
+      showEvent ({ nativeEvent, event }) {
+        const open = () => {
+          this.selectedEvent = event
+          this.selectedElement = nativeEvent.target
+          requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
+        }
+
+        if (this.selectedOpen) {
+          this.selectedOpen = false
+          requestAnimationFrame(() => requestAnimationFrame(() => open()))
+        } else {
+          open()
+        }
+
+        nativeEvent.stopPropagation()
+      },
+      joinV(str)
+      {
+        if(Array.isArray(str)) return str.join(", ");
+        else return str;
+      }
     },
   });
   </script>
