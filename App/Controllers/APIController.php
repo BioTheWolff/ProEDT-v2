@@ -38,7 +38,8 @@ class APIController extends AbstractController
                 ],
                 "location" => str_contains($e->location, ",")
                     ? explode(",", $e->location)
-                    : $e->location
+                    : $e->location,
+                "uid" => $e->uid,
             ];
         }
 

@@ -84,7 +84,7 @@ class IcalManager
         $stamp = filemtime($this->file_name_from_group($group));
         if ($stamp === false)
         {
-            // the file doesnt exist, create it
+            // the file doesn't exist, create it
             $this->refresh_ical($group);
             return false;
         }
@@ -133,7 +133,7 @@ class IcalManager
      * @param string $str the content pulled by {@link refresh_ical}
      * @return string the edited file content
      */
-    private function clean_ical_lines(string $str)
+    private function clean_ical_lines(string $str): string
     {
         return preg_replace(
             [
@@ -146,7 +146,6 @@ class IcalManager
                 "/SEQUENCE:[0-9]+/",
                 "/LAST-MODIFIED:[0-9]{8}T[0-9]{6}Z/",
                 "/CREATED:[0-9]{8}T[0-9]{6}Z/",
-                "/UID:[a-zA-Z0-9]+/",
 
                 // [3] sanitise the description
                 "/Transféré/",
@@ -173,7 +172,7 @@ class IcalManager
             ],
             [
                 "$1$2", // [1]
-                "", "", "", "", "", // [2]
+                "", "", "", "", // [2]
                 "", "", "", // [3]
                 "\n", // [4]
                 "$1:Groupe: $3 | Professeurs: $2$4", // [5]
