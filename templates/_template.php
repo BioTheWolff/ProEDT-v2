@@ -11,32 +11,22 @@ $this->flashes = $neon->get();
 ?>
 
 <html lang="fr">
-  <head>
+    <head>
         <title><?= $displayed_title ?></title>
-        <link rel="shortcut icon" href="/assets/favicon.ico">
-        <link rel="stylesheet" href="/assets/css/spectre.min.css">
-        <link rel="stylesheet" href="/assets/css/main.css">
-  </head>
-<body>
+        <link rel="shortcut icon" href="/assets/favicon.ico" />
+        <link rel="stylesheet" href="/assets/css/spectre.min.css" />
+        <link rel="stylesheet" href="/assets/css/index.css" />
 
-<head>
-  <title><?= $displayed_title ?></title>
-  <link rel="shortcut icon" href="/assets/favicon.ico" />
-  <link rel="stylesheet" href="/assets/css/spectre.min.css" />
-  <link rel="stylesheet" href="/assets/css/main.css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
 
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet" />
-  <link href="css/index.css" rel="stylesheet" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/imgs/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/imgs/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/imgs/favicon-16x16.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-</head>
-
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+    </head>
 <body>
   <header class="navbar">
     <section class="navbar-section">
@@ -116,7 +106,7 @@ $this->flashes = $neon->get();
         const events = [];
         let firstDate = this.$refs.calendar.value;
         if (firstDate === '') {
-          var ds = new Date();
+          let ds = new Date();
           firstDate = `${ds.getUTCFullYear()}-${ds.getMonth() + 1}-${ds.getDate()}`;
         }
         this.loading = true;
@@ -141,27 +131,20 @@ $this->flashes = $neon->get();
         this.events = events;
       },
       isMobile() {
-        if (
-          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
             navigator.userAgent
-          )
-        ) {
-          return true;
-        } else {
-          return false;
-        }
+        );
       },
       calenDate(icalStr) {
         // icalStr = '20110914T184000Z'
-        var strYear = icalStr.substr(0, 4);
-        var strMonth = parseInt(icalStr.substr(4, 2), 10) - 1;
-        var strDay = icalStr.substr(6, 2);
-        var strHour = parseInt(icalStr.substr(9, 2));
-        var strMin = icalStr.substr(11, 2);
-        var strSec = icalStr.substr(13, 2);
+        let strYear = icalStr.substr(0, 4);
+        let strMonth = parseInt(icalStr.substr(4, 2), 10) - 1;
+        let strDay = icalStr.substr(6, 2);
+        let strHour = parseInt(icalStr.substr(9, 2));
+        let strMin = icalStr.substr(11, 2);
+        let strSec = icalStr.substr(13, 2);
 
-        const date = new Date(Date.UTC(strYear, strMonth, strDay, strHour, strMin, strSec));
-        return date;
+        return new Date(Date.UTC(strYear, strMonth, strDay, strHour, strMin, strSec));
       },
     },
   });
