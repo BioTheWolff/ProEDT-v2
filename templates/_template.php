@@ -71,7 +71,7 @@ $this->flashes = $neon->get();
               <?= $this->section('content') ?>
           </div>
 
-          <img v-if="this.loading" src="/imgs/loading.gif" alt="Loading animation" id="loadingImg" />
+          <img v-if="this.loading" src="/assets/img/loading.gif" alt="Loading animation" id="loadingImg" />
         </div>
       </v-app>
     </div>
