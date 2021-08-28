@@ -107,3 +107,6 @@ modules.xml
 App/Services/Ical/ics
 config/api/tokens.php
 composer.lock
+.devcontainer/docker-compose.yml
+.devcontainer/devcontainer.json
+.devcontainer/Dockerfile
