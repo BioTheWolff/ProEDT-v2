@@ -11,3 +11,9 @@
   right: 0px;
   max-width: 100%;
 }
+
+#validNotification
+{
+  position: absolute;
+  top: 35px;
+}

@@ -59,12 +59,12 @@ $this->flashes = $neon->get();
 
           <v-spacer></v-spacer>
 
-          <!--<router-link to="/">-->
-          <v-icon class="nav-icon">mdi-calendar</v-icon>
-          <!--</router-link>-->
-          <!--<router-link to="/about">-->
-          <v-icon class="nav-icon">mdi-information-outline</v-icon>
-          <!--</router-link>-->
+          <a href="/">
+            <v-icon class="nav-icon">mdi-calendar</v-icon>
+          </a>
+          <a href="/settings">
+            <v-icon class="nav-icon">mdi-settings</v-icon>
+          </a>
         </v-app-bar>
 
           <div>
@@ -72,6 +72,10 @@ $this->flashes = $neon->get();
           </div>
 
           <img v-if="this.loading" src="/assets/img/loading.gif" alt="Loading animation" id="loadingImg" />
+          
+          <v-alert dense text type="success" :value="alert.show" transition="slide-y-transition" id="validNotification">
+            {{ alert.text }}
+          </v-alert>
         </div>
       </v-app>
     </div>
@@ -80,6 +84,7 @@ $this->flashes = $neon->get();
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
 
   <script>
   new Vue({
@@ -92,14 +97,26 @@ $this->flashes = $neon->get();
         weekday: [1, 2, 3, 4, 5, 6, 0],
         value: '',
         events: [],
-        loading: true,
+        loading: false,
         selectedEvent: {},
         selectedElement: null,
         selectedOpen: false,
+        groupe: undefined,
+        alert: {
+          text: "",
+          show: false,
+        }
       };
     },
     created() {
       if (this.isMobile()) this.type = 'day';
+      const cookie_groupe = this.$cookies.get("groupe")
+      if(cookie_groupe === null && window.location.pathname === "/")
+      {
+        alert("Vous n'avez pas de groupe, merci d'en selectionner après avoir cliqué sur 'OK'")
+        window.location.href = '/settings';
+      } 
+      else this.groupe = cookie_groupe;
     },
     methods: {
       getEvents({
@@ -115,7 +132,7 @@ $this->flashes = $neon->get();
         }
         this.loading = true;
         axios
-          .get(`/api/ical/json/iut/s2/${firstDate}`)
+          .get(`/api/ical/json/iut/${this.groupe}/${firstDate}`)
           .then((response) => {
             response.data.events.forEach((e) => {
               events.push({
@@ -172,6 +189,18 @@ $this->flashes = $neon->get();
       {
         if(Array.isArray(str)) return str.join(", ");
         else return str;
+      },
+      saveGroupe(v)
+      {
+        this.$cookies.set("groupe", v, "365d")
+        this.show_alert("Votre groupe est " + v)
+      },
+      show_alert(text) {
+        this.alert.text = text;
+        this.alert.show = true;
+        window.setInterval(() => {
+          this.alert.show = false;
+        }, 3000)
       }
     },
   });
