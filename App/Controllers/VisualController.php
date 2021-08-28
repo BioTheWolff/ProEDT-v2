@@ -12,8 +12,8 @@ class VisualController extends AbstractController
         return $this->html_render("index");
     }
 
-    function calendar(): ResponseInterface
+    function settings(): ResponseInterface
     {
-        return $this->html_render("calendar");
+        return $this->html_render("settings");
     }
 }
