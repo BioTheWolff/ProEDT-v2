@@ -205,6 +205,19 @@ $this->flashes = $neon->get();
     },
   });
   </script>
+
+  <script>
+    window.axeptioSettings = {
+      clientId: "612a7e6e00e5cf4cbbe9c7fb",
+      cookiesVersion: "proedt-base",
+    };
+    
+    (function(d, s) {
+      var t = d.getElementsByTagName(s)[0], e = d.createElement(s);
+      e.async = true; e.src = "//static.axept.io/sdk.js";
+      t.parentNode.insertBefore(e, t);
+    })(document, "script");
+  </script>
 </body>
 
 </html>
