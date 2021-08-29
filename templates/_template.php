@@ -149,7 +149,10 @@ $this->flashes = $neon->get();
           })
           .catch((e) => {
             this.loading = false;
-            console.log(e);
+            if(e.response.status === 521)
+            {
+                alert("Le serveur est injoignable, merci de contacter un admin !");
+            }
           });
         this.events = events;
       },
