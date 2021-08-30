@@ -60,10 +60,13 @@ $this->flashes = $neon->get();
           <v-spacer></v-spacer>
 
           <a href="/">
-            <v-icon class="nav-icon">mdi-calendar</v-icon>
+            <v-icon class="nav-icon">mdi-calendar-outline</v-icon>
           </a>
           <a href="/settings">
-            <v-icon class="nav-icon">mdi-settings</v-icon>
+            <v-icon class="nav-icon">mdi-settings-outline</v-icon>
+          </a>
+          <a href="/about">
+              <v-icon class="nav-icon">mdi-information-outline</v-icon>
           </a>
         </v-app-bar>
 

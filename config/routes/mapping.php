@@ -13,7 +13,8 @@ return [
         'visual' => [
             'controller' => VisualController::class,
             'routes' => [
-                'settings' => "settings"
+                'settings' => "settings",
+                'about' => "about"
             ]
         ],
         'user' => [

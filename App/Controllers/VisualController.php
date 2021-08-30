@@ -16,4 +16,9 @@ class VisualController extends AbstractController
     {
         return $this->html_render("settings");
     }
+
+    function about(): ResponseInterface
+    {
+        return $this->html_render("about");
+    }
 }
