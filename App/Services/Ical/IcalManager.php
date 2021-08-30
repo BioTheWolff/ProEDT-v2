@@ -35,7 +35,7 @@ class IcalManager
      */
     public function group_exists(string $name): bool
     {
-        return preg_match("/^iut-s[1-6]$/i", $name) != false;
+        return preg_match("/^iut-(s|q)[1-6]$/i", $name) != false;
     }
 
     /**

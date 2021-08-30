@@ -127,8 +127,8 @@ $this->flashes = $neon->get();
         let firstDate = this.$refs.calendar.value;
         if (firstDate === '') {
           let ds = new Date();
-          //firstDate = `${ds.getUTCFullYear()}-${ds.getMonth() + 1}-${ds.getDate()}`;
-          firstDate = '2021-06-10'
+          firstDate = `${ds.getUTCFullYear()}-${ds.getMonth() + 1}-${ds.getDate()}`;
+          //firstDate = '2021-06-10'
         }
         this.loading = true;
         axios

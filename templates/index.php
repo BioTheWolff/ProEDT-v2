@@ -20,7 +20,7 @@ $this->layout('_template') ?>
     <v-sheet height="600">
       <v-calendar ref="calendar" v-model="value" :weekdays="weekday" :type="type" first-time="7" locale="fr"
         interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode"
-        :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" start="2021-06-10">
+        :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent">
         <template v-slot:event="{ event }">
           <div class="pl-1">
             <strong>{{ event.name }} | {{ ("0" + event.start.getHours()).slice(-2) }}h{{ ("0" + event.start.getMinutes()).slice(-2) }}-{{ ("0" + event.end.getHours()).slice(-2) }}h{{ ("0" + event.end.getMinutes()).slice(-2) }}</strong>
