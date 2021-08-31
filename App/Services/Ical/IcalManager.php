@@ -148,7 +148,7 @@ class IcalManager
                 "/CREATED:[0-9]{8}T[0-9]{6}Z/",
 
                 // [3] sanitise the description
-                "/Transféré/",
+                "/(Transféré|A valider)/",
                 "/#.*[0-9]{4}#/",
                 "/\(Ex.*\)/",
 
@@ -156,29 +156,29 @@ class IcalManager
                 // [4] remove the many newlines in the file
                 "/(\r?\n)+/",
 
-                // [5] format the description
-                "/(DESCRIPTION):\\\\n(.*)(A[1-2]-Semestre-[1-2]|S[1-6]|G[1-4]|Q[1-4])(.*)\\\\n/",
-
-                // [6] another layer of formatting to remove leading and trailing "\n"
-                "/^(DESCRIPTION:.* \| Professeurs): (\\\\n)*(.*?)(\\\\n)*$/m",
-
-                // [7] merge the many description's "\n" literals into one
+                // [5] merge the many description's "\n" literals into one
                 "/(\\\\n){2,}/",
                 // then replace the remaining "\n" literals
                 "/\\\\n/",
 
-                // [8] also remove the many spaces between the names
-                "/ {2,}/"
+                // [6] also remove the many spaces between the names
+                "/ {2,}/",
+
+                // [7] format the description
+                "/(DESCRIPTION):\|(A[1-2]-Semestre-[1-4]|S[1-6]|G[1-5]|Q[1-5])(.*)\|/",
+
+                // [8] another layer of formatting to remove leading and trailing "\n"
+                "/^(DESCRIPTION:.* \| Professeurs): \|*(.*?)\|*$/m",
             ],
             [
                 "$1$2", // [1]
                 "", "", "", "", // [2]
                 "", "", "", // [3]
                 "\n", // [4]
-                "$1:Groupe: $3 | Professeurs: $2$4", // [5]
-                "$1: $3", // [6]
-                "\\\\n", ", ", // [7]
-                " ", // [8]
+                "\\\\n", "|", // [5]
+                " ", // [6]
+                "$1:Groupe: $2 | Professeurs: $3", // [7]
+                "$1: $2", // [8]
             ],
             $str
         );

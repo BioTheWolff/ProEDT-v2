@@ -110,3 +110,4 @@ composer.lock
 .devcontainer/docker-compose.yml
 .devcontainer/devcontainer.json
 .devcontainer/Dockerfile
+.gitpod.*
