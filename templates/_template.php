@@ -18,7 +18,7 @@ $this->flashes = $neon->get();
         <link rel="stylesheet" href="/assets/css/index.css" />
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" />
+        <link href="/cdn/materialdesignicons.min.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
 
@@ -63,7 +63,7 @@ $this->flashes = $neon->get();
             <v-icon class="nav-icon">mdi-calendar-outline</v-icon>
           </a>
           <a href="/settings">
-            <v-icon class="nav-icon">mdi-settings-outline</v-icon>
+            <v-icon class="nav-icon">mdi-cog-outline</v-icon>
           </a>
           <a href="/about">
               <v-icon class="nav-icon">mdi-information-outline</v-icon>
