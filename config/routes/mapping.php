@@ -14,7 +14,8 @@ return [
             'controller' => VisualController::class,
             'routes' => [
                 'settings' => "settings",
-                'about' => "about"
+                'about' => "about",
+                "calendar" => "calendar",
             ]
         ],
         'user' => [

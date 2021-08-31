@@ -10,6 +10,7 @@ return [
     // Paths to the endpoints
     'path.visual.settings' => '/settings',
     'path.visual.about' => '/about',
+    'path.visual.calendar' => '/calendar/{group}',
 
     'path.user.login' => '/login',
     'path.user.logout' => '/logout',

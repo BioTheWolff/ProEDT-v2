@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class VisualController extends AbstractController
 {
@@ -20,5 +21,11 @@ class VisualController extends AbstractController
     function about(): ResponseInterface
     {
         return $this->html_render("about");
+    }
+
+    function calendar(ServerRequestInterface $request, array $args): ResponseInterface
+    {
+        setcookie("groupe", $args['group'], 0, "/");
+        return $this->html_render("index");
     }
 }
