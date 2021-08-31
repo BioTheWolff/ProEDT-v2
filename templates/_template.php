@@ -76,7 +76,7 @@ $this->flashes = $neon->get();
 
           <img v-if="this.loading" src="/assets/img/loading.gif" alt="Loading animation" id="loadingImg" />
           
-          <v-alert dense text type="success" :value="alert.show" transition="slide-y-transition" id="validNotification">
+          <v-alert dense text :color="alert.color" :value="alert.show" transition="slide-y-transition" id="validNotification">
             {{ alert.text }}
           </v-alert>
         </div>
@@ -108,6 +108,7 @@ $this->flashes = $neon->get();
         alert: {
           text: "",
           show: false,
+          color: 'green'
         }
       };
     },
@@ -130,7 +131,7 @@ $this->flashes = $neon->get();
         let firstDate = this.$refs.calendar.value;
         if (firstDate === '') {
           let ds = new Date();
-          firstDate = `${ds.getUTCFullYear()}-${ds.getMonth() + 1}-${ds.getDate()}`;
+          firstDate = `${ds.getFullYear()}-${("0" + (ds.getMonth() + 1)).slice(-2)}-${("0" + ds.getDate()).slice(-2)}`;
           //firstDate = '2021-06-10'
         }
         this.loading = true;
@@ -154,7 +155,11 @@ $this->flashes = $neon->get();
             this.loading = false;
             if(e.response.status === 521)
             {
-                alert("Le serveur est injoignable, merci de contacter un admin !");
+              this.show_alert("Le serveur est injoignable, merci de contacter un admin !", 'red');
+            }
+            else if(e.response.status === 500)
+            {
+              this.show_alert("Aucun cours cette semaine", 'orange');
             }
           });
         this.events = events;
@@ -199,14 +204,15 @@ $this->flashes = $neon->get();
       saveGroupe(v)
       {
         this.$cookies.set("groupe", v, "365d")
-        this.show_alert("Votre groupe est " + v)
+        this.show_alert("Votre groupe est " + v, 'green')
       },
-      show_alert(text) {
+      show_alert(text, color) {
         this.alert.text = text;
+        this.alert.color = color;
         this.alert.show = true;
         window.setInterval(() => {
           this.alert.show = false;
-        }, 3000)
+        }, 5000)
       }
     },
   });
