@@ -15,7 +15,8 @@
 #validNotification
 {
   position: absolute;
-  top: 35px;
+  bottom: 20px;
+  right: 0px;
 }
 
 .margin-10

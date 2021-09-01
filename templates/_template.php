@@ -70,7 +70,7 @@ $this->flashes = $neon->get();
           </a>
         </v-app-bar>
 
-          <div>
+          <div style="margin-top: 25px;">
               <?= $this->section('content') ?>
           </div>
 
