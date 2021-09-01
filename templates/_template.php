@@ -28,17 +28,6 @@ $this->flashes = $neon->get();
         <link rel="manifest" href="manifest-proedt.json">
     </head>
 <body>
-  <header class="navbar">
-    <section class="navbar-section">
-        <!-- Main page -->
-        <a href="/" class="btn btn-link">Pro EDT</a>
-    </section>
-    <section class="navbar-center">
-        <img src="/assets/img/logo.png" alt="LOGO">
-    </section>
-    <section class="navbar-section"></section>
-  </header>
-
   <!-- Flash message -->
   <?php if($this->flashes): ?>
       <?php foreach ($this->flashes as $flash): ?>
@@ -49,7 +38,7 @@ $this->flashes = $neon->get();
   <?php endif; ?>
 
   <!-- Container -->
-  <div class="container">
+  <div class="container" style="padding: 0px;">
     <div id="app">
       <v-app>
         <v-app-bar app color="primary" dark>
