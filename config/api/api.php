@@ -14,5 +14,5 @@ return [
 
 
     // ICS/ICAL
-    'ics.refresh_threshold' => 5,  // minutes
+    'ics.refresh_threshold' => -1,  // minutes
 ];

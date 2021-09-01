@@ -50,7 +50,7 @@ class APIController extends AbstractController
     {
         $provider = $this->container->get(IcalProvider::class);
         $group_name = $args['major'] . '-' . $args['group'];
-        $date = isset($args['date']) ? $args['date'] : null;
+        $date = $args['date'] ?? null;
 
         // if date was passed to the API
         if (!is_null($date) && !$provider->is_date_valid($date))
