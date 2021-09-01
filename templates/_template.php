@@ -159,7 +159,11 @@ $this->flashes = $neon->get();
             }
             else if(e.response.status === 500)
             {
-              this.show_alert("Aucun cours cette semaine", 'orange');
+              this.show_alert("Pas de cours à afficher", 'orange');
+            }
+            else if(e.response.status !== 200)
+            {
+              this.show_alert(`Erreur serveur: ${e.response.status}`, 'red');
             }
           });
         this.events = events;
