@@ -7,7 +7,6 @@ $this->layout('_template');
     <div>
       <v-main>
         <v-container>
-          <p>{{ picker }}</p>
           <v-sheet tile height="54" class="d-flex">
             <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
               <v-icon>mdi-chevron-left</v-icon>

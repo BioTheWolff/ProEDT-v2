@@ -19,18 +19,18 @@ class VisualController extends AbstractController
 
     function settings(): ResponseInterface
     {
-        return $this->html_render("calendar/settings");
+        return $this->html_render("settings");
     }
 
     function about(): ResponseInterface
     {
-        return $this->html_render("calendar/about");
+        return $this->html_render("about");
     }
 
     function calendar(ServerRequestInterface $request, array $args): ResponseInterface
     {
         if (!empty($args)) setcookie("groupe", $args['group'], 0, "/");
-        return $this->html_render("calendar/calendar");
+        return $this->html_render("index");
     }
 
     /**

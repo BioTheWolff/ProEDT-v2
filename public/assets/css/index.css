@@ -7,7 +7,7 @@ body {
 header.navbar {
   padding: 0 2vw;
   height: 10vh;
-  background: #F5F5F5;
+  background: #FFFFFF;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 header.navbar img {
@@ -25,55 +25,15 @@ footer {
   height: 5vh;
 }
 
+.btn {
+  margin-top: 5px;
+}
+
 .flash {
   width: max-content;
   padding: 0 10px;
   margin: 0 auto 2vh auto;
   border-radius: 15px;
-}
-
-body {
-  color: black;
-}
-
-.btn.btn-link {
-  background-color: transparent;
-  color: #3f38ff;
-}
-
-.btn:not(.btn-link):not(.btn-primary), .btn:not(.btn-link):not(.btn-primary):visited {
-  color: #57acff;
-  border-color: #360e73;
-  background-color: transparent;
-  transition: border-radius ease-in-out 0.2s;
-  transition: background-color ease-in-out 0.2s;
-}
-
-.btn:not(.btn-link):not(.btn-primary):hover {
-  background-color: rgba(0, 0, 0, 0.2);
-  color: #4085ff;
-  border-radius: 8px;
-  transition: border-radius ease-in-out 0.2s;
-  transition: background-color ease-in-out 0.2s;
-}
-
-.btn.btn-primary {
-  background-color: #232192;
-  border-color: #232192;
-}
-
-.form-input {
-  background-color: #181a1b;
-  border-color: #575757;
-  color: #d2d2d2;
-}
-
-.form-input:not(:placeholder-shown):focus, .form-input:not(:placeholder-shown):invalid:focus {
-  background-color: #111213;
-}
-
-table.table.headless tr:last-child td {
-  border-bottom: none;
 }
 
 code {
