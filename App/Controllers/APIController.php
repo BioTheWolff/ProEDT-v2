@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Services\Ical\IcalProvider;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\TextResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -107,5 +108,31 @@ class APIController extends AbstractController
         else $status = ["status" => $this->container->get("api.status.success")];
 
         return new JsonResponse($status + $events);
+    }
+
+    public function ical_raw(ServerRequestInterface $request, array $args): ResponseInterface
+    {
+        /**
+         * @var IcalProvider $provider
+         */
+        $provider = $this->container->get(IcalProvider::class);
+        $group_name = $args['major'] . '-' . $args['group'];
+
+        if (!$provider->group_exists($group_name))
+        {
+            return new EmptyResponse;
+        }
+
+        $content = $provider->ical_raw($group_name);
+        if (!$content)
+        {
+            return new EmptyResponse(500);
+        }
+
+        return new TextResponse($content, 200,
+            [
+                "Content-Type" => "text/calendar",
+                "Content-Disposition" => "attachment; filename=$group_name.ics;",
+            ]);
     }
 }

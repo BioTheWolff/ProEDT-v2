@@ -57,7 +57,7 @@ class IcalProvider
         return filemtime($this->manager->file_name_from_group($group));
     }
 
-    public function group_exists(string $group)
+    public function group_exists(string $group): bool
     {
         return $this->manager->group_exists($group);
     }
@@ -87,6 +87,9 @@ class IcalProvider
         return DateTime::createFromFormat("Y-m-d", $date)->format("N") == '1';
     }
 
+    /**
+     * @throws Exception
+     */
     public function get_start_of_week(string $date): string
     {
         if ($this->date_is_start_of_week($date)) return $date;
@@ -134,5 +137,10 @@ class IcalProvider
         } catch (Exception $e) {
             die($e->getMessage());
         }
+    }
+
+    public function ical_raw(string $group)
+    {
+        return file_get_contents($this->manager->file_name_from_group($group));
     }
 }
