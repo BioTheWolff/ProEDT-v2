@@ -10,7 +10,12 @@ $this->layout('_template') ?>
       </v-btn>
       <v-spacer></v-spacer>
       <v-toolbar-title v-if="$refs.calendar">
-        {{ $refs.calendar.title }}
+        <v-btn :disabled="dialog" :loading="dialog" class="white--text" color="purple darken-2" @click="dialog = true">
+          {{ $refs.calendar.title }}
+        </v-btn>
+        <v-dialog v-model="dialog" hide-overlay persistent width="300">
+          <v-date-picker v-model="picker" @click:date="onDateClick"></v-date-picker>
+        </v-dialog>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon class="ma-2" @click="$refs.calendar.next()">
@@ -18,7 +23,7 @@ $this->layout('_template') ?>
       </v-btn>
     </v-sheet>
     <v-sheet height="600">
-      <v-calendar ref="calendar" v-model="value" :weekdays="weekday" :type="type" first-time="7" locale="fr" interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent">
+      <v-calendar ref="calendar" v-model="value" :weekdays="weekday" :type="type" first-time="7" locale="fr" interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" :now="picker">
         <template v-slot:event="{ event }">
           <div class="pl-1">
             <strong>{{ event.name }} | {{ ("0" + event.start.getHours()).slice(-2) }}h{{ ("0" + event.start.getMinutes()).slice(-2) }}-{{ ("0" + event.end.getHours()).slice(-2) }}h{{ ("0" + event.end.getMinutes()).slice(-2) }}</strong>
