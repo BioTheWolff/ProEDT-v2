@@ -1,5 +1,4 @@
 <?php
 $this->layout('_template');
+include("templates/calendar/index.html")
 ?>
-
-<h1>Bienvenue sur ProEDT !</h1>

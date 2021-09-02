@@ -20,6 +20,11 @@ $this->flashes = $neon->get();
 <head>
     <title><?= $displayed_title ?></title>
     <meta charset="UTF-8">
+    
+    <link href="/cdn/css/materialdesignicons.min.css" rel="stylesheet" />
+    <link href="/cdn/css/vuetify.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/css/calendar.css" />
+
     <link rel="shortcut icon" href="/assets/favicon.ico" />
     <link rel="stylesheet" href="/assets/css/spectre.min.css" />
     <link rel="stylesheet" href="/assets/css/index.css" />

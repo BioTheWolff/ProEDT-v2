@@ -15,11 +15,15 @@
 #validNotification
 {
   position: absolute;
-  bottom: 20px;
-  right: 0px;
+  bottom: 0px;
+  right: 30px;
 }
 
 .margin-10
 {
   margin: 10px;
+}
+
+.v-application--wrap {
+  min-height: 0vh !important;
 }
