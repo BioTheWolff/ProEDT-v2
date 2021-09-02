@@ -35,14 +35,14 @@ $this->flashes = $neon->get();
 <body>
     <header class="navbar">
         <section class="navbar-section">
-            <a href="/calendar" class="btn btn-link">Calendar</a>
-            <a href="/settings" class="btn btn-link">Settings</a>
+            <a href="/" class="btn btn-link">EDT</a>
+            <a href="/settings" class="btn btn-link">Paramètres</a>
         </section>
         <section class="navbar-center">
             <a href="/" class="navbar-brand mr-2">ProEDT</a>
         </section>
         <section class="navbar-section">
-            <a href="/about" class="btn btn-link">About</a>
+            <a href="/about" class="btn btn-link">Informations</a>
             <?php if($is_connected): ?>
                 <a href="/logout" class="btn">Logout</a>
             <?php else: ?>

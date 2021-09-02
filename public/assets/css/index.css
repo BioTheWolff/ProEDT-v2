@@ -1,5 +1,5 @@
 body {
-  background: #131313;
+  background: #FFFFFF;
   width: 100vw;
   height: 100vh;
 }
@@ -7,7 +7,7 @@ body {
 header.navbar {
   padding: 0 2vw;
   height: 10vh;
-  background: #171717;
+  background: #F5F5F5;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 header.navbar img {
@@ -33,17 +33,17 @@ footer {
 }
 
 body {
-  color: #cdc9c2;
+  color: black;
 }
 
 .btn.btn-link {
   background-color: transparent;
-  color: #91bce6;
+  color: #3f38ff;
 }
 
 .btn:not(.btn-link):not(.btn-primary), .btn:not(.btn-link):not(.btn-primary):visited {
-  color: #91bce6;
-  border-color: #232192;
+  color: #57acff;
+  border-color: #360e73;
   background-color: transparent;
   transition: border-radius ease-in-out 0.2s;
   transition: background-color ease-in-out 0.2s;
@@ -51,7 +51,7 @@ body {
 
 .btn:not(.btn-link):not(.btn-primary):hover {
   background-color: rgba(0, 0, 0, 0.2);
-  color: #91b0e6;
+  color: #4085ff;
   border-radius: 8px;
   transition: border-radius ease-in-out 0.2s;
   transition: background-color ease-in-out 0.2s;
