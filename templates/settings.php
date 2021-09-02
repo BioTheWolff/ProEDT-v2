@@ -28,8 +28,15 @@ $this->layout('_template');
 </div>
 
 <script>
+  const groupe_seleect = document.getElementById("groupe-select");
+
+  window.onload = function(e) {
+    let groupe_cookie = getCookie("groupe");
+    if(groupe_cookie != null) groupe_seleect.value = groupe_cookie;
+  }
+
+
   function saveGroup() {
-    const groupe_seleect = document.getElementById("groupe-select");
     if (groupe_seleect.value === "") return;
     else {
       setCookie("groupe", groupe_seleect.value, 365);
