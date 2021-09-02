@@ -1,7 +1,9 @@
 <?php
 namespace App\Factories;
 
+use DI\Container;
 use DI\ContainerBuilder;
+use Exception;
 
 /**
  * Creates the container by building it with the production const and the different config files
@@ -11,10 +13,13 @@ use DI\ContainerBuilder;
  */
 class ContainerFactory {
 
-    public function __invoke()
+    /**
+     * @throws Exception
+     */
+    public function __invoke(): Container
     {
         $builder = new ContainerBuilder();
-        if (PRODUCTION) {
+        if (PRODUCTION && ACCEPTS_CACHING) {
             $builder->enableDefinitionCache();
             $builder->enableCompilation('tmp');
             $builder->writeProxiesToFile(true, 'tmp/proxies');

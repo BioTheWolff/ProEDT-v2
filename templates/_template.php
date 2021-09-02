@@ -18,8 +18,8 @@ $this->flashes = $neon->get();
         <link rel="stylesheet" href="/assets/css/index.css" />
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
-        <link href="/cdn/materialdesignicons.min.css" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet" />
+        <link href="/cdn/css/materialdesignicons.min.css" rel="stylesheet" />
+        <link href="/cdn/css/vuetify.min.css" rel="stylesheet" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
 
         <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png" />
@@ -73,10 +73,10 @@ $this->flashes = $neon->get();
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-  <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+  <script src="/cdn/js/vue.js"></script>
+  <script src="/cdn/js/vuetify.js"></script>
+  <script src="/cdn/js/axios.min.js"></script>
+  <script src="/cdn/js/vue-cookies.js"></script>
 
   <script>
   new Vue({

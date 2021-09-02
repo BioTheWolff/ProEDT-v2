@@ -1,2 +1,3 @@
 <?php
-define("PRODUCTION", false);
+const PRODUCTION = false;
+const ACCEPTS_CACHING = false;

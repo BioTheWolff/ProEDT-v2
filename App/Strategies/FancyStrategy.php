@@ -12,6 +12,7 @@ use Middlewares\Whoops;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\{MiddlewareInterface, RequestHandlerInterface};
+use Throwable;
 
 
 /**
@@ -29,9 +30,7 @@ class FancyStrategy extends AbstractStrategy implements ContainerAwareInterface
         $controller = $route->getCallable($this->getContainer());
 
         $response = $controller($request, $route->getVars());
-        $response = $this->applyDefaultResponseHeaders($response);
-
-        return $response;
+        return $this->applyDefaultResponseHeaders($response);
     }
 
     public function getNotFoundDecorator(NotFoundException $exception): MiddlewareInterface
@@ -66,12 +65,12 @@ class FancyStrategy extends AbstractStrategy implements ContainerAwareInterface
                 $this->container = $container;
             }
 
-            public function process(ServerRequestInterface $request, RequestHandlerInterface $requestHandler) : ResponseInterface {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface {
                 $templates = $this->container->get(Engine::class);
 
                 return new HtmlResponse(
                     $templates->render('errors/http_error', ['error_title' => $this->title]),
-                    (int)$this->code
+                    $this->code
                 );
             }
         };
@@ -84,6 +83,13 @@ class FancyStrategy extends AbstractStrategy implements ContainerAwareInterface
 
     public function getThrowableHandler(): MiddlewareInterface
     {
-        return new Whoops;
+        if (!PRODUCTION) return new Whoops;
+
+        return new class implements MiddlewareInterface
+        {
+            public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+                return $handler->handle($request);
+            }
+        };
     }
 }
