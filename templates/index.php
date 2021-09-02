@@ -14,7 +14,7 @@ $this->layout('_template') ?>
           {{ $refs.calendar.title }}
         </v-btn>
         <v-dialog v-model="dialog" hide-overlay persistent width="300">
-          <v-date-picker v-model="picker" @click:date="onDateClick"></v-date-picker>
+          <v-date-picker v-model="picker" @click:date="onDateClick" first-day-of-week="1" locale="fr"></v-date-picker>
         </v-dialog>
       </v-toolbar-title>
       <v-spacer></v-spacer>
