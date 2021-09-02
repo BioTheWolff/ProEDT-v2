@@ -36,6 +36,10 @@ footer {
   border-radius: 15px;
 }
 
+.card {
+  margin-top: 10px;
+}
+
 code {
   background: #232222;
   display: block;
