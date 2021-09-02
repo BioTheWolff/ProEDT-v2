@@ -1,24 +1,43 @@
 <?php
 
+require 'vendor/autoload.php';
 
+use App\Factories\ContainerFactory;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Phinx\Seed\AbstractSeed;
+use Psr\Container\ContainerInterface;
 
 class UserSeeder extends AbstractSeed
 {
-    const USERS_DATA = [
-        [
-            'username' => 'foo',
-            'password' => '$2y$10$6zvGVP2RSrCaPc8HYCkybemvVz2LQzVIL69NJszx3WyOQiv0wuGGC' // test
-        ], [
-            'username' => 'test',
-            'password' => '$2y$10$YSNPAz0o/7lb9pfMJ3lS0.X7Gg2u77Y7aHZ6KQKqcEO0FwCFrV6nW' // mytest2
-        ]
-    ];
+    /**
+     * @var ContainerInterface $container
+     */
+    private $container;
+
+    private $data;
+
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws Exception
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->container = (new ContainerFactory)();
+
+        $this->data = [];
+        foreach ($this->container->get("api.users") as $username => $password)
+        {
+            $this->data[] = ['username' => $username, 'password' => $password];
+        }
+    }
 
     public function run()
     {
         $users = $this->table('users');
-        $users->insert(UserSeeder::USERS_DATA)
+        $users->insert($this->data)
             ->saveData();
     }
 }
