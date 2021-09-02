@@ -1,7 +1,6 @@
 <?php
 
 $this->layout('_template', ['page_title' => "Se connecter"]);
-    $this->palladium = new App\Services\Session\Palladium();
 ?>
 
 <form method="post">

@@ -1,6 +1,6 @@
 <?php
 
-$this->layout('_template', ['page_title' => 'Paramètres']) ?>
+$this->layout('calendar/_template', ['page_title' => 'Paramètres']) ?>
 
 <v-main>
   <v-container>

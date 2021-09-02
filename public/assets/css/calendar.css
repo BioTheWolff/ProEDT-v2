@@ -1,0 +1,25 @@
+.nav-icon 
+{
+  margin: 8px;
+}
+
+#loadingImg
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  max-width: 100%;
+}
+
+#validNotification
+{
+  position: absolute;
+  bottom: 20px;
+  right: 0px;
+}
+
+.margin-10
+{
+  margin: 10px;
+}

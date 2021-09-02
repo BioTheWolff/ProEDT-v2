@@ -1,6 +1,6 @@
 <?php
 
-$this->layout('_template', ['page_title' => 'Informations']) ?>
+$this->layout('calendar/_template', ['page_title' => 'Informations']) ?>
 
 <v-main>
   <v-container>
