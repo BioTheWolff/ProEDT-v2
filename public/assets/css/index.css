@@ -1,25 +1,48 @@
-.nav-icon 
-{
-  margin: 8px;
+body {
+  background: #FFFFFF;
+  width: 100vw;
+  height: 100vh;
 }
 
-#loadingImg
-{
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  max-width: 100%;
+header.navbar {
+  padding: 0 2vw;
+  height: 10vh;
+  background: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+header.navbar img {
+  width: 5vh;
+  height: 5vh;
 }
 
-#validNotification
-{
-  position: absolute;
-  bottom: 20px;
-  right: 0px;
+main#container {
+  padding: 3vh 5vw;
+  width: 100vw;
+  min-height: 85vh;
 }
 
-.margin-10
-{
-  margin: 10px;
+footer {
+  height: 5vh;
 }
+
+.btn {
+  margin-top: 5px;
+}
+
+.flash {
+  width: max-content;
+  padding: 0 10px;
+  margin: 0 auto 2vh auto;
+  border-radius: 15px;
+}
+
+.card {
+  margin-top: 10px;
+}
+
+code {
+  background: #232222;
+  display: block;
+}
+
+/*# sourceMappingURL=index.css.map */

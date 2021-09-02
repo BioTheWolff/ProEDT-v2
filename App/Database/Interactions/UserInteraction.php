@@ -72,4 +72,9 @@ class UserInteraction
     {
         $this->session->delete(UserInteraction::prefix);
     }
+
+    public static function is_user_connected(SessionInterface $session): bool
+    {
+        return !is_null($session->get(self::prefix));
+    }
 }

@@ -1,19 +1,64 @@
 <?php
+$this->layout('_template');
+?>
 
-$this->layout('_template', ['page_title' => 'Paramètres']) ?>
+<div class="card">
+  <div class="card-header">
+    <div class="card-title h5">Votre groupe</div>
+    <div class="card-subtitle">Veuillez choisir votre groupe de TD pour accéder à l'emploi du temps, au devoirs et informations.<br>
+      Une fois sélectionné, cliquez sur "enregistrer".</div>
+  </div>
+  <div class="card-body">
+    <select class="form-select" id="groupe-select">
+      <option disabled selected value>Groupe de TD</option>
+      <option>s1</option>
+      <option>s2</option>
+      <option>s3</option>
+      <option>s4</option>
+      <option>s5</option>
+      <option>s6</option>
+      <option>q1</option>
+      <option>q2</option>
+      <option>q3</option>
+      <option>q4</option>
+      <option>q5</option>
+    </select>
+    <button class="btn" onclick="saveGroup()">Enregistrer</button>
+  </div>
+</div>
 
-<v-main>
-  <v-container>
-      <v-card elevation="2" class="margin-10">
-          <v-card-title>Votre groupe</v-card-title>
-          <v-card-subtitle>
-              Veuillez choisir votre groupe de TD pour accéder à l'emploi du temps, au devoirs et informations.<br>
-              Une fois sélectionné, vous pouvez retourner à l'edt en cliquant sur <v-icon dense class="nav-icon">mdi-calendar-outline</v-icon> en haut à droite.
-          </v-card-subtitle>
-          <v-card-text>
-              <v-select :items="['s1', 's2', 's3', 's4', 's5', 's6', 'q1', 'q2', 'q3', 'q4', 'q5']"
-                        v-on:change="saveGroupe" :value="groupe"></v-select>
-          </v-card-text>
-      </v-card>
-  </v-container>
-  <v-main>
+<script>
+  function saveGroup() {
+    const groupe_seleect = document.getElementById("groupe-select");
+    if (groupe_seleect.value === "") return;
+    else {
+      setCookie("groupe", groupe_seleect.value, 365);
+      document.location.href = "/";
+    }
+  }
+
+  function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  function eraseCookie(name) {
+    document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+</script>
