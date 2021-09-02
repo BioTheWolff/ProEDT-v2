@@ -13,7 +13,7 @@ $this->layout('_template') ?>
         <v-btn :disabled="dialog" :loading="dialog" class="white--text" color="purple darken-2" @click="dialog = true">
           {{ $refs.calendar.title }}
         </v-btn>
-        <v-dialog v-model="dialog" hide-overlay persistent width="300">
+        <v-dialog v-model="dialog"  width="300">
           <v-date-picker v-model="picker" @click:date="onDateClick" first-day-of-week="1" locale="fr"></v-date-picker>
         </v-dialog>
       </v-toolbar-title>
