@@ -98,7 +98,9 @@ $this->flashes = $neon->get();
           text: "",
           show: false,
           color: 'green'
-        }
+        },
+        dialog: false,
+        picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       };
     },
     created() {
@@ -206,6 +208,11 @@ $this->flashes = $neon->get();
         window.setInterval(() => {
           this.alert.show = false;
         }, 5000)
+      },
+      onDateClick(date)
+      {
+        this.dialog = false;
+        this.value = date;
       }
     },
   });
