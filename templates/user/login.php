@@ -3,16 +3,16 @@
 $this->layout('_template', ['page_title' => "Se connecter"]);
 ?>
 
-<form method="post">
-    <label>
+<form method="post" class="form-group">
+    <label class="form-label">
         Username
-        <input name="username" type="text" required>
+        <input class="form-input" name="username" type="text" required>
     </label>
 
-    <label>
+    <label class="form-label">
         Password
-        <input name="password" type="password" required>
+        <input class="form-input" name="password" type="password" required>
     </label>
 
-    <input type="submit">
+    <input type="submit" class="btn" value="Login">
 </form>
