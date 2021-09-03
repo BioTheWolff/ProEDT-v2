@@ -2,6 +2,23 @@
 $this->layout('_template');
 ?>
 
+<div class="card">
+  <div class="accordion">
+    <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden>
+    <label class="accordion-header" for="accordion-1">
+      <i class="icon icon-arrow-right mr-1"></i>
+      Informations sur la rentrée
+    </label>
+    <div class="accordion-body">
+      <div class="card-body">
+        Pour les premières années, vous avez rendez vous à <strong>10h30</strong> dans l'amphi 2 (Batiment A).<br>
+        Les A2, vous avez rendez-vous à <strong>9h</strong> dans l'amphi 2 (pas d'heure de fin précisé).
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div id="app">
   <v-app>
     <div>
@@ -13,8 +30,7 @@ $this->layout('_template');
             </v-btn>
             <v-spacer></v-spacer>
             <v-toolbar-title v-if="$refs.calendar">
-              <v-btn :disabled="dialog" :loading="dialog" class="white--text" color="purple darken-2"
-                @click="dialog = true">
+              <v-btn :disabled="dialog" :loading="dialog" class="white--text" color="purple darken-2" @click="dialog = true">
                 {{ $refs.calendar.title }}
               </v-btn>
               <v-dialog v-model="dialog" width="300">
@@ -28,9 +44,7 @@ $this->layout('_template');
             </v-btn>
           </v-sheet>
           <v-sheet height="600">
-            <v-calendar ref="calendar" v-model="picker" :weekdays="weekday" :type="type" first-time="7" locale="fr"
-              interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode"
-              :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" :now="picker">
+            <v-calendar ref="calendar" v-model="picker" :weekdays="weekday" :type="type" first-time="7" locale="fr" interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" :now="picker">
               <template v-slot:event="{ event }">
                 <div class="pl-1">
                   <strong>{{ event.name }} | {{ ("0" + event.start.getHours()).slice(-2) }}h{{ ("0" +
@@ -64,7 +78,7 @@ $this->layout('_template');
               </v-card>
             </v-menu>
           </v-sheet>
-          
+
           <v-alert dense text :color="alert.color" :value="alert.show" transition="slide-y-transition" id="validNotification">
             {{ alert.text }}
           </v-alert>
@@ -86,7 +100,7 @@ $this->layout('_template');
   new Vue({
     el: '#app',
     vuetify: new Vuetify(),
-    data: function () {
+    data: function() {
       return {
         type: 'week',
         mode: 'stack',
@@ -112,8 +126,7 @@ $this->layout('_template');
       if (cookie_groupe === null && window.location.pathname === "/") {
         alert("Vous n'avez pas de groupe, merci d'en selectionner après avoir cliqué sur 'OK'")
         window.location.href = '/settings';
-      }
-      else this.groupe = cookie_groupe;
+      } else this.groupe = cookie_groupe;
     },
     methods: {
       getEvents({
@@ -148,14 +161,13 @@ $this->layout('_template');
             this.loading = false;
             if (e.response.status === 521) {
               this.show_alert("Le serveur est injoignable, merci de contacter un admin !", 'red');
-            }
-            else if (e.response.status === 500) {
+            } else if (e.response.status === 500) {
               this.show_alert("Pas de cours à afficher", 'orange');
-            }
-            else if (e.response.status !== 200) {
+            } else if (e.response.status !== 200) {
               this.show_alert(`Erreur serveur: ${e.response.status}`, 'red');
             }
           });
+
         this.events = events;
       },
       isMobile() {
@@ -174,7 +186,10 @@ $this->layout('_template');
 
         return new Date(Date.UTC(strYear, strMonth, strDay, strHour, strMin, strSec));
       },
-      showEvent({ nativeEvent, event }) {
+      showEvent({
+        nativeEvent,
+        event
+      }) {
         const open = () => {
           this.selectedEvent = event
           this.selectedElement = nativeEvent.target
@@ -220,9 +235,11 @@ $this->layout('_template');
     cookiesVersion: "proedt-base",
   };
 
-  (function (d, s) {
-    var t = d.getElementsByTagName(s)[0], e = d.createElement(s);
-    e.async = true; e.src = "//static.axept.io/sdk.js";
+  (function(d, s) {
+    var t = d.getElementsByTagName(s)[0],
+      e = d.createElement(s);
+    e.async = true;
+    e.src = "//static.axept.io/sdk.js";
     t.parentNode.insertBefore(e, t);
   })(document, "script");
 </script>
