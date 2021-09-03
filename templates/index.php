@@ -124,15 +124,24 @@ $this->layout('_template');
         },
         dialog: false,
         picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        ecole: ''
       };
     },
     created() {
       if (this.isMobile()) this.type = 'day';
-      const cookie_groupe = this.$cookies.get("groupe")
-      if (cookie_groupe === null && window.location.pathname === "/") {
-        alert("Vous n'avez pas de groupe, merci d'en selectionner après avoir cliqué sur 'OK'")
+
+      const cookie_ecole = this.$cookies.get("ecole");
+      const cookie_groupe = this.$cookies.get("groupe");
+
+      if (cookie_ecole === null || cookie_groupe === null) {
+        alert("Vous n'avez pas de groupe/école, merci d'en selectionner après avoir cliqué sur 'OK'")
         window.location.href = '/settings';
-      } else this.groupe = cookie_groupe;
+      } 
+      else 
+      {
+        this.ecole = cookie_ecole;
+        this.groupe = cookie_groupe;
+      }
     },
     methods: {
       getEvents({
@@ -148,7 +157,7 @@ $this->layout('_template');
         }
         this.loading = true;
         axios
-          .get(`/api/ical/json/iut/${this.groupe}/${firstDate}`)
+          .get(`/api/ical/json/${this.ecole}/${this.groupe}/${firstDate}`)
           .then((response) => {
             response.data.events.forEach((e) => {
               events.push({
