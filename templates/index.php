@@ -157,7 +157,7 @@ $this->layout('_template');
         }
         this.loading = true;
         axios
-          .get(`/api/ical/json/${this.ecole}/${this.groupe}/${firstDate}`)
+          .get(`/api/json/${this.ecole}/${this.groupe}/${firstDate}`)
           .then((response) => {
             response.data.events.forEach((e) => {
               events.push({

@@ -14,13 +14,14 @@ return [
         '/calendar',
         '/calendar/{group}',
     ],
+    'path.visual.homework' => '/homework/{uid}',
 
     'path.user.login' => '/login',
     'path.user.logout' => '/logout',
 
-    'path.api.ical.json' => [
-        "/api/ical/json/{major}/{group}",
-        "/api/ical/json/{major}/{group}/{date}"
+    'path.api.json' => [
+        "/api/json/{major}/{group}",
+        "/api/json/{major}/{group}/{date}"
     ],
-    'path.api.ical.raw' => "/api/ical/raw/{major}/{group}"
+    'path.api.ics' => "/api/ics/{major}/{group}"
 ];

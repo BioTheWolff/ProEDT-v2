@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Database\Managers\HomeworkManager;
 use App\Services\Ical\IcalProvider;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
@@ -15,12 +16,18 @@ class APIController extends AbstractController
     private function format_events_to_json(array $events, int $gathered_at): ?array
     {
         if (empty($events)) return null;
-
         $final = [
             'generated_at' => time(),
             'gathered_at' => $gathered_at,
             'events' => []
         ];
+
+        // collectings UIDs
+        $uids = [];
+        foreach ($events as $e) if (!is_null($e->uid)) $uids[] = $e->uid;
+
+        // requesting homework
+        $homework = $this->container->get(HomeworkManager::class)->fetch_homeworks_from_uids($uids);
 
         foreach ($events as $e)
         {
@@ -41,13 +48,14 @@ class APIController extends AbstractController
                     ? explode(",", $e->location)
                     : $e->location,
                 "uid" => $e->uid,
+                "homework" => !is_null($e->uid) ? $homework[$e->uid] ?? '' : ''
             ];
         }
 
         return $final;
     }
 
-    public function ical_json(ServerRequestInterface $request, array $args): ResponseInterface
+    public function json(ServerRequestInterface $request, array $args): ResponseInterface
     {
         $provider = $this->container->get(IcalProvider::class);
         $group_name = $args['major'] . '-' . $args['group'];
@@ -110,7 +118,7 @@ class APIController extends AbstractController
         return new JsonResponse($status + $events);
     }
 
-    public function ical_raw(ServerRequestInterface $request, array $args): ResponseInterface
+    public function ics(ServerRequestInterface $request, array $args): ResponseInterface
     {
         /**
          * @var IcalProvider $provider
@@ -118,18 +126,52 @@ class APIController extends AbstractController
         $provider = $this->container->get(IcalProvider::class);
         $group_name = $args['major'] . '-' . $args['group'];
 
-        if (!$provider->group_exists($group_name))
-        {
-            return new EmptyResponse;
-        }
+        if (!$provider->group_exists($group_name)) return new EmptyResponse(404);
 
         $content = $provider->ical_raw($group_name);
-        if (!$content)
+        if (!$content) return new EmptyResponse(500);
+
+
+        // PROCESSING THE CALENDAR AND ADDING HOMEWORK
+        /**
+         * @var HomeworkManager $manager
+         */
+        $manager = $this->container->get(HomeworkManager::class);
+
+        // matching the UIDs
+        $matches = [];
+        preg_match_all("/UID:(.*)\n/", $content, $matches, PREG_SET_ORDER);
+
+        // storing them then querying the database to get matching homeworks
+        $uids = [];
+        foreach ($matches as $match) $uids[] = $match[1];
+        $homework = $manager->fetch_homeworks_from_uids($uids);
+
+        if (empty($homework))
         {
-            return new EmptyResponse(500);
+            // no homework to display, returning the basic calendar
+            return new TextResponse($content, 200,
+                [
+                    "Content-Type" => "text/calendar",
+                    "Content-Disposition" => "attachment; filename=$group_name.ics;",
+                ]);
         }
 
-        return new TextResponse($content, 200,
+        // creating the replacements arrays and injecting homework in the description
+        $in = [];
+        $out = [];
+        foreach ($homework as $uid => $c)
+        {
+            $in[] = "/(DESCRIPTION:.*)\n(UID:$uid)/";
+            $out[] = "$1 | Devoirs: $c\n$2";
+        }
+
+        // replacing the contents as wanted above
+        $final_calendar = preg_replace($in, $out, $content);
+        if (is_null($final_calendar)) return new EmptyResponse(500);
+
+        // RETURNING THE CALENDAR
+        return new TextResponse($final_calendar, 200,
             [
                 "Content-Type" => "text/calendar",
                 "Content-Disposition" => "attachment; filename=$group_name.ics;",
