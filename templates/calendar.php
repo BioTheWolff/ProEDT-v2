@@ -53,9 +53,7 @@ $this->layout('_template');
             <v-calendar ref="calendar" v-model="picker" :weekdays="weekday" :type="type" first-time="7" locale="fr" interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" :now="picker">
               <template v-slot:event="{ event }">
                 <div class="pl-1">
-                  <strong>{{ event.name }} | {{ ("0" + event.start.getHours()).slice(-2) }}h{{ ("0" +
-                    event.start.getMinutes()).slice(-2) }}-{{ ("0" + event.end.getHours()).slice(-2) }}h{{ ("0" +
-                    event.end.getMinutes()).slice(-2) }}</strong>
+                  <strong>{{ event.name }}</strong>
                   <br>
                   {{ event.location }}
                 </div>
@@ -63,11 +61,11 @@ $this->layout('_template');
             </v-calendar>
 
             <v-menu v-model="selectedOpen" :close-on-content-click="false" :activator="selectedElement" offset-x>
-              <v-card color="grey lighten-4" min-width="350px" flat>
+              <v-card color="grey lighten-4" min-width="150px" flat>
                 <v-toolbar :color="selectedEvent.color" dark>
                   <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                 </v-toolbar>
-                <v-card-text v-if="selectedElement" style="color: black;">
+                <v-card-text v-if="selectedElement" style="color: black; font-size: 14px;">
                   De {{ ("0" + selectedEvent.start.getHours()).slice(-2) }}h{{ ("0" +
                   selectedEvent.start.getMinutes()).slice(-2) }} à {{ ("0" + selectedEvent.end.getHours()).slice(-2)
                   }}h{{ ("0" + selectedEvent.end.getMinutes()).slice(-2) }}

@@ -27,3 +27,29 @@
 .v-application--wrap {
   min-height: 0vh !important;
 }
+
+.v-toolbar__title
+{
+  font-size: 1rem;
+}
+
+.v-card__subtitle, .v-card__text
+{
+  font-size: 16px;
+  line-height: 1rem;
+}
+
+.v-card__subtitle, .v-card__text, .v-card__title
+{
+  padding: 10px;
+}
+
+.v-btn.v-size--default, .v-btn.v-size--large
+{
+  font-size: 14px;
+}
+
+.v-card__actions
+{
+  padding: 0px;
+}
