@@ -57,7 +57,8 @@ $this->flashes = $neon->get();
 <body>
     <header class="navbar">
         <section class="navbar-section">
-            <a href="/" class="btn btn-link">EDT</a>
+            <a href="/" class="btn btn-link">Accueil</a>
+            <a href="/calendar" class="btn btn-link">EDT</a>
             <a href="/settings" class="btn btn-link">Paramètres</a>
         </section>
         <section class="navbar-center">
