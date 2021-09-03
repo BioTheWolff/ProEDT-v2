@@ -60,11 +60,9 @@ class VisualController extends AbstractController
 
         /**
          * @var Neon $neon
-         */
-        $neon = $this->container->get(Neon::class);
-        /**
          * @var HomeworkInteraction $interaction
          */
+        $neon = $this->container->get(Neon::class);
         $interaction = $this->container->get(HomeworkInteraction::class);
         $body = $request->getParsedBody();
 
