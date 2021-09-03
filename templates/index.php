@@ -7,12 +7,15 @@ $this->layout('_template');
     <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden>
     <label class="accordion-header" for="accordion-1">
       <i class="icon icon-arrow-right mr-1"></i>
-      Informations sur la rentrée
+      Informations sur la rentrée (Lundi 6 septembre)
     </label>
     <div class="accordion-body">
       <div class="card-body">
-        Pour les premières années, vous avez rendez vous à <strong>10h30</strong> dans l'amphi 2 (Batiment A).<br>
-        Les A2, vous avez rendez-vous à <strong>9h</strong> dans l'amphi 2 (pas d'heure de fin précisé).
+        Pour les premières années, vous avez rendez-vous à <strong>10h30</strong> dans <a href="https://imager-v2.rtinox.fr/images/c_193800453102764032_03-09-2021_14:34:45_planamphi.png">l'amphi 2 (Batiment A)</a>.<br>
+        Les A2, vous avez rendez-vous à <strong>9h</strong> dans <a href="https://imager-v2.rtinox.fr/images/c_193800453102764032_03-09-2021_14:34:45_planamphi.png">l'amphi 2</a> (pas d'heure de fin précisée).<br>
+        <br>
+        Pour les premieres années de sète, c'est à <strong>14h</strong>.
+        <a></a>
       </div>
     </div>
   </div>
