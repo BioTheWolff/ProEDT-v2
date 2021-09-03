@@ -28,6 +28,7 @@ $this->flashes = $neon->get();
 
     <link rel="shortcut icon" href="/assets/favicon.ico" />
     <link rel="stylesheet" href="/assets/css/spectre.min.css" />
+    <link rel="stylesheet" href="/assets/css/icons.min.css" />
     <link rel="stylesheet" href="/assets/css/index.css" />
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
