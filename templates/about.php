@@ -2,6 +2,16 @@
 $this->layout('_template');
 ?>
 
+<div class="card">
+  <div class="card-header">
+    <div class="card-title h5">Comment installer l'app</div>
+  </div>
+  <div class="card-body">
+    C'est très simple, il vous suffit de cliquer sur <i class="icon icon-more-vert"></i> ou <i class="icon icon-share"></i> de votre navigateur puis de choisir "Installer", "Ajouter à l'écran d'accueil" ou encore "Sur l'écran d'accueil".<br>
+    Il se peut aussi que cela vous soit demandé automatiquement lors de votre navigation sur le site.
+  </div>
+</div>
+
 
 <div class="card">
   <div class="card-header">

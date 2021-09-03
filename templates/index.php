@@ -11,10 +11,13 @@ $this->layout('_template');
     </label>
     <div class="accordion-body">
       <div class="card-body">
+        <strong>Montpellier</strong><br>
         Pour les premières années, vous avez rendez-vous à <strong>10h30</strong> dans <a href="https://imager-v2.rtinox.fr/images/c_193800453102764032_03-09-2021_14:34:45_planamphi.png">l'amphi 2 (Batiment A)</a>.<br>
         Les A2, vous avez rendez-vous à <strong>9h</strong> dans <a href="https://imager-v2.rtinox.fr/images/c_193800453102764032_03-09-2021_14:34:45_planamphi.png">l'amphi 2</a> (pas d'heure de fin précisée).<br>
         <br>
-        Pour les premieres années de sète, c'est à <strong>14h</strong>.
+        
+        <strong>Sète</strong><br>
+        Vous avez rendez-vous à <strong>14h</strong> (Site Conservatoire de Sète)
         <a></a>
       </div>
     </div>
