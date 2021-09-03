@@ -17,10 +17,11 @@ $this->flashes = $neon->get();
 ?>
 
 <html lang="fr">
+
 <head>
     <title><?= $displayed_title ?></title>
     <meta charset="UTF-8">
-    
+
     <link href="/cdn/css/materialdesignicons.min.css" rel="stylesheet" />
     <link href="/cdn/css/vuetify.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/calendar.css" />
@@ -36,7 +37,22 @@ $this->flashes = $neon->get();
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png" />
     <link rel="manifest" href="manifest-proedt.json">
+
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTFJK3D7NF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-TTFJK3D7NF');
+    </script>
 </head>
+
 <body>
     <header class="navbar">
         <section class="navbar-section">
@@ -48,17 +64,17 @@ $this->flashes = $neon->get();
         </section>
         <section class="navbar-section">
             <a href="/about" class="btn btn-link">Informations</a>
-            <?php if($is_connected): ?>
+            <?php if ($is_connected) : ?>
                 <a href="/logout" class="btn">Logout</a>
-            <?php else: ?>
+            <?php else : ?>
                 <a href="/login" class="btn btn-primary">Login</a>
             <?php endif; ?>
         </section>
     </header>
 
     <main id="container">
-        <?php if (!empty($this->flashes)): ?>
-            <?php foreach ($this->flashes as $flash): ?>
+        <?php if (!empty($this->flashes)) : ?>
+            <?php foreach ($this->flashes as $flash) : ?>
                 <div class="flash <?= $flash['type'] == 'warning' ? 'bg-warning' : 'bg-error' ?>">
                     <?= $flash['message'] ?>
                 </div>
@@ -70,7 +86,7 @@ $this->flashes = $neon->get();
 
     <footer class="text-center">
         &copy; Copyright 2021 - Nathan R. & Fabien Z.
-        <?php if (isset($is_production) && !$is_production): ?>
+        <?php if (isset($is_production) && !$is_production) : ?>
             <div class="bg-warning absolute bottom-0 p-5 w-screen text-center" style="width: 100vw">
                 WARNING: DEVELOPMENT MODE ENABLED
             </div>
