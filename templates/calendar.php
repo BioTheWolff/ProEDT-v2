@@ -1,5 +1,11 @@
 <?php
 $this->layout('_template');
+
+
+use App\Database\Interactions\UserInteraction;
+use App\Services\Session\SessionInterface;
+
+$user_is_connected = isset($container) && UserInteraction::is_user_connected($container->get(SessionInterface::class));
 ?>
 
 <div class="card">
@@ -73,11 +79,17 @@ $this->layout('_template');
                   Avec {{selectedEvent.teachers}}
                   <br>
                   En {{selectedEvent.location}}
+                  
+                  <br>
                   <span v-if="selectedEvent.homework">
-                    <br>
                     <br>
                     <strong>Devoir</strong>: {{selectedEvent.homework}}
                   </span>
+                  <?php if ($user_is_connected) { ?>
+
+                    <br>
+                    <a :href="'/homework/' + selectedEvent.uid">Modifier les devoirs</a>
+                  <?php } ?>
                 </v-card-text>
                 <v-card-actions>
                   <v-btn text color="secondary" @click="selectedOpen = false">
@@ -168,7 +180,8 @@ $this->layout('_template');
                 color: 'blue',
                 timed: true,
                 teachers: this.joinV(e.description.teachers.join(", ")),
-                homework: e.homework
+                homework: e.homework,
+                uid: e.uid
               });
             });
             this.loading = false;
@@ -241,8 +254,8 @@ $this->layout('_template');
         this.dialog = false;
         this.value = date;
       },
-      getEventColor (event) {
-        if(event.homework) return 'purple';
+      getEventColor(event) {
+        if (event.homework) return 'purple';
         else return 'blue';
       },
     },

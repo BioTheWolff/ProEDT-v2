@@ -46,7 +46,7 @@ class HomeworkManager extends AbstractManager
 
         $stmt = $this->connection->prepare(
             "INSERT INTO homework (uid, content) VALUES (:uid, :content)
-                        ON CONFLICT (uid) DO UPDATE SET content = :content"
+                        ON DUPLICATE KEY UPDATE content = :content"
         );
         $stmt->bindParam("uid", $e_uid);
         $stmt->bindParam("content", $e_content);
