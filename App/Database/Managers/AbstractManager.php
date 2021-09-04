@@ -18,11 +18,12 @@ abstract class AbstractManager
         $this->connection = $pdo;
     }
 
-    public static function is_available(?PDO $pdo) {
+    public static function is_available(?PDO $pdo): bool
+    {
         return $pdo != null;
     }
 
-    public function self_available()
+    public function self_available(): bool
     {
         return $this->connection != null;
     }

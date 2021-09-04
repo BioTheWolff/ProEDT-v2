@@ -16,7 +16,7 @@ class UserInteraction
     protected $session;
 
     /**
-     * @var UserManager $database;
+     * @var UserManager $manager
      */
     protected $manager;
 
@@ -34,7 +34,7 @@ class UserInteraction
     }
 
 
-    public function checkFormFull(array $expected, array $parsedBody): bool
+    public static function checkFormFull(array $expected, array $parsedBody): bool
     {
         $flag = true;
 
@@ -42,6 +42,18 @@ class UserInteraction
             if (!array_key_exists($item, $parsedBody)) $flag = false;
             if (empty($parsedBody[$item])) $flag = false;
 
+            if (!$flag) break;
+        }
+
+        return $flag;
+    }
+
+    public static function checkFormHasFields(array $expected, array $parsedBody): bool
+    {
+        $flag = true;
+
+        foreach ($expected as $item) {
+            if (!array_key_exists($item, $parsedBody)) $flag = false;
             if (!$flag) break;
         }
 

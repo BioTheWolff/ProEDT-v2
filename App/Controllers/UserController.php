@@ -33,8 +33,12 @@ class UserController extends AbstractController
         if (($rr = $this->check_not_connected()) != null) return $rr;
 
         $body = $request->getParsedBody();
-        $interaction = $this->container->get(UserInteraction::class);
         $neon = $this->container->get(Neon::class);
+
+        /**
+         * @var UserInteraction $interaction
+         */
+        $interaction = $this->container->get(UserInteraction::class);
 
         if (!$interaction->checkFormFull(['username', 'password'], $body))
         {

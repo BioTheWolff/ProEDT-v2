@@ -16,6 +16,7 @@ return [
                 'settings' => "settings",
                 'about' => "about",
                 "calendar" => "calendar",
+                "homework" => ["GET" => "homework_get", "POST" => "homework_post"],
             ]
         ],
         'user' => [
@@ -32,8 +33,8 @@ return [
         'api' => [
             'controller' => APIController::class,
             'routes' => [
-                'ical.json' => "ical_json",
-                'ical.raw' => "ical_raw"
+                'json' => "json",
+                'ics' => "ics"
             ]
         ]
         // etc.
