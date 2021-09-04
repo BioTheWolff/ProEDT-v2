@@ -5,7 +5,7 @@
 	"description": "Application pour consulter son emploi du temps, ses devoirs et les informations importantes.",
 	"start_url": "https://proedt.fr/",
 	"background_color": "#f5f5f5",
-	"theme_color": "#1976d2",
+	"theme_color": "#7700ff",
 	"dir": "ltr",
 	"display": "standalone",
 	"orientation": "any",

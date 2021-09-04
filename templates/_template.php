@@ -69,7 +69,7 @@ $this->flashes = $neon->get();
             <?php if ($is_connected) : ?>
                 <a href="/logout" class="btn">Logout</a>
             <?php else : ?>
-                <a href="/login" class="btn btn-primary">Login</a>
+                <a href="/login" class="btn">Login</a>
             <?php endif; ?>
         </section>
     </header>

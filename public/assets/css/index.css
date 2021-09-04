@@ -7,7 +7,7 @@ body {
 header.navbar {
   padding: 0 2vw;
   height: 10vh;
-  background: #FFFFFF;
+  background: #7700ff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 header.navbar img {
@@ -38,6 +38,23 @@ footer {
 
 .card {
   margin-top: 10px;
+}
+
+.btn.btn-link {
+  background-color: transparent;
+  color: white;
+}
+
+.btn.btn-link:hover {
+  color: #33ffee;
+}
+
+.navbar .navbar-brand {
+  color: white;
+}
+
+.navbar .navbar-brand:hover {
+  color: #33ffee;
 }
 
 code {
