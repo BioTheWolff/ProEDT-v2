@@ -12,6 +12,17 @@ $this->layout('_template');
   </div>
 </div>
 
+<div class="card">
+  <div class="card-header">
+    <div class="card-title h5">Comment sont gérés les devoirs ?</div>
+  </div>
+  <div class="card-body">
+    Les devoirs peuvent être ajoutés et modifiés par des étudiants d'un groupe.<br>
+    Pour cela, ils ont un identifiant et un mot de passe leur donnant l'accès à la gestion des devoirs en cliquant sur un cours.<br>
+    Les personnes ayant un compte sont souvent les délégués ou des étudiants s'étant proposé de le faire, si vous souhaitez gérer les devoirs de votre groupe, n'hésitez pas à nous contacter (informations ci-dessous).
+  </div>
+</div>
+
 
 <div class="card">
   <div class="card-header">
@@ -20,7 +31,7 @@ $this->layout('_template');
   <div class="card-body">
     Développé par Nathan (<a href="https://github.com/Rtinox" target="_blank">_Rtinox</a>) et Fabien (<a href="https://github.com/fabien-zoccola" target="_blank">BioTheWolff</a>).<br>
     Le projet open-source est disponible sur <a href="https://github.com/fabien-zoccola/ProEDT-v2">Github</a>.<br>
-    En cas de soucis, vous pouvez contacter Nathan via Discord: _Rtinox#4442.
+    En cas de soucis, vous pouvez contacter Nathan via Discord: _Rtinox#4442
   </div>
 </div>
 
