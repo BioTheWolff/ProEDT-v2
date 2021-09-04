@@ -15,7 +15,7 @@ $this->layout('_template');
         Pour les premières années, vous avez rendez-vous à <strong>10h30</strong> dans <a href="https://imager-v2.rtinox.fr/images/c_193800453102764032_03-09-2021_14:34:45_planamphi.png">l'amphi 2 (Batiment A)</a>.<br>
         Les A2, vous avez rendez-vous à <strong>9h</strong> dans <a href="https://imager-v2.rtinox.fr/images/c_193800453102764032_03-09-2021_14:34:45_planamphi.png">l'amphi 2</a> (pas d'heure de fin précisée).<br>
         <br>
-        
+
         <strong>Sète</strong><br>
         Vous avez rendez-vous à <strong>14h</strong> (Site Conservatoire de Sète)
         <a></a>
@@ -50,10 +50,10 @@ $this->layout('_template');
             </v-btn>
           </v-sheet>
           <v-sheet height="600">
-            <v-calendar ref="calendar" v-model="picker" :weekdays="weekday" :type="type" first-time="7" locale="fr" interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" :now="picker">
+            <v-calendar ref="calendar" v-model="picker" :weekdays="weekday" :type="type" first-time="7" locale="fr" interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" :now="picker" :event-color="getEventColor">
               <template v-slot:event="{ event }">
                 <div class="pl-1">
-                  <strong>{{ event.name }}</strong>
+                  <strong>{{ event.name }}</strong> <v-icon v-if="event.homework" color="yellow" small>mdi-alert-outline</v-icon>
                   <br>
                   {{ event.location }}
                 </div>
@@ -73,6 +73,11 @@ $this->layout('_template');
                   Avec {{selectedEvent.teachers}}
                   <br>
                   En {{selectedEvent.location}}
+                  <span v-if="selectedEvent.homework">
+                    <br>
+                    <br>
+                    <strong>Devoir</strong>: {{selectedEvent.homework}}
+                  </span>
                 </v-card-text>
                 <v-card-actions>
                   <v-btn text color="secondary" @click="selectedOpen = false">
@@ -134,9 +139,7 @@ $this->layout('_template');
       if (cookie_ecole === null || cookie_groupe === null) {
         alert("Vous n'avez pas de groupe/école, merci d'en selectionner après avoir cliqué sur 'OK'")
         window.location.href = '/settings';
-      } 
-      else 
-      {
+      } else {
         this.ecole = cookie_ecole;
         this.groupe = cookie_groupe;
       }
@@ -154,7 +157,7 @@ $this->layout('_template');
         }
         this.loading = true;
         axios
-          .get(`/api/ical/json/${this.ecole}/${this.groupe}/${firstDate}`)
+          .get(`/api/json/${this.ecole}/${this.groupe}/${firstDate}`)
           .then((response) => {
             response.data.events.forEach((e) => {
               events.push({
@@ -164,7 +167,8 @@ $this->layout('_template');
                 end: this.calenDate(e.end),
                 color: 'blue',
                 timed: true,
-                teachers: this.joinV(e.description.teachers.join(", "))
+                teachers: this.joinV(e.description.teachers.join(", ")),
+                homework: e.homework
               });
             });
             this.loading = false;
@@ -236,7 +240,11 @@ $this->layout('_template');
       onDateClick(date) {
         this.dialog = false;
         this.value = date;
-      }
+      },
+      getEventColor (event) {
+        if(event.homework) return 'purple';
+        else return 'blue';
+      },
     },
   });
 </script>
