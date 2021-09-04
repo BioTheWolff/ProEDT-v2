@@ -53,7 +53,7 @@ $this->layout('_template');
             <v-calendar ref="calendar" v-model="picker" :weekdays="weekday" :type="type" first-time="7" locale="fr" interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" :now="picker" :event-color="getEventColor">
               <template v-slot:event="{ event }">
                 <div class="pl-1">
-                  <strong>{{ event.name }}</strong> <v-icon v-if="event.homework" color="yellow" small>mdi-alert-outline</v-icon>
+                  <v-icon v-if="event.homework" color="yellow" dense>mdi-notebook</v-icon> <strong>{{ event.name }}</strong>
                   <br>
                   {{ event.location }}
                 </div>
