@@ -75,7 +75,7 @@ $this->layout('_template');
       });
       setCookie("ecole", promo[0].api_code, 365);
       setCookie("groupe", groupe_select.value, 365);
-      document.location.href = "/";
+      document.location.href = "/calendar";
     }
   }
 
