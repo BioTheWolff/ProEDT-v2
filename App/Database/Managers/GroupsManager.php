@@ -26,8 +26,9 @@ class GroupsManager extends AbstractManager
         $e_group = e($group);
 
         $stmt = $this->connection->prepare(
-            "SELECT url FROM groups 
-                        WHERE url IS NOT NULL AND school = :s AND name = :g");
+            'SELECT s.url AS "base", g.url AS "data"
+                        FROM groups g JOIN schools s on s.name = g.school
+                        WHERE g.url IS NOT NULL AND s.name = :s AND g.name = :g');
         $stmt->bindParam("s", $e_school);
         $stmt->bindParam("g", $e_group);
 

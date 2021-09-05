@@ -43,6 +43,6 @@ class GroupsInteraction
         $group = strtolower($group);
 
         $res = $this->manager->get_group_url($school, $group);
-        return $res != false && !empty($res) ? $res->url : null;
+        return $res != false && !empty($res) ? $res->base . $res->data : null;
     }
 }
