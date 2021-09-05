@@ -31,4 +31,18 @@ class GroupsInteraction
 
         return $result;
     }
+
+    public function is_school_group_available(string $school, string $group): bool
+    {
+        return !empty($this->get_school_group_url($school, $group));
+    }
+
+    public function get_school_group_url(string $school, string $group): ?string
+    {
+        $school = strtolower($school);
+        $group = strtolower($group);
+
+        $res = $this->manager->get_group_url($school, $group);
+        return $res != false && !empty($res) ? $res->url : null;
+    }
 }

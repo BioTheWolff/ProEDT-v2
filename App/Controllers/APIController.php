@@ -61,7 +61,9 @@ class APIController extends AbstractController
          * @var IcalProvider $provider
          */
         $provider = $this->container->get(IcalProvider::class);
-        $group_name = $args['major'] . '-' . $args['group'];
+        $school = $args['major'];
+        $group = $args['group'];
+
         $date = $args['date'] ?? null;
 
         // if date was passed to the API
@@ -75,16 +77,16 @@ class APIController extends AbstractController
         }
 
         // refuse if group isn't correct
-        if (!$provider->group_exists($group_name))
+        if (!$provider->group_exists($school, $group))
         {
             return new JsonResponse([
                 'status' => $this->container->get("api.status.error.ical.group"),
-                'error' => 'invalid or unkown major/group combination'
+                'error' => 'invalid or unkown school/group combination'
             ], 400);
         }
 
         // request the calendar and check for unexpected refusal
-        $calendar = $provider->get_ical($group_name, $date);
+        $calendar = $provider->get_ical($school, $group, $date);
         if ($calendar == null)
         {
             return new JsonResponse([
@@ -94,7 +96,7 @@ class APIController extends AbstractController
         }
 
         // prepare the response
-        $gathered_at = $provider->gathered_timestamp($group_name);
+        $gathered_at = $provider->gathered_timestamp($school, $group);
         $events = $this->format_events_to_json($calendar, $gathered_at);
 
         if ($events === null)
@@ -127,11 +129,12 @@ class APIController extends AbstractController
          * @var IcalProvider $provider
          */
         $provider = $this->container->get(IcalProvider::class);
-        $group_name = $args['major'] . '-' . $args['group'];
+        $school = $args['major'];
+        $group = $args['group'];
 
-        if (!$provider->group_exists($group_name)) return new EmptyResponse(404);
+        if (!$provider->group_exists($school, $group)) return new EmptyResponse(404);
 
-        $content = $provider->ical_raw($group_name);
+        $content = $provider->ical_raw($school, $group);
         if (!$content) return new EmptyResponse(500);
 
 
@@ -149,6 +152,8 @@ class APIController extends AbstractController
         $uids = [];
         foreach ($matches as $match) $uids[] = $match[1];
         $homework = $manager->fetch_homeworks_from_uids($uids);
+
+        $group_name = $school . "-" . $group;
 
         if (empty($homework))
         {

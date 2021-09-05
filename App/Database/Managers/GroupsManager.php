@@ -32,6 +32,6 @@ class GroupsManager extends AbstractManager
         $stmt->bindParam("g", $e_group);
 
         $stmt->execute();
-        $stmt->fetch();
+        return $stmt->fetch();
     }
 }
