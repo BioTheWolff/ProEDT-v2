@@ -1,26 +1,22 @@
 <?php
 
 return [
-    'ics.url.base.iut' => "",
+    'ics.data' => [
+        'school_name' => [
+            /* leave empty if there is a whole different URL base for each class,
+            else put the base URL and only fill data in each class 'url' entry */
+            'url_base' => "https://yourdomain.com/path/to/calendar/?data=",
 
-    'ics.url.data.iut.s1' => "",
-    'ics.url.data.iut.s2' => "",
-    'ics.url.data.iut.s3' => "",
-    'ics.url.data.iut.s4' => "",
-    'ics.url.data.iut.s5' => "",
-    'ics.url.data.iut.s6' => "",
-
-    'ics.url.data.iut.g1' => "",
-    'ics.url.data.iut.g2' => "",
-    'ics.url.data.iut.g3' => "",
-    'ics.url.data.iut.g4' => "",
-    'ics.url.data.iut.g5' => "",
-
-    'ics.url.data.iut.q1' => "",
-    'ics.url.data.iut.q2' => "",
-    'ics.url.data.iut.q3' => "",
-    'ics.url.data.iut.q4' => "",
-    'ics.url.data.iut.q5' => "",
+            'classes' => [
+                [
+                    'name' => "<class name here>",
+                    'year' => 1 /* year 1 */,
+                    'url' => "<url here>"
+                ],
+                // etc
+            ],
+        ],
+    ],
 
     'database.type'     => "",
     'database.host'     => "",

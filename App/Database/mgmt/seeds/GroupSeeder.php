@@ -10,17 +10,14 @@ use Psr\Container\ContainerInterface;
 
 class GroupSeeder extends AbstractSeed
 {
-    const GROUPS_DATA = [
-        ['name' => "a1", 'major' => 'iut'],
-        ['name' => "a2", 'major' => 'iut'],
-    ];
-
     /**
      * @var ContainerInterface $container
+     * @var array $schools_data
+     * @var array $groups_data
      */
     private $container;
-
-    private $SUBGROUPS_DATA;
+    private $schools_data;
+    private $groups_data;
 
 
     /**
@@ -33,26 +30,34 @@ class GroupSeeder extends AbstractSeed
         parent::__construct();
         $this->container = (new ContainerFactory)();
 
-        $subgroups = ['s1', 's2', 's3', 's4', 's5', 's6', 'g1', 'g2', 'g3', 'g4', 'g5', 'q1', 'q2', 'q3', 'q4', 'q5'];
+        $this->schools_data = [];
+        $this->groups_data = [];
 
-        $this->SUBGROUPS_DATA = [];
-
-        foreach ($subgroups as $e)
+        foreach ($this->container->get("ics.data") as $school => $content)
         {
-            $url = $this->container->get("ics.url.data.iut.$e");
-            $this->SUBGROUPS_DATA[] = [
-                'name' => $e,
-                'parent' => str_starts_with($e, "s") ? "a1" : "a2",
-                'url' => $url != '' ? $url : null
+            $this->schools_data[] = [
+                'name' => "$school",
+                'url' => $content['url_base']
             ];
+
+            foreach ($content['classes'] as $class)
+            {
+                $this->groups_data[] = [
+                    'name' => $class['name'],
+                    'school' => $school,
+                    'year' => $class['year'],
+                    'url' => $class['url'] != '' ? $class['url'] : null,
+                ];
+            }
         }
     }
 
     public function run()
     {
-        $users = $this->table('groups');
+        $schools = $this->table("schools");
+        $groups = $this->table('groups');
 
-        $users->insert(GroupSeeder::GROUPS_DATA)->saveData();
-        $users->insert($this->SUBGROUPS_DATA)->saveData();
+        $schools->insert($this->schools_data)->saveData();
+        $groups->insert($this->groups_data)->saveData();
     }
 }
