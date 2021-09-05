@@ -106,11 +106,7 @@ class IcalManager
 
             $file = fopen($this->get_file_name($school, $group), "w");
 
-            $time = new DateTime();
-            $time = $time->format(DATE_ATOM);
-
             fwrite($file, "$cleaned\n");
-            fwrite($file, "edited at $time\n");
         }
     }
 
