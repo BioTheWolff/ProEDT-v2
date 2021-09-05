@@ -123,8 +123,8 @@ class IcalProvider
                 $start = $this->get_start_of_week($date);
 
                 // evaluate the "end of range" date
-                $end = DateTime::createFromFormat("Y-m-d", $date)
-                    ->add(new DateInterval("P4D"))
+                $end = DateTime::createFromFormat("Y-m-d", $start)
+                    ->add(new DateInterval("P5D"))
                     ->format("Y-m-d");
 
                 // return the events in the evaluated range
