@@ -2,14 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Database\Interactions\GroupsInteraction;
 use App\Database\Interactions\HomeworkInteraction;
 use App\Database\Interactions\UserInteraction;
 use App\Database\LayeredAbstractMigration;
 use App\Services\Neon;
 use App\Services\Session\SessionInterface;
 use Laminas\Diactoros\Response\RedirectResponse;
-use League\Route\Http\Exception\ForbiddenException;
-use League\Route\Http\Exception\UnauthorizedException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -23,7 +22,12 @@ class VisualController extends AbstractController
 
     function settings(): ResponseInterface
     {
-        return $this->html_render("settings");
+        /** @var GroupsInteraction $interaction */
+        $interaction = $this->container->get(GroupsInteraction::class);
+
+        return $this->html_render("settings", [
+            'groups_data' => $interaction->get_school_groups()
+        ]);
     }
 
     function about(): ResponseInterface

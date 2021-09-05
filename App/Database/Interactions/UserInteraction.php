@@ -13,12 +13,12 @@ class UserInteraction
     /**
      * @var SessionInterface $session
      */
-    protected $session;
+    private $session;
 
     /**
      * @var UserManager $manager
      */
-    protected $manager;
+    private $manager;
 
     public function __construct(SessionInterface $session, UserManager $manager)
     {
