@@ -6,6 +6,7 @@ return [
             /* leave empty if there is a whole different URL base for each class,
             else put the base URL and only fill data in each class 'url' entry */
             'url_base' => "https://yourdomain.com/path/to/calendar/?data=",
+            'fancy_name' => "My School Name", // the display name
 
             'classes' => [
                 [

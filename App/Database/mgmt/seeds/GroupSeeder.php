@@ -37,7 +37,8 @@ class GroupSeeder extends AbstractSeed
         {
             $this->schools_data[] = [
                 'name' => "$school",
-                'url' => $content['url_base']
+                'url' => $content['url_base'],
+                'fancy_name' => $content['fancy_name'],
             ];
 
             foreach ($content['classes'] as $class)

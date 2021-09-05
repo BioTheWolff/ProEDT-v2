@@ -9,6 +9,7 @@ final class CreateSchoolsTable extends LayeredAbstractMigration
     {
         $this->table("schools")
             ->addColumn("name", "string", ['limit' => self::GROUP_NAME_LENGTH])
+            ->addColumn("fancy_name", "string", ['limit' => self::SCHOOL_FANCY_NAME_LENGTH, 'null' => true])
             ->addColumn("url", "string", ['limit' => self::GROUP_URL_LENGTH, 'null' => true])
             ->addIndex("name", ['unique' => true])
             ->create();
