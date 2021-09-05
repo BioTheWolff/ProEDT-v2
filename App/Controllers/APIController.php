@@ -55,6 +55,17 @@ class APIController extends AbstractController
         return $final;
     }
 
+    public function manifest(): ResponseInterface
+    {
+        return new TextResponse(
+            file_get_contents(__DIR__ . "/public/manifest-proedt.json"),
+            200,
+            [
+                'Content-Type' => 'text/json'
+            ]
+        );
+    }
+
     public function json(ServerRequestInterface $request, array $args): ResponseInterface
     {
         /**
