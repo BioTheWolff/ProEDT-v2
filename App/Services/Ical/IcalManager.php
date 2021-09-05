@@ -114,7 +114,7 @@ class IcalManager
 
         curl_close($curl);
 
-        if ($result != false)
+        if ($result != false && str_contains($result, "BEGIN:VCALENDAR"))
         {
             $cleaned = $this->clean_ical_lines($result);
 
