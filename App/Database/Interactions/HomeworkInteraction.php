@@ -11,7 +11,7 @@ class HomeworkInteraction
     /**
      * @var HomeworkManager $manager;
      */
-    protected $manager;
+    private $manager;
 
     public function __construct(HomeworkManager $manager)
     {

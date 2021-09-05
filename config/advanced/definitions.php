@@ -24,10 +24,6 @@ return [
         return $e;
     },
 
-    // Ical service
-    IcalProvider::class => DI\Autowire(),
-    IcalManager::class => DI\Autowire(),
-
     // Database
     PDO::class => function (ContainerInterface $c) {
         $adapter = $c->get('database.type');
@@ -52,11 +48,6 @@ return [
         }
     },
 
-    // Database Interactions & Managers
-    UserInteraction::class => DI\Autowire(),
-    UserManager::class => DI\Autowire(),
-
     // Session & flash services
     SessionInterface::class => DI\Autowire(Palladium::class),
-    Neon::class => DI\Autowire(),
 ];

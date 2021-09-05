@@ -3,6 +3,7 @@
 namespace App\Services\Ical;
 
 
+use App\Database\Interactions\GroupsInteraction;
 use DateTime;
 use Psr\Container\ContainerInterface;
 use function curl_close;
@@ -21,71 +22,57 @@ class IcalManager
     public const ICS_PATH = __DIR__ . "/ics/";
     public const FILE_EXT = ".ical";
 
+    /**
+     * @var ContainerInterface $container
+     * @var GroupsInteraction $interaction
+     */
     private $container;
+    private $interaction;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container, GroupsInteraction $interaction)
     {
         $this->container = $container;
+        $this->interaction = $interaction;
     }
 
     /**
      * Check if a group name exists
-     * @param string $name the group name
      * @return bool whether the group exists or not
      */
-    public function group_exists(string $name): bool
+    public function group_exists(string $school, string $group): bool
     {
-        return preg_match("/^iut-(s[1-6]|[qg][1-5])$/i", $name) != false;
+        return $this->interaction->is_school_group_available($school, $group);
     }
 
     /**
      * Returns the ICS file name from the given group
-     * @param string $name the group name
      * @return string the file name
      */
-    public function file_name_from_group(string $name): string
+    public function get_file_name(string $school, string $group): string
     {
-        [$major, $group] = explode("-", trim($name));
-
-        $major = strtolower($major);
+        $school = strtolower($school);
         $group = strtolower($group);
 
-        return self::ICS_PATH . "$major-$group" . self::FILE_EXT;
-    }
-
-    /**
-     * Returns the container's data key (entry, of form ics.url.data.SOMETHING) from the given group name
-     * @param string $name the group name
-     * @return string the data key
-     */
-    public function data_key_from_group(string $name): string
-    {
-        [$major, $group] = explode("-", trim($name));
-
-        $major = strtolower($major);
-        $group = strtolower($group);
-
-        return "ics.url.data.$major.$group";
+        return self::ICS_PATH . "$school-$group" . self::FILE_EXT;
     }
 
     /**
      * Checks if the given group's calendar needs to be refreshed from URL
-     * @param string $group the group name
      * @return bool whether the current group's calendar should be refreshes
      */
-    public function should_refresh(string $group): bool
+    public function should_refresh(string $school, string $group): bool
     {
-        if (!file_exists($this->file_name_from_group($group)))
+        if (!file_exists($this->get_file_name($school, $group)))
         {
-            $this->refresh_ical($group);
+            $this->refresh_ical($school, $group);
             return false;
         }
 
-        $stamp = filemtime($this->file_name_from_group($group));
+        $stamp = filemtime($this->get_file_name($school, $group));
         if ($stamp === false)
         {
             // the file doesn't exist, create it
-            $this->refresh_ical($group);
+            $this->refresh_ical($school, $group);
             return false;
         }
 
@@ -100,12 +87,11 @@ class IcalManager
 
     /**
      * Refreshes the Ical from a given URL to a given file
-     * (see {@link data_key_from_group}, {@link file_name_from_group})
-     * @param string $group the group name
+     * (see {@link get_file_name})
      */
-    public function refresh_ical(string $group)
+    public function refresh_ical(string $school, string $group)
     {
-        $url = $this->container->get("ics.url.base.iut") . $this->container->get($this->data_key_from_group($group));
+        $url = $this->interaction->get_school_group_url($school, $group);
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -118,13 +104,9 @@ class IcalManager
         {
             $cleaned = $this->clean_ical_lines($result);
 
-            $file = fopen($this->file_name_from_group($group), "w");
-
-            $time = new DateTime();
-            $time = $time->format(DATE_ATOM);
+            $file = fopen($this->get_file_name($school, $group), "w");
 
             fwrite($file, "$cleaned\n");
-            fwrite($file, "edited at $time\n");
         }
     }
 

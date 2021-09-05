@@ -34,7 +34,8 @@ return [
             'controller' => APIController::class,
             'routes' => [
                 'json' => "json",
-                'ics' => "ics"
+                'ics' => "ics",
+                'manifest' => "manifest",
             ]
         ]
         // etc.

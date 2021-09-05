@@ -6,8 +6,6 @@ use DateInterval;
 use DateTime;
 use Exception;
 use ICal\ICal;
-use Laminas\Diactoros\Response\TextResponse;
-use Psr\Container\ContainerInterface;
 
 /**
  * Provides the sanitized Ical events to the APIs
@@ -17,13 +15,11 @@ use Psr\Container\ContainerInterface;
  */
 class IcalProvider
 {
-    private $container;
     private $manager;
     private $ical;
 
-    public function __construct(ContainerInterface $container, IcalManager $manager)
+    public function __construct(IcalManager $manager)
     {
-        $this->container = $container;
         $this->manager = $manager;
 
         $this->ical = new ICal(false, [
@@ -34,33 +30,34 @@ class IcalProvider
 
     /**
      * Refreshes the Ical instance by either reading from the file, after file refresh if necessary
-     * @param string $group the group name to read the calendar from
      */
-    private function refresh_ical_instance(string $group)
+    private function refresh_ical_instance(string $school, string $group)
     {
         // only refresh if needed
-        if ($this->manager->should_refresh($group))
+        if ($this->manager->should_refresh($school, $group))
         {
-            $this->manager->refresh_ical($group);
+            $this->manager->refresh_ical($school, $group);
         }
 
-        $this->ical->initFile($this->manager->file_name_from_group($group));
+        $this->ical->initFile($this->manager->get_file_name($school, $group));
     }
 
     /**
      * Returns the timestamp at which a group's calendar was last updated
+     *
+     * @param string $school the school name
      * @param string $group the group name
      * @return int the timestamp the file was last updated at
      */
-    public function gathered_timestamp(string $group): int
+    public function gathered_timestamp(string $school, string $group): int
     {
-        if (!file_exists($this->manager->file_name_from_group($group))) return -1;
-        return filemtime($this->manager->file_name_from_group($group));
+        if (!file_exists($this->manager->get_file_name($school, $group))) return -1;
+        return filemtime($this->manager->get_file_name($school, $group));
     }
 
-    public function group_exists(string $group): bool
+    public function group_exists(string $school, string $group): bool
     {
-        return $this->manager->group_exists($group);
+        return $this->manager->group_exists($school, $group);
     }
 
     public function is_date_valid(string $date): bool
@@ -109,13 +106,16 @@ class IcalProvider
     /**
      * Returns the Ical events of the requested group
      *
+     * @param string $school the school name
      * @param string $group the group name
      * @param string|null $date the date starting the week
      * @return array|false false if the group doesn't exist, else the array of events
      */
-    public function get_ical(string $group, string $date = null): ?array
+    public function get_ical(string $school, string $group, string $date = null): ?array
     {
-        $this->refresh_ical_instance($group);
+        if (!$this->group_exists($school, $group)) return null;
+
+        $this->refresh_ical_instance($school, $group);
 
         try {
             if (!is_null($date))
@@ -136,8 +136,8 @@ class IcalProvider
         }
     }
 
-    public function ical_raw(string $group)
+    public function ical_raw(string $school, string $group)
     {
-        return file_get_contents($this->manager->file_name_from_group($group));
+        return file_get_contents($this->manager->get_file_name($school, $group));
     }
 }

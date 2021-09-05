@@ -23,5 +23,6 @@ return [
         "/api/json/{major}/{group}",
         "/api/json/{major}/{group}/{date}"
     ],
-    'path.api.ics' => "/api/ics/{major}/{group}"
+    'path.api.ics' => "/api/ics/{major}/{group}",
+    'path.api.manifest' => "/manifest-proedt.json",
 ];

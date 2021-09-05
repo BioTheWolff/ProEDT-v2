@@ -1,5 +1,12 @@
 <?php
 $this->layout('_template');
+
+function array_to_string(array $a): string
+{
+    $res = "[";
+    foreach ($a as $e) $res .= "\"$e\", ";
+    return $res . "]";
+}
 ?>
 
 <div class="card p-centered" style="max-width: 400px;">
@@ -23,24 +30,15 @@ $this->layout('_template');
 <script>
   const ecole_select = document.getElementById("ecole-select");
   const groupe_select = document.getElementById("groupe-select");
-  const promos = [{
-    text: "IUT Informatique",
-    api_code: "iut",
-    groupes: [
-      "s1",
-      "s2",
-      "s3",
-      "s4",
-      "s5",
-      "s6",
-      "q1",
-      "q2",
-      "q3",
-      "q4",
-      "q5",
-      "q6"
-    ]
-  }];
+  const promos = [
+      <?php foreach ($groups_data ?? [] as $school_name => $school): ?>
+      {
+        text: "<?= $school['fancy_name'] ?>",
+        api_code: "<?= $school_name ?>",
+        groupes: <?= array_to_string($school['classes']) ?>
+      }
+      <?php endforeach; ?>
+  ];
 
   window.onload = function(e) {
     for (let ecole in promos) {
