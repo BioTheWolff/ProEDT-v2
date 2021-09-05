@@ -57,6 +57,9 @@ class APIController extends AbstractController
 
     public function json(ServerRequestInterface $request, array $args): ResponseInterface
     {
+        /**
+         * @var IcalProvider $provider
+         */
         $provider = $this->container->get(IcalProvider::class);
         $group_name = $args['major'] . '-' . $args['group'];
         $date = $args['date'] ?? null;

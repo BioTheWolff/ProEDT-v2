@@ -114,7 +114,7 @@ class IcalManager
 
         curl_close($curl);
 
-        if ($result != false)
+        if ($result != false && str_contains($result, "BEGIN:VCALENDAR"))
         {
             $cleaned = $this->clean_ical_lines($result);
 
@@ -169,6 +169,9 @@ class IcalManager
 
                 // [8] another layer of formatting to remove leading and trailing "\n"
                 "/^(DESCRIPTION:.* \| Professeurs): \|*(.*?)\|*$/m",
+
+                // [9] adding a placeholder teacher when none was provided
+                "/^(DESCRIPTION:.* \| Professeurs:) +$/m",
             ],
             [
                 "$1$2", // [1]
@@ -179,6 +182,7 @@ class IcalManager
                 " ", // [6]
                 "$1:Groupe: $2 | Professeurs: $3", // [7]
                 "$1: $2", // [8]
+                "$1 Aucun professeur indiqué", // [9]
             ],
             $str
         );

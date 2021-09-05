@@ -12,7 +12,7 @@ return [
     'path.visual.about' => '/about',
     'path.visual.calendar' => [
         '/calendar',
-        '/calendar/{group}',
+        '/calendar/{school}/{group}',
     ],
     'path.visual.homework' => '/homework/{uid}',
 

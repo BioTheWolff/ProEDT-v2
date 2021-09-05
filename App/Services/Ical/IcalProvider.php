@@ -6,6 +6,7 @@ use DateInterval;
 use DateTime;
 use Exception;
 use ICal\ICal;
+use Laminas\Diactoros\Response\TextResponse;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -64,6 +65,7 @@ class IcalProvider
 
     public function is_date_valid(string $date): bool
     {
+        if ($date == null) return false;
         $m = [];
 
         $res = preg_match("/([0-9]{4})-([0-9]{2})-([0-9]{2})/", $date, $m);
@@ -113,11 +115,6 @@ class IcalProvider
      */
     public function get_ical(string $group, string $date = null): ?array
     {
-        if (!$this->manager->group_exists($group) || (!is_null($date) && !$this->is_date_valid($date)))
-        {
-            return null; // malformed request
-        }
-
         $this->refresh_ical_instance($group);
 
         try {
@@ -126,8 +123,8 @@ class IcalProvider
                 $start = $this->get_start_of_week($date);
 
                 // evaluate the "end of range" date
-                $end = DateTime::createFromFormat("Y-m-d", $date)
-                    ->add(new DateInterval("P4D"))
+                $end = DateTime::createFromFormat("Y-m-d", $start)
+                    ->add(new DateInterval("P5D"))
                     ->format("Y-m-d");
 
                 // return the events in the evaluated range
@@ -135,7 +132,7 @@ class IcalProvider
             }
             else return $this->ical->events();
         } catch (Exception $e) {
-            die($e->getMessage());
+            return null;
         }
     }
 

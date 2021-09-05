@@ -33,7 +33,10 @@ class VisualController extends AbstractController
 
     function calendar(ServerRequestInterface $request, array $args): ResponseInterface
     {
-        if (!empty($args)) setcookie("groupe", $args['group'], 0, "/");
+        if (!empty($args)) {
+            setcookie("ecole", $args['school'], 0, "/");
+            setcookie("groupe", $args['group'], 0, "/");
+        }
         return $this->html_render("calendar");
     }
 
