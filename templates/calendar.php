@@ -74,7 +74,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
             </v-btn>
           </v-sheet>
           <v-sheet height="600">
-            <v-calendar ref="calendar" v-model="picker" :weekdays="weekday" :type="type" first-time="7" locale="fr" interval-count="16" interval-height="40" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" :now="picker" :event-color="getEventColor">
+            <v-calendar ref="calendar" v-model="picker" :weekdays="weekday" :type="type" first-time="7" locale="fr" interval-count="12" interval-height="40" :events="events" :event-overlap-mode="mode" :event-overlap-threshold="30" @change="getEvents" @click:event="showEvent" :now="picker" :event-color="getEventColor">
               <template v-slot:event="{ event }">
                 <div class="pl-1">
                   <v-icon v-if="event.homework" color="yellow" dense>mdi-notebook</v-icon> <strong>{{ event.name }}</strong>
@@ -214,18 +214,6 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
               this.show_alert(`Erreur serveur: ${e.response.status}`, 'red');
             }
           });
-
-        events.push({
-          name: "[BDE] Soirée Inté",
-          location: "La soirée d''intégration du BDE au Bar Les 3 Singes",
-          start: this.calenDate("20210907T173000Z"),
-          end: this.calenDate("20210907T220000Z"),
-          color: 'blue',
-          timed: true,
-          teachers: "",
-          homework: "",
-          uid: ""
-        });
 
         this.events = events;
       },
