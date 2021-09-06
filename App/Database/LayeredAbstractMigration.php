@@ -10,7 +10,7 @@ class LayeredAbstractMigration extends AbstractMigration
     const USERNAME_LENGTH = 60;
     const PASSWORD_LENGTH = 60;
 
-    const GROUP_NAME_LENGTH = 5;
+    const GROUP_NAME_LENGTH = 10;
     const GROUP_URL_LENGTH = 300;
 
     const SCHOOL_FANCY_NAME_LENGTH = 50;
