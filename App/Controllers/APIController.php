@@ -10,6 +10,7 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\TextResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use function App\date_format_to_format;
 
 class APIController extends AbstractController
 {
@@ -193,15 +194,33 @@ class APIController extends AbstractController
             // add all events
             foreach ($ote as $event)
             {
-                $start = (
-                    $event->isfullday
-                        ? date("Ymd", $event->start)
-                        : \DateTime::createFromFormat("Y-m-d", $event->start)->format("Ymd\THis")
+                $start = date_format_to_format(
+                    $event->start,
+                    "Y-m-d H:i:s",
+                    ($event->isfullday ? "Ymd" : "Ymd\THis\Z")
                 );
+                $end = (
+                    is_null($event->end)
+                        ? null
+                        : (
+                            $event->isfullday
+                                ? ($event->end > $event->start ? $event->end : null)
+                                : $event->end
+                        )
+                );
+                $event_uid = "PROEDT-OTE-" . $event->id;
+
                 $content .=
                     "BEGIN:VEVENT\n" .
-                    "DTSTART" . ($event->isfullday ? ";DATE=VALUE:" : ":") . $start;
+                    "DTSTAMP:" . (new \DateTime())->format("Ymd\THis\Z") . "\n" .
+                    "DTSTART" . ($event->isfullday ? ";VALUE=DATE:" : ":") . $start . "\n" .
+                    (!is_null($end) ? ("DTEND" . ($event->isfullday ? ";VALUE=DATE:" : ":") . $end . "\n") : "") .
+                    "SUMMARY:" . $event->summary . "\n" .
+                    "DESCRIPTION:" . $event->desc . "\n" .
+                    "UID:" . $event_uid . "\n" .
+                    "END:VEVENT\n";
             }
+            $content .= "END:VCALENDAR";
         }
 
         // RETURNING THE CALENDAR

@@ -5,6 +5,11 @@ use League\Route\Router;
 use Psr\Container\ContainerInterface;
 use UnexpectedValueException;
 
+function date_format_to_format($time, string $input_format, string $output_format): string
+{
+    return \DateTime::createFromFormat($input_format, $time)->format($output_format);
+}
+
 /**
  * Resolves an array of classes through the container
  * @param string[] $classes The classes to resolve

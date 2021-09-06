@@ -138,6 +138,7 @@ class IcalProvider
 
     public function ical_raw(string $school, string $group)
     {
+        $this->refresh_ical_instance($school, $group);
         return file_get_contents($this->manager->get_file_name($school, $group));
     }
 }
