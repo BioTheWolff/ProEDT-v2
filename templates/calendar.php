@@ -218,8 +218,8 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
         events.push({
           name: "[BDE] Soirée Inté",
           location: "La soirée d''intégration du BDE au Bar Les 3 Singes",
-          start: "20210907T173000Z",
-          end: "20210907T220000Z",
+          start: this.calenDate("20210907T173000Z"),
+          end: this.calenDate("20210907T220000Z"),
           color: 'blue',
           timed: true,
           teachers: "",
