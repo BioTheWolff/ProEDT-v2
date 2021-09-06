@@ -3,12 +3,14 @@
 namespace App\Controllers;
 
 use App\Database\Managers\HomeworkManager;
+use App\Database\Managers\OTEManager;
 use App\Services\Ical\IcalProvider;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\TextResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use function App\date_format_to_format;
 
 class APIController extends AbstractController
 {
@@ -151,9 +153,11 @@ class APIController extends AbstractController
 
         // PROCESSING THE CALENDAR AND ADDING HOMEWORK
         /**
-         * @var HomeworkManager $manager
+         * @var HomeworkManager $homeworkManager
+         * @var OTEManager $oteManager
          */
-        $manager = $this->container->get(HomeworkManager::class);
+        $homeworkManager = $this->container->get(HomeworkManager::class);
+        $oteManager = $this->container->get(OTEManager::class);
 
         // matching the UIDs
         $matches = [];
@@ -162,35 +166,65 @@ class APIController extends AbstractController
         // storing them then querying the database to get matching homeworks
         $uids = [];
         foreach ($matches as $match) $uids[] = $match[1];
-        $homework = $manager->fetch_homeworks_from_uids($uids);
+        $homework = $homeworkManager->fetch_homeworks_from_uids($uids);
 
         $group_name = $school . "-" . $group;
 
-        if (empty($homework))
+        if (!empty($homework))
         {
-            // no homework to display, returning the basic calendar
-            return new TextResponse($content, 200,
-                [
-                    "Content-Type" => "text/calendar",
-                    "Content-Disposition" => "attachment; filename=$group_name.ics;",
-                ]);
+            // creating the replacements arrays and injecting homework in the description
+            $in = [];
+            $out = [];
+            foreach ($homework as $uid => $c)
+            {
+                $in[] = "/(DESCRIPTION:.*)\n(UID:$uid)/";
+                $out[] = "$1 | Devoirs: $c\n$2";
+            }
+
+            // replacing the contents as wanted above
+            $content = preg_replace($in, $out, $content);
+            if (is_null($content)) return new EmptyResponse(500);
         }
 
-        // creating the replacements arrays and injecting homework in the description
-        $in = [];
-        $out = [];
-        foreach ($homework as $uid => $c)
+        $ote = $oteManager->get_OTEs();
+        if (!empty($ote))
         {
-            $in[] = "/(DESCRIPTION:.*)\n(UID:$uid)/";
-            $out[] = "$1 | Devoirs: $c\n$2";
-        }
+            // remove the end tag
+            $content = str_replace("END:VCALENDAR", "", $content);
+            // add all events
+            foreach ($ote as $event)
+            {
+                $start = date_format_to_format(
+                    $event->start,
+                    "Y-m-d H:i:s",
+                    ($event->isfullday ? "Ymd" : "Ymd\THis\Z")
+                );
+                $end = (
+                    is_null($event->end)
+                        ? null
+                        : (
+                            $event->isfullday
+                                ? ($event->end > $event->start ? $event->end : null)
+                                : $event->end
+                        )
+                );
+                $event_uid = "PROEDT-OTE-" . $event->id;
 
-        // replacing the contents as wanted above
-        $final_calendar = preg_replace($in, $out, $content);
-        if (is_null($final_calendar)) return new EmptyResponse(500);
+                $content .=
+                    "BEGIN:VEVENT\n" .
+                    "DTSTAMP:" . (new \DateTime())->format("Ymd\THis\Z") . "\n" .
+                    "DTSTART" . ($event->isfullday ? ";VALUE=DATE:" : ":") . $start . "\n" .
+                    (!is_null($end) ? ("DTEND" . ($event->isfullday ? ";VALUE=DATE:" : ":") . $end . "\n") : "") .
+                    "SUMMARY:" . $event->summary . "\n" .
+                    "DESCRIPTION:" . $event->desc . "\n" .
+                    "UID:" . $event_uid . "\n" .
+                    "END:VEVENT\n";
+            }
+            $content .= "END:VCALENDAR";
+        }
 
         // RETURNING THE CALENDAR
-        return new TextResponse($final_calendar, 200,
+        return new TextResponse($content, 200,
             [
                 "Content-Type" => "text/calendar",
                 "Content-Disposition" => "attachment; filename=$group_name.ics;",
