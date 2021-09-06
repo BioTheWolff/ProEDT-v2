@@ -204,7 +204,7 @@ class APIController extends AbstractController
                         ? null
                         : (
                             $event->isfullday
-                                ? ($event->end > $event->start ? date_format_to_format($event->end, "Y-m-d H:i:s", "Ymd\THis\Z") : null)
+                                ? ($event->end > $event->start ? date_format_to_format($event->end, "Y-m-d H:i:s", "Ymd") : null)
                                 : date_format_to_format($event->end, "Y-m-d H:i:s", "Ymd\THis\Z")
                         )
                 );
