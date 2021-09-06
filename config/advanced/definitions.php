@@ -1,6 +1,11 @@
 <?php
 
+use App\Database\Interactions\GroupsInteraction;
+use App\Database\Interactions\HomeworkInteraction;
 use App\Database\Interactions\UserInteraction;
+use App\Database\Managers\GroupsManager;
+use App\Database\Managers\HomeworkManager;
+use App\Database\Managers\OTEManager;
 use App\Database\Managers\UserManager;
 use App\Services\Ical\IcalManager;
 use App\Services\Ical\IcalProvider;
@@ -23,6 +28,10 @@ return [
         ]);
         return $e;
     },
+
+    // Ical service
+    IcalProvider::class => DI\Autowire(),
+    IcalManager::class => DI\Autowire(),
 
     // Database
     PDO::class => function (ContainerInterface $c) {
@@ -48,6 +57,16 @@ return [
         }
     },
 
+    // Database Interactions & Managers
+    UserInteraction::class => DI\Autowire(),
+    HomeworkInteraction::class => DI\Autowire(),
+    GroupsInteraction::class => DI\Autowire(),
+    UserManager::class => DI\Autowire(),
+    GroupsManager::class => DI\Autowire(),
+    HomeworkManager::class => DI\Autowire(),
+    OTEManager::class => DI\Autowire(),
+
     // Session & flash services
     SessionInterface::class => DI\Autowire(Palladium::class),
+    Neon::class => DI\Autowire(),
 ];
