@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\APIController;
+use App\Controllers\OTEController;
 use App\Controllers\UserController;
 use App\Controllers\VisualController;
 
@@ -36,6 +37,15 @@ return [
                 'json' => "json",
                 'ics' => "ics",
                 'manifest' => "manifest",
+            ]
+        ],
+        // OTEs
+        'OTEs' => [
+            'controller' => OTEController::class,
+            'routes' => [
+                'viewall' => 'view',
+                'edit' => ['GET' => 'edit_GET', 'POST' => 'edit_POST'],
+                'delete' => ['GET' => 'delete_GET', 'POST' => 'delete_POST'],
             ]
         ]
         // etc.

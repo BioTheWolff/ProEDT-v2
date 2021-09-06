@@ -25,4 +25,8 @@ return [
     ],
     'path.api.ics' => "/api/ics/{major}/{group}",
     'path.api.manifest' => "/manifest-proedt.json",
+
+    'path.OTEs.viewall' => '/events/view',
+    'path.OTEs.edit' => '/events/edit/{uid}',
+    'path.OTEs.delete' => '/events/delete/{uid}',
 ];

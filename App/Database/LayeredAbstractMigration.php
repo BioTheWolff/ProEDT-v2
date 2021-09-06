@@ -18,4 +18,7 @@ class LayeredAbstractMigration extends AbstractMigration
     const EVENT_UID_LENGTH = 100;
     const HOMEWORK_CONTENT_LENGTH = 300;
 
+    const OTE_SUMMARY_LENGTH = 50;
+    const OTE_DESC_LENGTH = 100;
+
 }
