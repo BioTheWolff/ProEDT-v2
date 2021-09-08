@@ -118,14 +118,15 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
             </v-menu>
           </v-sheet>
 
-          <v-alert dense text :color="alert.color" :value="alert.show" transition="slide-y-transition" id="validNotification">
-            {{ alert.text }}
+          <v-alert dense text :color="alert.color" :value="alert.show" transition="slide-y-transition" id="validNotification" v-html="alert.text">
           </v-alert>
         </v-container>
       </v-main>
     </div>
 
-    <img v-if="this.loading" src="/assets/img/loading.gif" alt="Loading animation" id="loadingImg" />
+    <div v-if="this.loading" id="loadingImg">
+      <div class="water"></div>
+    </div>
 </div>
 </v-app>
 </div>
@@ -189,6 +190,13 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
         axios
           .get(`/api/json/${this.ecole}/${this.groupe}/${firstDate}`)
           .then((response) => {
+
+            const gathered_at = response.data.gathered_at;
+            const generated_at = response.data.generated_at;
+            const diff = generated_at - gathered_at;
+            if(diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l'EDT dans quelques instants.`, 'orange');
+            else if(diff >= 600) this.show_alert(`Le serveur n'a pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
+
             response.data.events.forEach((e) => {
               events.push({
                 name: e.summary,
@@ -209,7 +217,11 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
             if (e.response.status === 521) {
               this.show_alert("Le serveur est injoignable, merci de contacter un admin !", 'red');
             } else if (e.response.status === 500) {
-              this.show_alert("Pas de cours à afficher", 'orange');
+              this.show_alert("Erreur 500 (Potentioellement aucun cours à afficher)", 'orange');
+            } else if (e.response.status === 400) {
+              this.show_alert("Erreur 400: Votre école/groupe est surement mal configuré ! <a href='/settings'>Paramètres</a>", 'orange');
+            } else if (e.response.status === 404) {
+              this.show_alert("Erreur 404: Un bug est survenu coté client, contactez les admins si cela persiste. <a href='/about'>Contacter</a>", 'orange');
             } else if (e.response.status !== 200) {
               this.show_alert(`Erreur serveur: ${e.response.status}`, 'red');
             }
