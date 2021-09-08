@@ -9,17 +9,6 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
   <div class="columns">
 
     <?php if ($ecole == 'iut') { ?>
-      <div class="column col-4 col-sm-12 col-md-6">
-        <div class="card">
-          <div class="card-image">
-            <img src="https://media.discordapp.net/attachments/618466800371367936/880476194171134034/affiche_soiree_inte.png" class="img-responsive">
-          </div>
-          <div class="card-header">
-            <div class="card-title h5">Soirée d'intégration</div>
-            <div class="card-subtitle">Auteur: <span class="chip bg-warning">BDE</span></div>
-          </div>
-        </div>
-      </div>
     <?php } ?>
 
     <div class="column col-4 col-sm-12 col-md-12">
