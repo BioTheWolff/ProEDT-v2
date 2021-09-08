@@ -193,7 +193,9 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
 
             const gathered_at = response.data.gathered_at;
             const generated_at = response.data.generated_at;
-            if(generated_at - gathered_at >= 320) this.show_alert(`Erreur: Le serveur n'a pas récupéré l'EDT depuis plus de 5 minutes et 20s.`, 'red');
+            const diff = generated_at - gathered_at;
+            if(diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l'EDT dans quelques instants.`, 'orange');
+            else if(diff >= 600) this.show_alert(`Le serveur n'a pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
 
             response.data.events.forEach((e) => {
               events.push({
