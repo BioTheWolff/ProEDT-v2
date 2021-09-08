@@ -204,8 +204,8 @@ class APIController extends AbstractController
                         ? null
                         : (
                             $event->isfullday
-                                ? ($event->end > $event->start ? $event->end : null)
-                                : $event->end
+                                ? ($event->end > $event->start ? date_format_to_format($event->end, "Y-m-d H:i:s", "Ymd") : null)
+                                : date_format_to_format($event->end, "Y-m-d H:i:s", "Ymd\THis\Z")
                         )
                 );
                 $event_uid = "PROEDT-OTE-" . $event->id;
