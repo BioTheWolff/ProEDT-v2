@@ -21,9 +21,13 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
           <div class="card-subtitle">Auteur: <span class="chip bg-primary">Admin</span></div>
         </div>
         <div class="card-body">
-          ProEDT est enfin disponible dans sa nouvelle version !<br>
+          ProEDT est enfin disponible dans sa nouvelle version !<br><br>
+          <strong>Pour commencer</strong>, choisissez votre école ainsi que votre classe/groupe <a href="/settings">en cliquant ici</a><br>
+          Votre <a href="/calendar">emploi du temps</a> est ensuite visible dans la barre de navigation sur l'onglet 'EDT'.<br>
+          Si vous avez des questions, n'hésitez pas à regarder la page <a href="/about">'Informations'</a><br>
+          <br><br>
           N'hésitez pas à nous <a href="/about">contacter</a> si vous avez des idées, des questions ou un soucis.<br>
-          Vous verrez ici prochainement les informations à propos de l'IUT ou encore des informations diffusé par le BDE.
+          Vous verrez ici prochainement les informations à propos de votre école ou encore des informations diffusé par votre BDE par exemple.
         </div>
       </div>
     </div>
