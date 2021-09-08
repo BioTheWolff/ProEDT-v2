@@ -125,7 +125,9 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
       </v-main>
     </div>
 
-    <img v-if="this.loading" src="/assets/img/loading.gif" alt="Loading animation" id="loadingImg" />
+    <div v-if="this.loading" id="loadingImg">
+      <div class="water"></div>
+    </div>
 </div>
 </v-app>
 </div>
