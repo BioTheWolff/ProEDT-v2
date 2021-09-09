@@ -40,8 +40,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
           Vous pouvez contacter le tuteur de projet (par email ou à la fin d’un de ses cours) pour avoir plus d’infos sur un sujet (c’est même fortement conseillé si vous avez un doute).<br>
           <br>
           Bonne rentrée à toutes et tous,<br>
-          --<br>
-          Rémi Coletta<br>
+          Rémi Coletta
         </div>
       </div>
     </div>
@@ -158,7 +157,8 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
         },
         dialog: false,
         picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        ecole: ''
+        ecole: '',
+        alreadyFetch: false,
       };
     },
     created() {
@@ -190,13 +190,6 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
         axios
           .get(`/api/json/${this.ecole}/${this.groupe}/${firstDate}`)
           .then((response) => {
-
-            const gathered_at = response.data.gathered_at;
-            const generated_at = response.data.generated_at;
-            const diff = generated_at - gathered_at;
-            if(diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l'EDT dans quelques instants.`, 'orange');
-            else if(diff >= 600) this.show_alert(`Le serveur n'a pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
-
             response.data.events.forEach((e) => {
               events.push({
                 name: e.summary,
@@ -211,6 +204,21 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
               });
             });
             this.loading = false;
+
+            if (!this.alreadyFetch) {
+              this.alreadyFetch = true;
+              setTimeout(() => {
+                axios
+                  .get(`/api/json/${this.ecole}/${this.groupe}/${firstDate}`)
+                  .then((response2) => {
+                    this.checkLastCalendarFetch(response2.data);
+                  });
+              }, 3000);
+            }
+            else
+            {
+              this.checkLastCalendarFetch(response.data);
+            }
           })
           .catch((e) => {
             this.loading = false;
@@ -288,6 +296,14 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
         if (event.homework) return 'purple';
         else return 'blue';
       },
+      checkLastCalendarFetch(eventData) {
+        const gathered_at = eventData.gathered_at;
+        const generated_at = eventData.generated_at;
+        const diff = generated_at - gathered_at;
+        
+        if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l'EDT dans quelques instants.`, 'orange');
+        else if (diff >= 600) this.show_alert(`Le serveur n'a pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
+      }
     },
   });
 </script>
