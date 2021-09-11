@@ -17,30 +17,22 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
       <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden>
       <label class="accordion-header" for="accordion-1">
         <i class="icon icon-arrow-right mr-1"></i>
-        <strong>IMPORTANT</strong>: Projet du semestre 3, date limite jeudi 9 sept à 18h !
+        <strong>IMPORTANT</strong> Etape 2 du PROJET, date limite LUNDI 13/09 18h
       </label>
       <div class="accordion-body">
         <div class="card-body">
-          Bonjour,<br>
-          Ci-après le fonctionnement des projets de S3.<br>
+          Bonjour, <br>
           <br>
-          Constitution des groupes :<br>
-          La première étape du projet est la constitution des groupes de 4 étudiants.<br>
-          Les groupes de 3 ou 5 sont autorisés uniquement si l’effectif de la classe n’est pas un multiple de 4.<br>
-          Chaque groupe Q1/Q2/Q3/Q4/Q5 désigne un délégué qui m’envoie par mail (un seul mail par Qx donc) la liste des groupes de projets au format expliqué à la fin de cet email.<br>
+          Les groupes étant constitués, nous allons passer à la saisie des voeux. <br>
           <br>
-          Liste des sujets:<br>
-          La liste des sujets proposés cette année est disponible ici<br>
-          <a href="http://webinfo.iutmontp.univ-montp2.fr/~projet_projets">http://webinfo.iutmontp.univ-montp2.fr/~projet_projets</a><br>
-          Pour vous y connectez, utilisez vos logins/mots de passes IUT (ceux qui servent sur https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/ ou que vous utilisez pour vous loggez sur les machines de l’IUT). Attention: vos mots de passe ont été réinitialisés à la rentrée (code INE)<br>
+          Le premier login de chaque groupe (ou le second si le premier est un doublant) <br>
+          peut se connecter sur le site<br>
+          <a href="https://webinfo.iutmontp.univ-montp2.fr/projets/">https://webinfo.iutmontp.univ-montp2.fr/projets/</a><br>
           <br>
-          Saisie des voeux:<br>
-          La saisie des voeux n’est pas encore accessible. Il faut préalablement constituer les groupes, via le délégué.<br>
-          A partir du 10/09, chaque groupe devra saisir une liste ordonnée de 5 voeux.<br>
-          Vous pouvez contacter le tuteur de projet (par email ou à la fin d’un de ses cours) pour avoir plus d’infos sur un sujet (c’est même fortement conseillé si vous avez un doute).<br>
+          Et saisir exactement 5 voeux ordonnées. <br>
           <br>
-          Bonne rentrée à toutes et tous,<br>
-          Rémi Coletta
+          PS: attention, un sujet a été supprimé et un autre ajouté.<br>
+          Rémi Coletta <br>
         </div>
       </div>
     </div>
