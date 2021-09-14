@@ -12,7 +12,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
 ?>
 
 <?php if ($ecole == 'iut') { ?>
-  <div class="card">
+  <!--<div class="card">
     <div class="accordion">
       <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden>
       <label class="accordion-header" for="accordion-1">
@@ -36,7 +36,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 <?php } ?>
 
 

@@ -9,7 +9,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
   <div class="columns">
 
     <?php if ($ecole == 'iut') { ?>
-      <div class="column col-4 col-sm-12 col-md-12">
+      <!--<div class="column col-4 col-sm-12 col-md-12">
         <div class="card">
           <div class="card-header">
             <div class="card-title h5">Projet Etape 2: saisie des voeux avant <strong>lundi 13 18h</strong></div>
@@ -28,7 +28,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
             PS: attention, un sujet a été supprimé et un autre ajouté.
           </div>
         </div>
-      </div>
+      </div>-->
     <?php } ?>
 
     <div class="column col-4 col-sm-12 col-md-12">
