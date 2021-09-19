@@ -40,7 +40,113 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
 <?php } ?>
 
 
-<div id="app">
+<div id="menu">
+  <span id="menu-navi">
+    <button type="button" class="btn btn-default btn-sm move-today" onclick="cal.today()">Aujourd'hui</button>
+    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.prev()"><</button>
+    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.next()">></button>
+  </span>
+  <span id="renderRange" class="render-range"></span>
+</div>
+
+<div id="calendar" style="height: fit-content;"></div>
+
+<div id="loadingImg">
+  <div class="water"></div>
+</div>
+
+    
+<script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+<script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+
+<script>
+
+function joinV(str) {
+  if (Array.isArray(str)) return str.join(", ");
+  else return str;
+};
+
+function calenDate(icalStr) {
+  // icalStr = '20110914T184000Z'
+  let strYear = icalStr.substr(0, 4);
+  let strMonth = parseInt(icalStr.substr(4, 2), 10) - 1;
+  let strDay = icalStr.substr(6, 2);
+  let strHour = parseInt(icalStr.substr(9, 2));
+  let strMin = icalStr.substr(11, 2);
+  let strSec = icalStr.substr(13, 2);
+
+  return new Date(Date.UTC(strYear, strMonth, strDay, strHour, strMin, strSec));
+}
+
+function showLoading()
+{
+  document.getElementById("loadingImg").style.display = "block";
+}
+
+function unShowLoading()
+{
+  document.getElementById("loadingImg").style.display = "none";
+}
+
+const themeConfig = {
+  'week.timegridOneHour.height': '40px',
+  'week.timegridHalfHour.height': '20px',
+};
+
+  var cal = new tui.Calendar('#calendar', {
+    theme: themeConfig,
+    isReadOnly: true,
+    useDetailPopup: true,
+    defaultView: 'week',
+    taskView: false,
+    week: {
+      startDayOfWeek: 1,
+      hourStart: 7,
+      hourEnd: 20
+    },
+    month: {
+      startDayOfWeek: 1,
+    }
+  });
+
+showLoading();
+fetch('/api/json/iut/q1')
+.then(function(response) {
+  return response.json();
+})
+.then(function(res) {
+  const events = [];
+  res.events.forEach(event => 
+  {
+    events.push({
+      id: event.uid,
+      calendarId: event.uid,
+      title: (event.homework ? "** " : "") + event.summary,
+      location: `${this.joinV(event.location)}`,
+      body: '<strong>Prof</strong>: ' + this.joinV(event.description.teachers.join(", ")) + 
+        (event.homework ? "<br><strong>Devoir</strong>: " + event.homework : '') 
+        <?php if ($user_is_connected) { ?>
+          + "<br><a href=/homework/"+event.uid+">Modifier les devoirs</a>"
+        <?php } ?>,
+      category: 'time',
+      dueDateClass: '',
+      start: calenDate(event.start),
+      end: calenDate(event.end),
+      isReadOnly: true,
+      bgColor: (event.homework ? "#7700ff" : "#0089c9"),
+      borderColor: (event.homework ? "#0089c9" : "#6b00ff"),
+      color: 'white'
+    })
+  });
+  console.log(events);
+  cal.createSchedules(events);
+  unShowLoading();
+});
+</script>
+
+<!--<div id="app">
   <v-app>
     <div>
       <v-main>
@@ -313,4 +419,4 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
     e.src = "//static.axept.io/sdk.js";
     t.parentNode.insertBefore(e, t);
   })(document, "script");
-</script>
+</script>-->
