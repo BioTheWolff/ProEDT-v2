@@ -150,6 +150,9 @@ var templates = {
     }
   });
 
+const screenRatio = window.screen.height/window.screen.width;
+if(screenRatio >= 1) cal.changeView('day');
+
 showLoading();
 fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
 .catch((e) => {
