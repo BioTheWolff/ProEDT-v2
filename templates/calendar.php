@@ -6,37 +6,32 @@ use App\Database\Interactions\UserInteraction;
 use App\Services\Session\SessionInterface;
 
 $user_is_connected = isset($container) && UserInteraction::is_user_connected($container->get(SessionInterface::class));
+if(!isset($_COOKIE["ecole"]) || !isset($_COOKIE["groupe"])) 
+{
+  header("Location: /settings");
+  exit();
+}
 
-$ecole = "";
-if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
+$ecole = $_COOKIE["ecole"];
+$groupe = $_COOKIE["groupe"];
+
 ?>
 
-<?php if ($ecole == 'iut') { ?>
-  <!--<div class="card">
+<?php if ($ecole == 'iut' && $groupe == 'q1') { ?>
+  <div class="card">
     <div class="accordion">
       <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden>
       <label class="accordion-header" for="accordion-1">
         <i class="icon icon-arrow-right mr-1"></i>
-        <strong>IMPORTANT</strong> Etape 2 du PROJET, date limite LUNDI 13/09 18h
+        Cours de gestion d'entreprise du lundi avancé.
       </label>
       <div class="accordion-body">
         <div class="card-body">
-          Bonjour, <br>
-          <br>
-          Les groupes étant constitués, nous allons passer à la saisie des voeux. <br>
-          <br>
-          Le premier login de chaque groupe (ou le second si le premier est un doublant) <br>
-          peut se connecter sur le site<br>
-          <a href="https://webinfo.iutmontp.univ-montp2.fr/projets/">https://webinfo.iutmontp.univ-montp2.fr/projets/</a><br>
-          <br>
-          Et saisir exactement 5 voeux ordonnées. <br>
-          <br>
-          PS: attention, un sujet a été supprimé et un autre ajouté.<br>
-          Rémi Coletta <br>
+          Tous les lundis, le cours de gestion d'entreprise commencera à <strong>15h15</strong>.
         </div>
       </div>
     </div>
-  </div>-->
+  </div>
 <?php } ?>
 
 
@@ -55,13 +50,41 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
   <div class="water"></div>
 </div>
 
+<div class="toast toast-warning" id="validNotification" style="display:none;">
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+</div>
+
     
 <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
 <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
 <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+<script src="/cdn/moment/moment.js"></script>
 
 <script>
+
+let alreadyFetch = false;
+let notificationElement = document.getElementById("validNotification");
+
+function checkLastCalendarFetch(eventData) {
+  const gathered_at = eventData.gathered_at;
+  const generated_at = eventData.generated_at;
+  const diff = generated_at - gathered_at;
+  
+  if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l'EDT dans quelques instants.`, 'orange');
+  else if (diff >= 600) this.show_alert(`Le serveur n'a pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
+}
+
+function show_alert(text) {
+  
+  notificationElement.textContent = text;
+  this.alert.show = true;
+  notificationElement.style.display = "block";
+  window.setInterval(() => {
+    notificationElement.style.display = "none";
+    notificationElement.textContent = "";
+  }, 5000)
+}
 
 function joinV(str) {
   if (Array.isArray(str)) return str.join(", ");
@@ -95,8 +118,24 @@ const themeConfig = {
   'week.timegridHalfHour.height': '20px',
 };
 
+var templates = {
+    popupDetailLocation: function(schedule) {
+      return schedule.location;
+    },
+    popupDetailUser: function(schedule) {
+      return (schedule.attendees || []).join(', ').replace("|", ", ");
+    },
+    popupDetailBody: function(schedule) {
+      return schedule.body;
+    },
+  };
+
   var cal = new tui.Calendar('#calendar', {
     theme: themeConfig,
+    template: templates,
+    useCreationPopup: true,
+    useDetailPopup: true,
+    
     isReadOnly: true,
     useDetailPopup: true,
     defaultView: 'week',
@@ -112,7 +151,21 @@ const themeConfig = {
   });
 
 showLoading();
-fetch('/api/json/iut/q1')
+fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
+.catch((e) => {
+            this.loading = false;
+            if (e.response.status === 521) {
+              this.show_alert("Le serveur est injoignable, merci de contacter un admin !");
+            } else if (e.response.status === 500) {
+              this.show_alert("Erreur 500 (Potentioellement aucun cours à afficher)");
+            } else if (e.response.status === 400) {
+              this.show_alert("Erreur 400: Votre école/groupe est surement mal configuré ! <a href='/settings'>Paramètres</a>",);
+            } else if (e.response.status === 404) {
+              this.show_alert("Erreur 404: Un bug est survenu coté client, contactez les admins si cela persiste. <a href='/about'>Contacter</a>");
+            } else if (e.response.status !== 200) {
+              this.show_alert(`Erreur serveur: ${e.response.status}`);
+            }
+          })
 .then(function(response) {
   return response.json();
 })
@@ -125,24 +178,40 @@ fetch('/api/json/iut/q1')
       calendarId: event.uid,
       title: (event.homework ? "** " : "") + event.summary,
       location: `${this.joinV(event.location)}`,
-      body: '<strong>Prof</strong>: ' + this.joinV(event.description.teachers.join(", ")) + 
-        (event.homework ? "<br><strong>Devoir</strong>: " + event.homework : '') 
+      body: (event.homework ? "<strong>Devoir</strong>: " + event.homework : '') 
         <?php if ($user_is_connected) { ?>
           + "<br><a href=/homework/"+event.uid+">Modifier les devoirs</a>"
         <?php } ?>,
       category: 'time',
-      dueDateClass: '',
       start: calenDate(event.start),
       end: calenDate(event.end),
       isReadOnly: true,
       bgColor: (event.homework ? "#7700ff" : "#0089c9"),
       borderColor: (event.homework ? "#0089c9" : "#6b00ff"),
-      color: 'white'
+      color: 'white',
+      attendees: event.description.teachers
     })
   });
-  console.log(events);
   cal.createSchedules(events);
   unShowLoading();
+
+if (!this.alreadyFetch) {
+  this.alreadyFetch = true;
+  setTimeout(() => {
+    fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
+      .then(function(response2) {
+  return response2.json();
+})
+.then(function(res2) {
+  this.checkLastCalendarFetch(res2);
+      });
+  }, 3000);
+}
+else
+{
+  this.checkLastCalendarFetch(response.data);
+}
+  
 });
 </script>
 
