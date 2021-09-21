@@ -6,6 +6,7 @@ use App\Database\Interactions\UserInteraction;
 use App\Services\Session\SessionInterface;
 
 $user_is_connected = isset($container) && UserInteraction::is_user_connected($container->get(SessionInterface::class));
+if($user_is_connected == false) $user_is_connected = false;
 if(!isset($_COOKIE["ecole"]) || !isset($_COOKIE["groupe"])) 
 {
   header("Location: /settings");
@@ -37,7 +38,7 @@ $groupe = $_COOKIE["groupe"];
 
 <div id="menu">
   <span id="menu-navi">
-    <button type="button" class="btn btn-default btn-sm move-today" onclick="cal.today()">Aujourd'hui</button>
+    <button type="button" class="btn btn-default btn-sm move-today" onclick="cal.today()">Aujourd''hui</button>
     <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.prev()"><</button>
     <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.next()">></button>
   </span>
@@ -71,8 +72,8 @@ function checkLastCalendarFetch(eventData) {
   const generated_at = eventData.generated_at;
   const diff = generated_at - gathered_at;
   
-  if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l'EDT dans quelques instants.`, 'orange');
-  else if (diff >= 600) this.show_alert(`Le serveur n'a pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
+  if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l''EDT dans quelques instants.`, 'orange');
+  else if (diff >= 600) this.show_alert(`Le serveur n''a pas pu récupérer l''EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
 }
 
 function show_alert(text) {
@@ -128,6 +129,22 @@ var templates = {
     popupDetailBody: function(schedule) {
       return schedule.body;
     },
+    milestone: function(schedule) { 
+      return '<span style="color:red;"><i class="fa fa-flag"></i> ' + schedule.title + '</span>'; 
+    },
+    time: function(schedule)
+    {
+      let t = schedule.title + "<br>" + schedule.location;
+      if(schedule.raw) t = "<i class='mdi mdi-notebook' style='color: yellow;'></i> " + t;
+      return t;
+    },
+    popupDetailDate: function(isAllDay, start, end) { 
+      start = moment(start.toDate());
+      end = moment(end.toDate());
+      const isSameDate = start.isSame(end, 'day'); 
+      const endFormat = (isSameDate ? '' : 'DD.MM.YYYY ') + 'HH:mm'; 
+      return (start.format('DD.MM.YYYY HH:mm') + ' - ' + end.format(endFormat)); 
+    },
   };
 
   var cal = new tui.Calendar('#calendar', {
@@ -137,13 +154,13 @@ var templates = {
     useDetailPopup: true,
     
     isReadOnly: true,
-    useDetailPopup: true,
     defaultView: 'week',
     taskView: false,
     week: {
       startDayOfWeek: 1,
       hourStart: 7,
-      hourEnd: 20
+      hourEnd: 20,
+      daynames: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
     },
     month: {
       startDayOfWeek: 1,
@@ -179,11 +196,11 @@ fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
     events.push({
       id: event.uid,
       calendarId: event.uid,
-      title: (event.homework ? "** " : "") + event.summary,
+      title: event.summary,
       location: `${this.joinV(event.location)}`,
-      body: (event.homework ? "<strong>Devoir</strong>: " + event.homework : '') 
-        <?php if ($user_is_connected) { ?>
-          + "<br><a href=/homework/"+event.uid+">Modifier les devoirs</a>"
+      body: (event.homework ? "<strong>Devoir</strong>: " + event.homework + (<?php echo $user_is_connected ? 'true' : 'false'; ?> == true ? "<br>" : "" ) : "") 
+      <?php if ($user_is_connected) { ?> 
+        + "<a href=/homework/"+event.uid+">Modifier les devoirs</a>" 
         <?php } ?>,
       category: 'time',
       start: calenDate(event.start),
@@ -192,7 +209,8 @@ fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
       bgColor: (event.homework ? "#7700ff" : "#0089c9"),
       borderColor: (event.homework ? "#0089c9" : "#6b00ff"),
       color: 'white',
-      attendees: event.description.teachers
+      attendees: event.description.teachers,
+      raw: event.homework,
     })
   });
   cal.createSchedules(events);
