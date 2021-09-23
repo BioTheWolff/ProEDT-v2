@@ -56,6 +56,7 @@ $groupe = $_COOKIE["groupe"];
 </div>
 
     
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
 <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
 <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
@@ -106,12 +107,12 @@ function calenDate(icalStr) {
 
 function showLoading()
 {
-  document.getElementById("loadingImg").style.display = "block";
+  $("#loadingImg").fadeIn();
 }
 
 function unShowLoading()
 {
-  document.getElementById("loadingImg").style.display = "none";
+  $("#loadingImg").fadeOut();
 }
 
 const themeConfig = {
