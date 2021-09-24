@@ -9,6 +9,26 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
   <div class="columns">
 
     <?php if ($ecole == 'iut') { ?>
+      <!--<div class="column col-4 col-sm-12 col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title h5">Projet Etape 2: saisie des voeux avant <strong>lundi 13 18h</strong></div>
+            <div class="card-subtitle">Auteur: <span class="chip bg-error">Rémi Coletta</span></div>
+          </div>
+          <div class="card-body">
+            Bonjour, <br>
+            <br>
+            Les groupes étant constitués, nous allons passer à la saisie des voeux. <br>
+            <br>
+            Le premier login de chaque groupe (ou le second si le premier est un doublant) peut se connecter sur le site<br>
+            <a href="https://webinfo.iutmontp.univ-montp2.fr/projets/">https://webinfo.iutmontp.univ-montp2.fr/projets/</a><br>
+            <br>
+            Et saisir exactement 5 voeux ordonnées. <br>
+            <br>
+            PS: attention, un sujet a été supprimé et un autre ajouté.
+          </div>
+        </div>
+      </div>-->
     <?php } ?>
 
     <div class="column col-4 col-sm-12 col-md-12">

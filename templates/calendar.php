@@ -6,42 +6,29 @@ use App\Database\Interactions\UserInteraction;
 use App\Services\Session\SessionInterface;
 
 $user_is_connected = isset($container) && UserInteraction::is_user_connected($container->get(SessionInterface::class));
+if($user_is_connected == false) $user_is_connected = false;
+if(!isset($_COOKIE["ecole"]) || !isset($_COOKIE["groupe"])) 
+{
+  header("Location: /settings");
+  exit();
+}
 
-$ecole = "";
-if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
+$ecole = $_COOKIE["ecole"];
+$groupe = $_COOKIE["groupe"];
+
 ?>
 
-<?php if ($ecole == 'iut') { ?>
+<?php if ($ecole == 'iut' && $groupe == 'q1') { ?>
   <div class="card">
     <div class="accordion">
       <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden>
       <label class="accordion-header" for="accordion-1">
         <i class="icon icon-arrow-right mr-1"></i>
-        <strong>IMPORTANT</strong>: Projet du semestre 3, date limite jeudi 9 sept à 18h !
+        Cours de gestion d'entreprise du lundi avancé.
       </label>
       <div class="accordion-body">
         <div class="card-body">
-          Bonjour,<br>
-          Ci-après le fonctionnement des projets de S3.<br>
-          <br>
-          Constitution des groupes :<br>
-          La première étape du projet est la constitution des groupes de 4 étudiants.<br>
-          Les groupes de 3 ou 5 sont autorisés uniquement si l’effectif de la classe n’est pas un multiple de 4.<br>
-          Chaque groupe Q1/Q2/Q3/Q4/Q5 désigne un délégué qui m’envoie par mail (un seul mail par Qx donc) la liste des groupes de projets au format expliqué à la fin de cet email.<br>
-          <br>
-          Liste des sujets:<br>
-          La liste des sujets proposés cette année est disponible ici<br>
-          <a href="http://webinfo.iutmontp.univ-montp2.fr/~projet_projets">http://webinfo.iutmontp.univ-montp2.fr/~projet_projets</a><br>
-          Pour vous y connectez, utilisez vos logins/mots de passes IUT (ceux qui servent sur https://iutdepinfo.iutmontp.univ-montp2.fr/intranet/ ou que vous utilisez pour vous loggez sur les machines de l’IUT). Attention: vos mots de passe ont été réinitialisés à la rentrée (code INE)<br>
-          <br>
-          Saisie des voeux:<br>
-          La saisie des voeux n’est pas encore accessible. Il faut préalablement constituer les groupes, via le délégué.<br>
-          A partir du 10/09, chaque groupe devra saisir une liste ordonnée de 5 voeux.<br>
-          Vous pouvez contacter le tuteur de projet (par email ou à la fin d’un de ses cours) pour avoir plus d’infos sur un sujet (c’est même fortement conseillé si vous avez un doute).<br>
-          <br>
-          Bonne rentrée à toutes et tous,<br>
-          --<br>
-          Rémi Coletta<br>
+          Tous les lundis, le cours de gestion d'entreprise commencera à <strong>15h15</strong>.
         </div>
       </div>
     </div>
@@ -49,7 +36,227 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
 <?php } ?>
 
 
-<div id="app">
+<div id="menu">
+  <span id="menu-navi">
+    <button type="button" class="btn btn-default btn-sm move-today" onclick="cal.today()">Aujourd''hui</button>
+    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.prev()"><</button>
+    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.next()">></button>
+    <input type="date" class="form-input input-sm" value="2002-02-20" style="width: fit-content; display: inline;" id="date-picker" onchange="changeDate(event);">
+  </span>
+  <span id="renderRange" class="render-range"></span>
+</div>
+
+<div id="calendar" style="height: fit-content;"></div>
+
+<div id="loadingImg">
+  <div class="water"></div>
+</div>
+
+<div class="toast toast-warning" id="validNotification" style="display:none;">
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+</div>
+
+    
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+<script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+<script src="/cdn/moment/moment.js"></script>
+
+<script>
+
+let alreadyFetch = false;
+let notificationElement = document.getElementById("validNotification");
+
+function checkLastCalendarFetch(eventData) {
+  const gathered_at = eventData.gathered_at;
+  const generated_at = eventData.generated_at;
+  const diff = generated_at - gathered_at;
+  
+  if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l''EDT dans quelques instants.`, 'orange');
+  else if (diff >= 600) this.show_alert(`Le serveur n''a pas pu récupérer l''EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
+}
+
+function show_alert(text) {
+  
+  notificationElement.textContent = text;
+  this.alert.show = true;
+  notificationElement.style.display = "block";
+  window.setInterval(() => {
+    notificationElement.style.display = "none";
+    notificationElement.textContent = "";
+  }, 5000)
+}
+
+function joinV(str) {
+  if (Array.isArray(str)) return str.join(", ");
+  else return str;
+};
+
+function calenDate(icalStr) {
+  // icalStr = '20110914T184000Z'
+  let strYear = icalStr.substr(0, 4);
+  let strMonth = parseInt(icalStr.substr(4, 2), 10) - 1;
+  let strDay = icalStr.substr(6, 2);
+  let strHour = parseInt(icalStr.substr(9, 2));
+  let strMin = icalStr.substr(11, 2);
+  let strSec = icalStr.substr(13, 2);
+
+  return new Date(Date.UTC(strYear, strMonth, strDay, strHour, strMin, strSec));
+}
+
+Date.prototype.addDays = function(days) { 
+  var date = new Date(this.valueOf()); 
+  date.setDate(date.getDate() + days); 
+  return date; 
+}
+
+function showLoading()
+{
+  $("#loadingImg").fadeIn();
+}
+
+function unShowLoading()
+{
+  $("#loadingImg").fadeOut();
+}
+
+const themeConfig = {
+  'week.timegridOneHour.height': '40px',
+  'week.timegridHalfHour.height': '20px',
+};
+
+var templates = {
+    popupDetailLocation: function(schedule) {
+      return schedule.location;
+    },
+    popupDetailUser: function(schedule) {
+      return (schedule.attendees || []).join(', ').replace("|", ", ");
+    },
+    popupDetailBody: function(schedule) {
+      return schedule.body;
+    },
+    milestone: function(schedule) { 
+      return '<span style="color:red;"><i class="fa fa-flag"></i> ' + schedule.title + '</span>'; 
+    },
+    time: function(schedule)
+    {
+      let t = schedule.title + "<br>" + schedule.location;
+      if(schedule.raw) t = "<i class='mdi mdi-notebook' style='color: yellow;'></i> " + t;
+      return t;
+    },
+    popupDetailDate: function(isAllDay, start, end) { 
+      start = moment(start.toDate());
+      end = moment(end.toDate());
+      const isSameDate = start.isSame(end, 'day'); 
+      const endFormat = (isSameDate ? '' : 'DD.MM.YYYY ') + 'HH:mm'; 
+      return (start.format('DD.MM.YYYY HH:mm') + ' - ' + end.format(endFormat)); 
+    },
+  };
+
+  var cal = new tui.Calendar('#calendar', {
+    theme: themeConfig,
+    template: templates,
+    useCreationPopup: true,
+    useDetailPopup: true,
+    
+    isReadOnly: true,
+    defaultView: 'week',
+    taskView: false,
+    week: {
+      startDayOfWeek: 1,
+      hourStart: 7,
+      hourEnd: 20,
+      daynames: ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],
+    },
+    month: {
+      startDayOfWeek: 1,
+    }
+  });
+  
+cal.on('afterRenderSchedule', function(event) {
+  let date = cal.getDate().toDate();
+  date = date.addDays(1);
+  console.log(date.toISOString().substring(0,10));
+  $("#date-picker").val(date.toISOString().substring(0,10));
+});
+
+function changeDate(event)
+{
+  cal.setDate(new Date(event.target.value));
+}
+
+const screenRatio = window.screen.height/window.screen.width;
+if(screenRatio >= 1) cal.changeView('day');
+
+showLoading();
+fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
+.catch((e) => {
+            this.loading = false;
+            if (e.response.status === 521) {
+              this.show_alert("Le serveur est injoignable, merci de contacter un admin !");
+            } else if (e.response.status === 500) {
+              this.show_alert("Erreur 500 (Potentioellement aucun cours à afficher)");
+            } else if (e.response.status === 400) {
+              this.show_alert("Erreur 400: Votre école/groupe est surement mal configuré ! <a href='/settings'>Paramètres</a>",);
+            } else if (e.response.status === 404) {
+              this.show_alert("Erreur 404: Un bug est survenu coté client, contactez les admins si cela persiste. <a href='/about'>Contacter</a>");
+            } else if (e.response.status !== 200) {
+              this.show_alert(`Erreur serveur: ${e.response.status}`);
+            }
+          })
+.then(function(response) {
+  return response.json();
+})
+.then(function(res) {
+  const events = [];
+  res.events.forEach(event => 
+  {
+    events.push({
+      id: event.uid,
+      calendarId: event.uid,
+      title: event.summary,
+      location: `${this.joinV(event.location)}`,
+      body: (event.homework ? "<strong>Devoir</strong>: " + event.homework + (<?php echo $user_is_connected ? 'true' : 'false'; ?> == true ? "<br>" : "" ) : "") 
+      <?php if ($user_is_connected) { ?> 
+        + "<a href=/homework/"+event.uid+">Modifier les devoirs</a>" 
+        <?php } ?>,
+      category: 'time',
+      start: calenDate(event.start),
+      end: calenDate(event.end),
+      isReadOnly: true,
+      bgColor: (event.homework ? "#7700ff" : "#0089c9"),
+      borderColor: (event.homework ? "#0089c9" : "#6b00ff"),
+      color: 'white',
+      attendees: event.description.teachers,
+      raw: event.homework,
+    })
+  });
+  cal.createSchedules(events);
+  unShowLoading();
+
+if (!this.alreadyFetch) {
+  this.alreadyFetch = true;
+  setTimeout(() => {
+    fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
+      .then(function(response2) {
+  return response2.json();
+})
+.then(function(res2) {
+  this.checkLastCalendarFetch(res2);
+      });
+  }, 3000);
+}
+else
+{
+  this.checkLastCalendarFetch(response.data);
+}
+  
+});
+</script>
+
+<!--<div id="app">
   <v-app>
     <div>
       <v-main>
@@ -158,7 +365,8 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
         },
         dialog: false,
         picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
-        ecole: ''
+        ecole: '',
+        alreadyFetch: false,
       };
     },
     created() {
@@ -190,13 +398,6 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
         axios
           .get(`/api/json/${this.ecole}/${this.groupe}/${firstDate}`)
           .then((response) => {
-
-            const gathered_at = response.data.gathered_at;
-            const generated_at = response.data.generated_at;
-            const diff = generated_at - gathered_at;
-            if(diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l'EDT dans quelques instants.`, 'orange');
-            else if(diff >= 600) this.show_alert(`Le serveur n'a pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
-
             response.data.events.forEach((e) => {
               events.push({
                 name: e.summary,
@@ -211,6 +412,21 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
               });
             });
             this.loading = false;
+
+            if (!this.alreadyFetch) {
+              this.alreadyFetch = true;
+              setTimeout(() => {
+                axios
+                  .get(`/api/json/${this.ecole}/${this.groupe}/${firstDate}`)
+                  .then((response2) => {
+                    this.checkLastCalendarFetch(response2.data);
+                  });
+              }, 3000);
+            }
+            else
+            {
+              this.checkLastCalendarFetch(response.data);
+            }
           })
           .catch((e) => {
             this.loading = false;
@@ -288,6 +504,14 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
         if (event.homework) return 'purple';
         else return 'blue';
       },
+      checkLastCalendarFetch(eventData) {
+        const gathered_at = eventData.gathered_at;
+        const generated_at = eventData.generated_at;
+        const diff = generated_at - gathered_at;
+        
+        if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l'EDT dans quelques instants.`, 'orange');
+        else if (diff >= 600) this.show_alert(`Le serveur n'a pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
+      }
     },
   });
 </script>
@@ -305,4 +529,4 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
     e.src = "//static.axept.io/sdk.js";
     t.parentNode.insertBefore(e, t);
   })(document, "script");
-</script>
+</script>-->
