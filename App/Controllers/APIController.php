@@ -74,7 +74,7 @@ class APIController extends AbstractController
          * @var IcalProvider $provider
          */
         $provider = $this->container->get(IcalProvider::class);
-        $school = $args['major'];
+        $school = $args['school'];
         $group = $args['group'];
 
         $date = $args['date'] ?? null;
@@ -142,7 +142,7 @@ class APIController extends AbstractController
          * @var IcalProvider $provider
          */
         $provider = $this->container->get(IcalProvider::class);
-        $school = $args['major'];
+        $school = $args['school'];
         $group = $args['group'];
 
         if (!$provider->group_exists($school, $group)) return new EmptyResponse(404);

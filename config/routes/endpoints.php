@@ -20,10 +20,10 @@ return [
     'path.user.logout' => '/logout',
 
     'path.api.json' => [
-        "/api/json/{major}/{group}",
-        "/api/json/{major}/{group}/{date}"
+        "/api/json/{school}/{group}",
+        "/api/json/{school}/{group}/{date}"
     ],
-    'path.api.ics' => "/api/ics/{major}/{group}",
+    'path.api.ics' => "/api/ics/{school}/{group}",
     'path.api.manifest' => "/manifest-proedt.json",
 
     'path.OTEs.viewall' => '/events/view',
