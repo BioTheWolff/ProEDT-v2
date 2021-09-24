@@ -41,6 +41,7 @@ $groupe = $_COOKIE["groupe"];
     <button type="button" class="btn btn-default btn-sm move-today" onclick="cal.today()">Aujourd''hui</button>
     <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.prev()"><</button>
     <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.next()">></button>
+    <input type="date" class="form-input input-sm" value="2002-02-20" style="width: fit-content; display: inline;" id="date-picker" onchange="changeDate(event);">
   </span>
   <span id="renderRange" class="render-range"></span>
 </div>
@@ -105,6 +106,12 @@ function calenDate(icalStr) {
   return new Date(Date.UTC(strYear, strMonth, strDay, strHour, strMin, strSec));
 }
 
+Date.prototype.addDays = function(days) { 
+  var date = new Date(this.valueOf()); 
+  date.setDate(date.getDate() + days); 
+  return date; 
+}
+
 function showLoading()
 {
   $("#loadingImg").fadeIn();
@@ -167,6 +174,18 @@ var templates = {
       startDayOfWeek: 1,
     }
   });
+  
+cal.on('afterRenderSchedule', function(event) {
+  let date = cal.getDate().toDate();
+  date = date.addDays(1);
+  console.log(date.toISOString().substring(0,10));
+  $("#date-picker").val(date.toISOString().substring(0,10));
+});
+
+function changeDate(event)
+{
+  cal.setDate(new Date(event.target.value));
+}
 
 const screenRatio = window.screen.height/window.screen.width;
 if(screenRatio >= 1) cal.changeView('day');
