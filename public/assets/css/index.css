@@ -36,6 +36,15 @@ footer {
   border-radius: 15px;
 }
 
+#links-info {
+  width: max-content;
+  padding: 5px 10px;
+  margin: 1vh 0 2vh auto;
+  border: 1px solid #ADADAD;
+  border-radius: 20px;
+  text-align: right;
+}
+
 .card {
   margin-top: 10px;
 }

@@ -41,7 +41,19 @@ class VisualController extends AbstractController
             setcookie("ecole", $args['school'], 0, "/");
             setcookie("groupe", $args['group'], 0, "/");
         }
-        return $this->html_render("calendar");
+
+        $permalink = 'https://' . $_SERVER['SERVER_NAME'] . $this->container->get("path.visual.calendar")[1];
+        $permalink = str_replace("{school}", $_COOKIE['ecole'] ?? '', $permalink);
+        $permalink = str_replace("{group}", $_COOKIE['groupe'] ?? '', $permalink);
+
+        $icslink = 'https://' . $_SERVER['SERVER_NAME'] . $this->container->get("path.api.ics");
+        $icslink = str_replace("{school}", $_COOKIE['ecole'] ?? '', $icslink);
+        $icslink = str_replace("{group}", $_COOKIE['groupe'] ?? '', $icslink);
+
+        return $this->html_render("calendar", [
+            'permalink' => $permalink,
+            'icslink' => $icslink
+        ]);
     }
 
     function homework_get(ServerRequestInterface $request, array $args): ResponseInterface

@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/phpstorm+all,composer
-# Edit at https://www.toptal.com/developers/gitignore?templates=phpstorm+all,composer
+# Created by https://www.toptal.com/developers/gitignore/api/composer,phpstorm+all,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=composer,phpstorm+all,visualstudiocode
 
 ### Composer ###
 composer.phar
@@ -102,7 +102,23 @@ modules.xml
 # Sonarlint plugin
 .idea/sonarlint
 
-# End of https://www.toptal.com/developers/gitignore/api/phpstorm+all,composer
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# End of https://www.toptal.com/developers/gitignore/api/composer,phpstorm+all,visualstudiocode
 
 App/Services/Ical/ics
 config/api/tokens.php
