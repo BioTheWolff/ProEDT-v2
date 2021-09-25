@@ -13,6 +13,13 @@
 }
 
 
+#links-info {
+  width: max-content;
+  margin: 1vh 0 2vh auto;
+  text-align: right;
+}
+
+
 .water{
   width: 250px;
   height: 250px;
