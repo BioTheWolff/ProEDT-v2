@@ -22,14 +22,13 @@ $this->flashes = $neon->get();
     <title><?= $displayed_title ?></title>
     <meta charset="UTF-8">
 
-    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+    <link rel="stylesheet" type="text/css" href="/cdn/tui/tui-calendar.min.css" />
 
     <!-- If you use the default popups, use this. -->
-    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
-    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" /> 
+    <link rel="stylesheet" type="text/css" href="/cdn/tui/tui-date-picker.css" />
+    <link rel="stylesheet" type="text/css" href="/cdn/tui/tui-time-picker.css" /> 
 
     <link href="/cdn/css/materialdesignicons.min.css" rel="stylesheet" />
-    <link href="/cdn/css/vuetify.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/calendar.css" />
 
     <link rel="shortcut icon" href="/assets/favicon.ico" />
