@@ -48,10 +48,20 @@ $groupe = $_COOKIE["groupe"];
 
 <div id="calendar" style="height: fit-content;"></div>
 
-<div class="card" id="links-info">
-  <div class="card-body">
-    Lien permanent : <a href="<?= $permalink ?? '' ?>"><?= $permalink ?? '' ?></a><br>
-    Lien pour ajouter l'ICAL à google calendar: <a href="<?= $icslink ?? '' ?>"><?= $icslink ?? '' ?></a>
+<a href="#url-infos" id="links-info"><button class="btn btn-primary btn-action btn-lg"><i class="icon icon-link"></i></button></a>
+<div class="modal" id="url-infos">
+  <a href="#" class="modal-overlay" aria-label="Close"></a>
+  <div class="modal-container">
+    <div class="modal-header">
+      <a href="#" class="btn btn-clear float-right" aria-label="Close"></a>
+      <div class="modal-title h5">Liens</div>
+    </div>
+    <div class="modal-body">
+      <div class="content">
+        Lien permanent : <a href="<?= $permalink ?? '' ?>"><?= $permalink ?? '' ?></a><br>
+        Lien pour ajouter l'ICAL à google calendar: <a href="<?= $icslink ?? '' ?>"><?= $icslink ?? '' ?></a>
+      </div>
+    </div>
   </div>
 </div>
 
