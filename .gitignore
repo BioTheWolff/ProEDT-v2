@@ -126,3 +126,6 @@ composer.lock
 .devcontainer/docker-compose.yml
 .devcontainer/devcontainer.json
 .devcontainer/Dockerfile
+node_modules/
+.config/
+.sass-cache/
