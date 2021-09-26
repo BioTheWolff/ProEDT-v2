@@ -104,12 +104,12 @@ function checkLastCalendarFetch(eventData) {
 
 function show_alert(text) {
   
-  notificationElement.textContent = text;
+  notificationElement.innerHTML = text;
   this.alert.show = true;
   notificationElement.style.display = "block";
   window.setInterval(() => {
     notificationElement.style.display = "none";
-    notificationElement.textContent = "";
+    notificationElement.innerHTML  = "";
   }, 5000)
 }
 
@@ -215,22 +215,25 @@ if(screenRatio >= 1) cal.changeView('day');
 
 showLoading();
 fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
-.catch((e) => {
-            this.loading = false;
-            if (e.response.status === 521) {
-              this.show_alert("Le serveur est injoignable, merci de contacter un admin !");
-            } else if (e.response.status === 500) {
-              this.show_alert("Erreur 500 (Potentioellement aucun cours à afficher)");
-            } else if (e.response.status === 400) {
-              this.show_alert("Erreur 400: Votre école/groupe est surement mal configuré ! <a href='/settings'>Paramètres</a>",);
-            } else if (e.response.status === 404) {
-              this.show_alert("Erreur 404: Un bug est survenu coté client, contactez les admins si cela persiste. <a href='/about'>Contacter</a>");
-            } else if (e.response.status !== 200) {
-              this.show_alert(`Erreur serveur: ${e.response.status}`);
-            }
-          })
 .then(function(response) {
-  return response.json();
+  if (response.ok) {
+    return response.json();
+  } else {
+    unShowLoading();
+    if (response.status === 521) {
+      this.show_alert("Le serveur est injoignable, merci de contacter un admin !");
+    } else if (response.status === 500) {
+      this.show_alert("Erreur 500 (Potentioellement aucun cours à afficher)");
+    } else if (response.status === 400) {
+      this.show_alert("Erreur 400: Votre école/groupe est surement mal configuré ! <a href='/settings'>Paramètres</a>",);
+    } else if (response.status === 404) {
+      this.show_alert("Erreur 404: Un bug est survenu coté client, contactez les admins si cela persiste. <a href='/about'>Contacter</a>");
+    } else if (response.status !== 200) {
+      this.show_alert(`Erreur serveur: ${response.status}`);
+    }
+    
+    throw new Error('Something went wrong');
+  }
 })
 .then(function(res) {
   const events = [];

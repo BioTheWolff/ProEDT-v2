@@ -36,7 +36,7 @@ function array_to_string(array $a): string
         text: "<?= $school['fancy_name'] ?>",
         api_code: "<?= $school_name ?>",
         groupes: <?= array_to_string($school['classes']) ?>
-      }
+      },
       <?php endforeach; ?>
   ];
 
@@ -99,12 +99,12 @@ function array_to_string(array $a): string
   }
 
   function on_ecole_selected() {
+    clear_groupe_select();
     let selected = ecole_select.value;
     let promo = promos.filter(promo => {
       return promo.text === selected
     });
     let groupes = promo[0].groupes;
-    clear_groupe_select();
 
     for (let groupe in groupes) {
       let option = document.createElement("option");
@@ -116,9 +116,14 @@ function array_to_string(array $a): string
 
   function clear_groupe_select() {
     groupe_select.disabled = true;
-    for (var i = 0; i < groupe_select.length; i++) {
-      groupe_select.remove(i);
-    }
+    removeOptions(groupe_select);
+
+  function removeOptions(selectElement) {
+   var i, L = selectElement.options.length - 1;
+   for(i = L; i >= 0; i--) {
+      selectElement.remove(i);
+   }
+}
 
     let option = document.createElement("option");
     option.disabled = true;
