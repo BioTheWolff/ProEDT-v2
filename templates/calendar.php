@@ -37,7 +37,7 @@ $groupe = $_COOKIE["groupe"];
 
 
 <div id="menu">
-  <span id="menu-navi">
+  <span id="menu-navi" style="width: 100%;">
     <button type="button" class="btn btn-default btn-sm move-today" onclick="cal.today()">Aujourd''hui</button>
     <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.prev()"><</button>
     <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.next()">></button>
