@@ -18,6 +18,7 @@ $groupe = $_COOKIE["groupe"];
 
 ?>
 
+<!-- 
 <?php if ($ecole == 'iut' && $groupe == 'q1') { ?>
   <div class="card">
     <div class="accordion">
@@ -34,6 +35,7 @@ $groupe = $_COOKIE["groupe"];
     </div>
   </div>
 <?php } ?>
+-->
 
 
 <div id="menu">
