@@ -40,10 +40,9 @@ $groupe = $_COOKIE["groupe"];
 
 <div id="menu" style="text-align: right;">
   <span id="menu-navi" style="width: 100%;">
-    <button type="button" class="btn btn-default btn-sm" onclick="cal.today()">Aujourd'hui</button>
-    <button class="btn btn-primary btn-action" onclick="cal.prev()"><i class="icon icon-arrow-left"></i></button>
-    <input type="date" class="form-input input-sm" value="2002-02-20" style="-webkit-appearance: auto; width: fit-content; display: inline;" id="date-picker" onchange="changeDate(event);">
-    <button class="btn btn-primary btn-action"><i class="icon icon-arrow-right" onclick="cal.next()"></i></button>
+        <button class="btn btn-primary btn-action" onclick="cal.prev()" style="display: inline;"><i class="icon icon-arrow-left"></i></button>
+        <input type="date" class="form-input input-sm" value="2002-02-20" style="-webkit-appearance: auto; width: fit-content; display: inline;" id="date-picker" onchange="changeDate(event);">
+        <button class="btn btn-primary btn-action"><i class="icon icon-arrow-right" onclick="cal.next()"></i></button>
   </span>
   <span id="renderRange" class="render-range"></span>
 </div>
