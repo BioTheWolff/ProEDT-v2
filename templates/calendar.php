@@ -40,10 +40,10 @@ $groupe = $_COOKIE["groupe"];
 
 <div id="menu" style="text-align: right;">
   <span id="menu-navi" style="width: 100%;">
-    <button type="button" class="btn btn-default btn-sm move-today" onclick="cal.today()">Aujourd''hui</button>
-    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.prev()"> < </button>
+    <button type="button" class="btn btn-default btn-sm" onclick="cal.today()">Aujourd'hui</button>
+    <button class="btn btn-primary btn-action btn-sm" onclick="cal.prev()"><i class="icon icon-arrow-left"></i></button>
     <input type="date" class="form-input input-sm" value="2002-02-20" style="-webkit-appearance: auto; width: fit-content; display: inline;" id="date-picker" onchange="changeDate(event);">
-    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.next()"> > </button>
+    <button class="btn btn-primary btn-action btn-sm"><i class="icon icon-arrow-right" onclick="cal.next()"></i></button>
   </span>
   <span id="renderRange" class="render-range"></span>
 </div>
@@ -93,8 +93,8 @@ function checkLastCalendarFetch(eventData) {
   const generated_at = eventData.generated_at;
   const diff = generated_at - gathered_at;
   
-  if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser l''EDT dans quelques instants.`, 'orange');
-  else if (diff >= 600) this.show_alert(`Le serveur n''a pas pu récupérer l''EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
+  if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser lEDT dans quelques instants.`, 'orange');
+  else if (diff >= 600) this.show_alert(`Le serveur na pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
 }
 
 function show_alert(text) {
