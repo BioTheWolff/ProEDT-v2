@@ -67,18 +67,11 @@ $groupe = $_COOKIE["groupe"];
   </div>
 </div>
 
-<!--
-<div id="links-info">
-    <div>lien permanent : <a href="<?= $permalink ?? '' ?>"><?= $permalink ?? '' ?></a></div>
-    <div>lien pour ajouter l'ICAL à google : <a href="<?= $icslink ?? '' ?>"><?= $icslink ?? '' ?></a></div>
-</div>
--->
-
 <div id="loadingImg">
   <div class="water"></div>
 </div>
 
-<div class="toast toast-warning" id="validNotification" style="display:none;">
+<div class="toast toast-warning" id="validNotification" style="display:none; margin-left: 20px;">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </div>
 
