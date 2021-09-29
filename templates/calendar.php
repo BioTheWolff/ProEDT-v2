@@ -18,6 +18,7 @@ $groupe = $_COOKIE["groupe"];
 
 ?>
 
+<!-- 
 <?php if ($ecole == 'iut' && $groupe == 'q1') { ?>
   <div class="card">
     <div class="accordion">
@@ -34,14 +35,15 @@ $groupe = $_COOKIE["groupe"];
     </div>
   </div>
 <?php } ?>
+-->
 
 
-<div id="menu">
+<div id="menu" style="text-align: right;">
   <span id="menu-navi" style="width: 100%;">
     <button type="button" class="btn btn-default btn-sm move-today" onclick="cal.today()">Aujourd''hui</button>
-    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.prev()"><</button>
-    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.next()">></button>
-    <input type="date" class="form-input input-sm" value="2002-02-20" style="width: fit-content; display: inline;" id="date-picker" onchange="changeDate(event);">
+    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.prev()"> < </button>
+    <input type="date" class="form-input input-sm" value="2002-02-20" style="-webkit-appearance: auto; width: fit-content; display: inline;" id="date-picker" onchange="changeDate(event);">
+    <button type="button" class="btn btn-default btn-sm move-day" onclick="cal.next()"> > </button>
   </span>
   <span id="renderRange" class="render-range"></span>
 </div>
