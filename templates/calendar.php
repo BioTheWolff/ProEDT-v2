@@ -6,9 +6,8 @@ use App\Database\Interactions\UserInteraction;
 use App\Services\Session\SessionInterface;
 
 $user_is_connected = isset($container) && UserInteraction::is_user_connected($container->get(SessionInterface::class));
-if($user_is_connected == false) $user_is_connected = false;
-if(!isset($_COOKIE["ecole"]) || !isset($_COOKIE["groupe"])) 
-{
+if ($user_is_connected == false) $user_is_connected = false;
+if (!isset($_COOKIE["ecole"]) || !isset($_COOKIE["groupe"])) {
   header("Location: /settings");
   exit();
 }
@@ -40,9 +39,9 @@ $groupe = $_COOKIE["groupe"];
 
 <div id="menu" style="text-align: right;">
   <span id="menu-navi" style="width: 100%;">
-    <button class="btn btn-primary btn-action" onclick="cal.prev()" style="display: inline;"><i class="icon icon-arrow-left"></i></button>
+    <button class="btn btn-primary btn-action" onclick="calPrev()" style="display: inline;"><i class="icon icon-arrow-left"></i></button>
     <input type="date" class="form-input input-sm" value="2002-02-20" style="-webkit-appearance: auto; width: auto; display: inline;" id="date-picker" onchange="changeDate(event);">
-    <button class="btn btn-primary btn-action" onclick="cal.next()"><i class="icon icon-arrow-right"></i></button>
+    <button class="btn btn-primary btn-action" onclick="calNext()"><i class="icon icon-arrow-right"></i></button>
   </span>
   <span id="renderRange" class="render-range"></span>
 </div>
@@ -74,7 +73,7 @@ $groupe = $_COOKIE["groupe"];
   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </div>
 
-    
+
 <script src="/cdn/jquery/jquery-3.6.0.min.js"></script>
 <script src="/cdn/tui/tui-code-snippet.min.js"></script>
 <script src="/cdn/tui/tui-time-picker.min.js"></script>
@@ -83,69 +82,66 @@ $groupe = $_COOKIE["groupe"];
 <script src="/cdn/moment/moment.js"></script>
 
 <script>
+  let alreadyFetch = false;
+  let notificationElement = document.getElementById("validNotification");
 
-let alreadyFetch = false;
-let notificationElement = document.getElementById("validNotification");
+  function checkLastCalendarFetch(eventData) {
+    const gathered_at = eventData.gathered_at;
+    const generated_at = eventData.generated_at;
+    const diff = generated_at - gathered_at;
 
-function checkLastCalendarFetch(eventData) {
-  const gathered_at = eventData.gathered_at;
-  const generated_at = eventData.generated_at;
-  const diff = generated_at - gathered_at;
-  
-  if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser lEDT dans quelques instants.`, 'orange');
-  else if (diff >= 600) this.show_alert(`Le serveur na pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
-}
+    if (diff >= 320 && diff < 600) this.show_alert(`Le serveur va actualiser lEDT dans quelques instants.`, 'orange');
+    else if (diff >= 600) this.show_alert(`Le serveur na pas pu récupérer l'EDT, il se pourrait que le serveur de votre école soit hors-ligne.`, 'red');
+  }
 
-function show_alert(text) {
-  
-  notificationElement.innerHTML = text;
-  this.alert.show = true;
-  notificationElement.style.display = "block";
-  window.setInterval(() => {
-    notificationElement.style.display = "none";
-    notificationElement.innerHTML  = "";
-  }, 5000)
-}
+  function show_alert(text) {
 
-function joinV(str) {
-  if (Array.isArray(str)) return str.join(", ");
-  else return str;
-};
+    notificationElement.innerHTML = text;
+    this.alert.show = true;
+    notificationElement.style.display = "block";
+    window.setInterval(() => {
+      notificationElement.style.display = "none";
+      notificationElement.innerHTML = "";
+    }, 5000)
+  }
 
-function calenDate(icalStr) {
-  // icalStr = '20110914T184000Z'
-  let strYear = icalStr.substr(0, 4);
-  let strMonth = parseInt(icalStr.substr(4, 2), 10) - 1;
-  let strDay = icalStr.substr(6, 2);
-  let strHour = parseInt(icalStr.substr(9, 2));
-  let strMin = icalStr.substr(11, 2);
-  let strSec = icalStr.substr(13, 2);
+  function joinV(str) {
+    if (Array.isArray(str)) return str.join(", ");
+    else return str;
+  };
 
-  return new Date(Date.UTC(strYear, strMonth, strDay, strHour, strMin, strSec));
-}
+  function calenDate(icalStr) {
+    // icalStr = '20110914T184000Z'
+    let strYear = icalStr.substr(0, 4);
+    let strMonth = parseInt(icalStr.substr(4, 2), 10) - 1;
+    let strDay = icalStr.substr(6, 2);
+    let strHour = parseInt(icalStr.substr(9, 2));
+    let strMin = icalStr.substr(11, 2);
+    let strSec = icalStr.substr(13, 2);
 
-Date.prototype.addDays = function(days) { 
-  var date = new Date(this.valueOf()); 
-  date.setDate(date.getDate() + days); 
-  return date; 
-}
+    return new Date(Date.UTC(strYear, strMonth, strDay, strHour, strMin, strSec));
+  }
 
-function showLoading()
-{
-  $("#loadingImg").fadeIn();
-}
+  Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+  }
 
-function unShowLoading()
-{
-  $("#loadingImg").fadeOut();
-}
+  function showLoading() {
+    $("#loadingImg").fadeIn();
+  }
 
-const themeConfig = {
-  'week.timegridOneHour.height': '40px',
-  'week.timegridHalfHour.height': '20px',
-};
+  function unShowLoading() {
+    $("#loadingImg").fadeOut();
+  }
 
-var templates = {
+  const themeConfig = {
+    'week.timegridOneHour.height': '40px',
+    'week.timegridHalfHour.height': '20px',
+  };
+
+  var templates = {
     popupDetailLocation: function(schedule) {
       return schedule.location;
     },
@@ -155,21 +151,20 @@ var templates = {
     popupDetailBody: function(schedule) {
       return schedule.body;
     },
-    milestone: function(schedule) { 
-      return '<span style="color:red;"><i class="fa fa-flag"></i> ' + schedule.title + '</span>'; 
+    milestone: function(schedule) {
+      return '<span style="color:red;"><i class="fa fa-flag"></i> ' + schedule.title + '</span>';
     },
-    time: function(schedule)
-    {
+    time: function(schedule) {
       let t = schedule.title + "<br>" + schedule.location;
-      if(schedule.raw) t = "<i class='mdi mdi-notebook' style='color: yellow;'></i> " + t;
+      if (schedule.raw) t = "<i class='mdi mdi-notebook' style='color: yellow;'></i> " + t;
       return t;
     },
-    popupDetailDate: function(isAllDay, start, end) { 
+    popupDetailDate: function(isAllDay, start, end) {
       start = moment(start.toDate());
       end = moment(end.toDate());
-      const isSameDate = start.isSame(end, 'day'); 
-      const endFormat = (isSameDate ? '' : 'DD.MM.YYYY ') + 'HH:mm'; 
-      return (start.format('DD.MM.YYYY HH:mm') + ' - ' + end.format(endFormat)); 
+      const isSameDate = start.isSame(end, 'day');
+      const endFormat = (isSameDate ? '' : 'DD.MM.YYYY ') + 'HH:mm';
+      return (start.format('DD.MM.YYYY HH:mm') + ' - ' + end.format(endFormat));
     },
   };
 
@@ -178,7 +173,7 @@ var templates = {
     template: templates,
     useCreationPopup: true,
     useDetailPopup: true,
-    
+
     isReadOnly: true,
     defaultView: 'week',
     taskView: false,
@@ -192,86 +187,101 @@ var templates = {
       startDayOfWeek: 1,
     }
   });
-  
-cal.on('afterRenderSchedule', function(event) {
-  let date = cal.getDate().toDate();
-  date = date.addDays(1);
-  $("#date-picker").val(date.toISOString().substring(0,10));
-});
 
-function changeDate(event)
-{
-  cal.setDate(new Date(event.target.value));
-}
-
-const screenRatio = window.screen.height/window.screen.width;
-if(screenRatio >= 1) cal.changeView('day');
-
-showLoading();
-fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
-.then(function(response) {
-  if (response.ok) {
-    return response.json();
-  } else {
-    unShowLoading();
-    if (response.status === 521) {
-      this.show_alert("Le serveur est injoignable, merci de contacter un admin !");
-    } else if (response.status === 500) {
-      this.show_alert("Erreur 500 (Potentioellement aucun cours à afficher)");
-    } else if (response.status === 400) {
-      this.show_alert("Erreur 400: Votre école/groupe est surement mal configuré ! <a href='/settings'>Paramètres</a>",);
-    } else if (response.status === 404) {
-      this.show_alert("Erreur 404: Un bug est survenu coté client, contactez les admins si cela persiste. <a href='/about'>Contacter</a>");
-    } else if (response.status !== 200) {
-      this.show_alert(`Erreur serveur: ${response.status}`);
-    }
-    
-    throw new Error('Something went wrong');
-  }
-})
-.then(function(res) {
-  const events = [];
-  res.events.forEach(event => 
-  {
-    events.push({
-      id: event.uid,
-      calendarId: event.uid,
-      title: event.summary,
-      location: `${this.joinV(event.location)}`,
-      body: (event.homework ? "<strong>Devoir</strong>: " + event.homework + (<?php echo $user_is_connected ? 'true' : 'false'; ?> == true ? "<br>" : "" ) : "") 
-      <?php if ($user_is_connected) { ?> 
-        + "<a href=/homework/"+event.uid+">Modifier les devoirs</a>" 
-        <?php } ?>,
-      category: 'time',
-      start: calenDate(event.start),
-      end: calenDate(event.end),
-      isReadOnly: true,
-      bgColor: (event.homework ? "#7700ff" : "#0089c9"),
-      borderColor: (event.homework ? "#0089c9" : "#6b00ff"),
-      color: 'white',
-      attendees: event.description.teachers,
-      raw: event.homework,
-    })
+  cal.on('afterRenderSchedule', function(event) {
+    //reloadDisplayedDate();
   });
-  cal.createSchedules(events);
-  unShowLoading();
 
-if (!this.alreadyFetch) {
-  this.alreadyFetch = true;
-  setTimeout(() => {
-    fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
-      .then(function(response2) {
-  return response2.json();
-})
-.then(function(res2) {
-  this.checkLastCalendarFetch(res2);
-      });
-  }, 3000);
-}
-else
-{
-  this.checkLastCalendarFetch(response.data);
-}
+  function changeDate(event) {
+    cal.setDate(new Date(event.target.value));
+    reloadDisplayedDate();
+  }
+
+  function calNext()
+  {
+    cal.next();
+    reloadDisplayedDate();
+  }
+
+  function calPrev()
+  {
+    cal.prev();
+    reloadDisplayedDate();
+  }
+
+  function reloadDisplayedDate() 
+  {
+    let date = cal.getDate().toDate();
+    date = date.addDays(1);
+    $("#date-picker").val(date.toISOString().substring(0, 10));
+  }
+
+  const screenRatio = window.screen.height / window.screen.width;
+  if (screenRatio >= 1) cal.changeView('day');
   
-});
+  showLoading();
+  fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
+    .then(function(response) {
+      reloadDisplayedDate();
+      if (response.ok) {
+        return response.json();
+      } else {
+        unShowLoading();
+        if (response.status === 521) {
+          this.show_alert("Le serveur est injoignable, merci de contacter un admin !");
+        } else if (response.status === 500) {
+          this.show_alert("Erreur 500 (Potentioellement aucun cours à afficher)");
+        } else if (response.status === 400) {
+          this.show_alert("Erreur 400: Votre école/groupe est surement mal configuré ! <a href='/settings'>Paramètres</a>", );
+        } else if (response.status === 404) {
+          this.show_alert("Erreur 404: Un bug est survenu coté client, contactez les admins si cela persiste. <a href='/about'>Contacter</a>");
+        } else if (response.status !== 200) {
+          this.show_alert(`Erreur serveur: ${response.status}`);
+        }
+
+        throw new Error('Something went wrong');
+      }
+    })
+    .then(function(res) {
+      const events = [];
+      res.events.forEach(event => {
+        events.push({
+          id: event.uid,
+          calendarId: event.uid,
+          title: event.summary,
+          location: `${this.joinV(event.location)}`,
+          body: (event.homework ? "<strong>Devoir</strong>: " + event.homework + (<?php echo $user_is_connected ? 'true' : 'false'; ?> == true ? "<br>" : "") : "")
+          <?php if ($user_is_connected) { ?> +
+            "<a href=/homework/" + event.uid + ">Modifier les devoirs</a>"
+          <?php } ?>,
+          category: 'time',
+          start: calenDate(event.start),
+          end: calenDate(event.end),
+          isReadOnly: true,
+          bgColor: (event.homework ? "#7700ff" : "#0089c9"),
+          borderColor: (event.homework ? "#0089c9" : "#6b00ff"),
+          color: 'white',
+          attendees: event.description.teachers,
+          raw: event.homework,
+        })
+      });
+      cal.createSchedules(events);
+      unShowLoading();
+
+      if (!this.alreadyFetch) {
+        this.alreadyFetch = true;
+        setTimeout(() => {
+          fetch('/api/json/<?php echo $ecole ?>/<?php echo $groupe ?>')
+            .then(function(response2) {
+              return response2.json();
+            })
+            .then(function(res2) {
+              this.checkLastCalendarFetch(res2);
+            });
+        }, 3000);
+      } else {
+        this.checkLastCalendarFetch(response.data);
+      }
+
+    });
 </script>
