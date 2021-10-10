@@ -26,7 +26,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
           [*] Fix des boutons de changements de semaine/jour<br>
           [*] Modification du fournisseur des statistiques de ProEDT<br>
           <br>
-          Si vous souhaitez gérer les devoirs de votre groupe/classe, n'hésitez pas à me contacter via Discord (_Rtinox#4442) ou IRL.<br>
+          Si vous souhaitez gérer les <strong>devoirs</strong> de votre groupe/classe, n'hésitez pas à me contacter via Discord (_Rtinox#4442) ou IRL.<br>
           Je m'excuse aussi pour la panne de vendredi 08/10/2021 au soir ayant rendu le site durement accessible pendant quelques minutes suite à une perte réseau de notre hébergeur.<br>
           Nous vous préparons quelques fonctionnalités pour les prochaines semaines qui ne devraient pas vous décevoir<br>
           <br>
