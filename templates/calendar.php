@@ -66,7 +66,7 @@ $groupe = $_COOKIE["groupe"];
 </div>
 
 <div id="loadingImg">
-  <div class="water"></div>
+  <img src="/assets/img/loading.gif" width="500" style="max-width: 500px;">
 </div>
 
 <div class="toast toast-warning" id="validNotification" style="display:none; margin-left: 20px;">
