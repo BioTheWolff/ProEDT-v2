@@ -26,7 +26,7 @@ $this->flashes = $neon->get();
 
     <!-- If you use the default popups, use this. -->
     <link rel="stylesheet" type="text/css" href="/cdn/tui/tui-date-picker.css" />
-    <link rel="stylesheet" type="text/css" href="/cdn/tui/tui-time-picker.css" /> 
+    <link rel="stylesheet" type="text/css" href="/cdn/tui/tui-time-picker.css" />
 
     <link href="/cdn/css/materialdesignicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/assets/css/calendar.css" />
@@ -44,19 +44,26 @@ $this->flashes = $neon->get();
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png" />
     <link rel="manifest" href="manifest-proedt.json">
 
-    
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTFJK3D7NF"></script>
+
+    <!-- Matomo -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-TTFJK3D7NF');
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u = "//analytics.rtinox.fr/";
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', '1']);
+            var d = document,
+                g = d.createElement('script'),
+                s = d.getElementsByTagName('script')[0];
+            g.async = true;
+            g.src = u + 'matomo.js';
+            s.parentNode.insertBefore(g, s);
+        })();
     </script>
+    <!-- End Matomo Code -->
 </head>
 
 <body>
