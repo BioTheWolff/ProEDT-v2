@@ -8,28 +8,32 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
 <div class="container">
   <div class="columns">
 
-    <?php if ($ecole == 'iut') { ?>
-      <!--<div class="column col-4 col-sm-12 col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title h5">Projet Etape 2: saisie des voeux avant <strong>lundi 13 18h</strong></div>
-            <div class="card-subtitle">Auteur: <span class="chip bg-error">Rémi Coletta</span></div>
-          </div>
-          <div class="card-body">
-            Bonjour, <br>
-            <br>
-            Les groupes étant constitués, nous allons passer à la saisie des voeux. <br>
-            <br>
-            Le premier login de chaque groupe (ou le second si le premier est un doublant) peut se connecter sur le site<br>
-            <a href="https://webinfo.iutmontp.univ-montp2.fr/projets/">https://webinfo.iutmontp.univ-montp2.fr/projets/</a><br>
-            <br>
-            Et saisir exactement 5 voeux ordonnées. <br>
-            <br>
-            PS: attention, un sujet a été supprimé et un autre ajouté.
-          </div>
+    <div class="column col-4 col-sm-12 col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title h5">Changelog: Dimanche 10/10/2021</strong></div>
+          <div class="card-subtitle">Auteur: <span class="chip bg-primary">Nathan R.</span></div>
         </div>
-      </div>-->
-    <?php } ?>
+        <div class="card-body">
+          Bonjour,<br>
+          Pour vous informer des derniers changements de ProEDT, je vous propose de lire cette news 😄<br>
+          <br>
+          [+] Calendrier des GEA<br>
+          [+] Calendrier des TC<br>
+          [+] Lien ICAL pour votre gestionnaire d'agenda (avec devoirs affichés)<br>
+          [*] Page 'EDT' entièrement recodée en vanilla<br>
+          [*] Nouvelle animation de chargement<br>
+          [*] Fix des boutons de changements de semaine/jour<br>
+          [*] Modification du fournisseur des statistiques de ProEDT<br>
+          <br>
+          Si vous souhaitez gérer les devoirs de votre groupe/classe, n'hésitez pas à me contacter via Discord (_Rtinox#4442) ou IRL.<br>
+          Je m'excuse aussi pour la panne de vendredi 08/10/2021 au soir ayant rendu le site durement accessible pendant quelques minutes suite à une perte réseau de notre hébergeur.<br>
+          Nous vous préparons quelques fonctionnalités pour les prochaines semaines qui ne devraient pas vous décevoir<br>
+          <br>
+          Vous souhaitant de passer une bonne semaine tout en restant ouvert à vos propositions et idées !
+        </div>
+      </div>
+    </div>
 
     <div class="column col-4 col-sm-12 col-md-12">
       <div class="card">
