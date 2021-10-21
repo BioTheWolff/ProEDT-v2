@@ -8,7 +8,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
 <div class="container">
   <div class="columns">
 
-    <div class="column col-4 col-sm-12 col-md-12">
+    <!--<div class="column col-4 col-sm-12 col-md-12">
       <div class="card">
         <div class="card-header">
           <div class="card-title h5">Changelog: Dimanche 10/10/2021</strong></div>
@@ -33,7 +33,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
           Vous souhaitant de passer une bonne semaine tout en restant ouvert à vos propositions et idées !
         </div>
       </div>
-    </div>
+    </div>-->
 
     <div class="column col-4 col-sm-12 col-md-12">
       <div class="card">
