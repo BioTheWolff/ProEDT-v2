@@ -25,6 +25,11 @@ header.navbar {
   color: black
 }
 
+.darkmode--activated i.icon
+{
+  color: white
+}
+
 .darkmode--activated #calendar > div > div.tui-view-3.tui-full-calendar-week-container > div.tui-full-calendar-vlayout-area.tui-view-5.tui-full-calendar-vlayout-container > div.tui-view-7 > div > div.tui-full-calendar-allday-left.tui-full-calendar-left > span
 {
   color: white;
