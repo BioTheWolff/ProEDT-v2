@@ -8,32 +8,23 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
 <div class="container">
   <div class="columns">
 
-    <!--<div class="column col-4 col-sm-12 col-md-12">
+    <div class="column col-4 col-sm-12 col-md-12">
       <div class="card">
         <div class="card-header">
-          <div class="card-title h5">Changelog: Dimanche 10/10/2021</strong></div>
-          <div class="card-subtitle">Auteur: <span class="chip bg-primary">Nathan R.</span></div>
+          <h1>🌓</h1>
+          <div class="card-title h5">Mode sombre (aka darkmode)</strong></div>
+          <div class="card-subtitle">Auteur: <span class="chip bg-primary">Nathan R.</span> <span class="chip bg-success">Changelog</span></div>
         </div>
         <div class="card-body">
-          Bonjour,<br>
-          Pour vous informer des derniers changements de ProEDT, je vous propose de lire cette news 😄<br>
+          Hey ! 👋<br>
+          Le mode sombre est enfin disponible, plus besoin de plisser vos yeux quand vous regardez votre emploi du temps à 1 heure du matin dans le noir.
           <br>
-          [+] Calendrier des GEA<br>
-          [+] Calendrier des TC<br>
-          [+] Lien ICAL pour votre gestionnaire d'agenda (avec devoirs affichés)<br>
-          [*] Page 'EDT' entièrement recodée en vanilla<br>
-          [*] Nouvelle animation de chargement<br>
-          [*] Fix des boutons de changements de semaine/jour<br>
-          [*] Modification du fournisseur des statistiques de ProEDT<br>
-          <br>
-          Si vous souhaitez gérer les <strong>devoirs</strong> de votre groupe/classe, n'hésitez pas à me contacter via Discord (_Rtinox#4442) ou IRL.<br>
-          Je m'excuse aussi pour la panne de vendredi 08/10/2021 au soir ayant rendu le site durement accessible pendant quelques minutes suite à une perte réseau de notre hébergeur.<br>
-          Nous vous préparons quelques fonctionnalités pour les prochaines semaines qui ne devraient pas vous décevoir<br>
-          <br>
+          Pour l'activer, regardez en bas à droite de la page 🌓 !
+          <br><br>
           Vous souhaitant de passer une bonne semaine tout en restant ouvert à vos propositions et idées !
         </div>
       </div>
-    </div>-->
+    </div>
 
     <div class="column col-4 col-sm-12 col-md-12">
       <div class="card">
