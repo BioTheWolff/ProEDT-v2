@@ -1,52 +1,76 @@
 body {
-  background: #FFFFFF;
   width: 100vw;
-  height: 100vh; }
+  height: 100vh;
+}
+.theme--default body {
+  background-color: #FFFFFF;
+}
+.theme--dark body {
+  background-color: #121212;
+}
 
 header.navbar {
   padding: 3px 2vw;
   min-height: 7vh;
   background: #7700ff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); }
-  header.navbar img {
-    width: 5vh;
-    height: 5vh; }
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+header.navbar img {
+  width: 5vh;
+  height: 5vh;
+}
 
 main#container {
   padding: 3vh 5vw;
   width: 100vw;
-  min-height: 88vh; }
+  min-height: 88vh;
+}
+
+#theme-mode-btn {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
 
 footer {
-  height: 5vh; }
+  height: 5vh;
+}
 
 .btn {
-  margin-top: 5px; }
+  margin-top: 5px;
+}
 
 .flash {
   width: max-content;
   padding: 0 10px;
   margin: 0 auto 2vh auto;
-  border-radius: 15px; }
+  border-radius: 15px;
+}
 
 .card {
-  margin-top: 10px; }
+  margin-top: 10px;
+}
 
 .btn.btn-link {
   background-color: transparent;
-  color: white; }
+  color: white;
+}
 
 .btn.btn-link:hover {
-  color: #33ffee; }
+  color: #33ffee;
+}
 
 .navbar .navbar-brand {
-  color: white; }
+  color: white;
+}
 
 .navbar .navbar-brand:hover {
-  color: #33ffee; }
+  color: #33ffee;
+}
 
 code {
   background: #232222;
-  display: block; }
+  display: block;
+}
 
 /*# sourceMappingURL=index.css.map */
