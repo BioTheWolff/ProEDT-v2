@@ -19,6 +19,22 @@ header.navbar {
   }
 }
 
+.darkmode--activated header.navbar
+{
+  background-color: #88ff00;
+  color: black
+}
+
+.darkmode--activated #calendar > div > div.tui-view-3.tui-full-calendar-week-container > div.tui-full-calendar-vlayout-area.tui-view-5.tui-full-calendar-vlayout-container > div.tui-view-7 > div > div.tui-full-calendar-allday-left.tui-full-calendar-left > span
+{
+  color: white;
+}
+
+body.darkmode--activated
+{
+  color: black;
+}
+
 main#container {
   padding: 3vh 5vw;
   width: 100vw;

@@ -15,6 +15,19 @@ header.navbar img {
   height: 5vh;
 }
 
+.darkmode--activated header.navbar {
+  background-color: #88ff00;
+  color: black;
+}
+
+.darkmode--activated #calendar > div > div.tui-view-3.tui-full-calendar-week-container > div.tui-full-calendar-vlayout-area.tui-view-5.tui-full-calendar-vlayout-container > div.tui-view-7 > div > div.tui-full-calendar-allday-left.tui-full-calendar-left > span {
+  color: white;
+}
+
+body.darkmode--activated {
+  color: black;
+}
+
 main#container {
   padding: 3vh 5vw;
   width: 100vw;
@@ -55,6 +68,32 @@ footer {
 
 .navbar .navbar-brand:hover {
   color: #33ffee;
+}
+
+.darkmode--activated a.btn:not(.btn-link) {
+  background-color: black;
+}
+
+.darkmode--activated a.btn:not(.btn-link):hover {
+  background-color: #303030;
+  color: white;
+}
+
+.darkmode--activated .btn.btn-link {
+  background-color: transparent;
+  color: black;
+}
+
+.darkmode--activated .btn.btn-link:hover {
+  color: #cc0011;
+}
+
+.darkmode--activated .navbar .navbar-brand {
+  color: black;
+}
+
+.darkmode--activated .navbar .navbar-brand:hover {
+  color: #cc0011;
 }
 
 code {

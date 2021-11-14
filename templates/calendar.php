@@ -139,8 +139,19 @@ $groupe = $_COOKIE["groupe"];
   const themeConfig = {
     'week.timegridOneHour.height': '40px',
     'week.timegridHalfHour.height': '20px',
-    'common.backgroundColor': 'black',
   };
+
+  if(darkMode.isActivated())
+  {
+    themeConfig["common.backgroundColor"] = 'black';
+    themeConfig['common.saturday.color'] = '#fff';
+    themeConfig['common.dayname.color'] = '#fff';
+    themeConfig['common.today.color'] = '#fff';
+    themeConfig['week.timegridLeft.backgroundColor'] = 'black';
+    themeConfig['week.currentTime.color'] = '#7700ff';
+    themeConfig['week.pastTime.color'] = '#8c8c8c';
+    themeConfig['week.futureTime.color'] = '#fff';
+  }
 
   var templates = {
     popupDetailLocation: function(schedule) {

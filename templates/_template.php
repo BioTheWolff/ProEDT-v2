@@ -67,6 +67,9 @@ $this->flashes = $neon->get();
 </head>
 
 <body>
+    <script src="/cdn/darkmode/darkmode-js.min.js"></script>
+    <script src="/assets/js/darkmode.js"></script>
+    
     <header class="navbar">
         <section class="navbar-section">
             <a href="/" class="btn btn-link">Accueil</a>
@@ -106,9 +109,6 @@ $this->flashes = $neon->get();
             </div>
         <?php endif; ?>
     </footer>
-
-    <script src="/cdn/darkmode/darkmode-js.min.js"></script>
-    <script src="/assets/js/darkmode.js"></script>
 </body>
 
 </html>

@@ -2,6 +2,7 @@
     margin-top: 10px
 
 // BUTTONS   
+
 .btn.btn-link
     background-color: transparent
     color: white
@@ -15,6 +16,30 @@
 
 .navbar .navbar-brand:hover
     color: lighten(rgb(0, 255, 234), 10%)
+
+// Buttons darkmode
+
+.darkmode--activated a.btn:not(.btn-link)
+    background-color: black
+
+.darkmode--activated a.btn:not(.btn-link):hover
+    background-color: #303030
+    color: white
+
+
+.darkmode--activated .btn.btn-link
+    background-color: transparent
+    color: black
+
+.darkmode--activated .btn.btn-link:hover
+    color: #cc0011
+
+.darkmode--activated .navbar .navbar-brand
+    color: black
+
+.darkmode--activated .navbar .navbar-brand:hover
+    color: #cc0011
+
 
 code
     background: rgb(35, 34, 34)

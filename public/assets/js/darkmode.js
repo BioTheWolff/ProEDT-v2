@@ -4,15 +4,20 @@ const options = {
   left: 'unset', // default: 'unset'
   time: '0.7s', // default: '0.3s'
   mixColor: '#FFF', // default: '#fff'
-  backgroundColor: 'white', // default: '#fff'
+  backgroundColor: '#FFF', // default: '#fff'
   buttonColorDark: '#100f2c', // default: '#100f2c'
   buttonColorLight: '#fff', // default: '#fff'
   saveInCookies: true, // default: true,
   label: '🌓', // default: ''
-  autoMatchOsTheme: true // default: true
+  autoMatchOsTheme: false // default: true
 }
 
+const darkMode = new Darkmode(options)
 function addDarkmodeWidget() {
-  new Darkmode(options).showWidget();
+  darkMode.showWidget();
+  if(window.location.pathname == "/calendar") darkMode.button.addEventListener("click", () => 
+  {
+    location.reload();
+  })
 }
 window.addEventListener('load', addDarkmodeWidget);
