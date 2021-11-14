@@ -1,12 +1,7 @@
 body {
   width: 100vw;
   height: 100vh;
-}
-.theme--default body {
   background-color: #FFFFFF;
-}
-.theme--dark body {
-  background-color: #121212;
 }
 
 header.navbar {
@@ -24,12 +19,6 @@ main#container {
   padding: 3vh 5vw;
   width: 100vw;
   min-height: 88vh;
-}
-
-#theme-mode-btn {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
 }
 
 footer {

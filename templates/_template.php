@@ -98,14 +98,6 @@ $this->flashes = $neon->get();
         <?= $this->section('content') ?>
     </main>
 
-    <button class="btn btn-primary btn-action btn-lg" id="theme-mode-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brightness-half" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-            <path d="M12 9a3 3 0 0 0 0 6v-6z" />
-            <path d="M6 6h3.5l2.5 -2.5l2.5 2.5h3.5v3.5l2.5 2.5l-2.5 2.5v3.5h-3.5l-2.5 2.5l-2.5 -2.5h-3.5v-3.5l-2.5 -2.5l2.5 -2.5z" />
-        </svg>
-    </button>
-
     <footer class="text-center">
         &copy; Copyright 2021 - Nathan R. & Fabien Z.
         <?php if (isset($is_production) && !$is_production) : ?>
@@ -115,13 +107,8 @@ $this->flashes = $neon->get();
         <?php endif; ?>
     </footer>
 
-    <script>
-        const themeButton = document.getElementById("theme-mode-btn");
-        themeButton.addEventListener('click', () => 
-        {
-            document.body.classList.toggle('theme--dark');
-        });
-    </script>
+    <script src="/cdn/darkmode/darkmode-js.min.js"></script>
+    <script src="/assets/js/darkmode.js"></script>
 </body>
 
 </html>

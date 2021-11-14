@@ -139,6 +139,7 @@ $groupe = $_COOKIE["groupe"];
   const themeConfig = {
     'week.timegridOneHour.height': '40px',
     'week.timegridHalfHour.height': '20px',
+    'common.backgroundColor': 'black',
   };
 
   var templates = {

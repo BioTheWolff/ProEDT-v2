@@ -1,12 +1,9 @@
 @import "_vars";
 
 body {
-    @include themed() {
-        background-color: t($bg);
-      }
-
   width: 100vw;
   height: 100vh;
+  background-color: $background-color;
 }
 
 header.navbar {
@@ -21,19 +18,17 @@ header.navbar {
     height: 5vh;
   }
 }
+
 main#container {
   padding: 3vh 5vw;
   width: 100vw;
   min-height: 100vh - $footer-height - 7vh;
 }
-#theme-mode-btn {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-}
+
 footer {
   height: $footer-height;
 }
+
 .btn {
   margin-top: 5px;
 }
