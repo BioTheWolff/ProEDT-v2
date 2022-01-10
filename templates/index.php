@@ -8,6 +8,30 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
 <div class="container">
   <div class="columns">
 
+    <?php if($ecole == "iut") { ?>
+      <div class="column col-4 col-sm-12 col-md-12">
+      <div class="card">
+        <div class="card-image">
+          <img src="/assets/img/2022.png" class="img-responsive" width="100">
+        </div>
+        <div class="card-header">
+          <div class="card-title h5">Nouveaux edt (Informatique)</strong></div>
+          <div class="card-subtitle">Auteur: <span class="chip bg-primary">Nathan R.</span> <span class="chip bg-success">EDT</span></div>
+        </div>
+        <div class="card-body">
+          Hey,<br>
+          Les edt pour le 2° et 4° semestre sont arrivés !
+          <br>
+          Seulement pour les deuxièmes années, il vous faudra changer de groupe avec (G1, G2, etc ...) dès que vous aurez votre groupe
+          <br>
+          📎 <a href="/settings">Changer de groupe</a>
+          <br><br>
+          👋
+        </div>
+      </div>
+    </div>
+    <?php } ?>
+
     <div class="column col-4 col-sm-12 col-md-12">
       <div class="card">
         <div class="card-header">
