@@ -102,7 +102,7 @@ $this->flashes = $neon->get();
     </main>
 
     <footer class="text-center">
-        &copy; Copyright 2021 - Nathan R. & Fabien Z.
+        &copy; Copyright 2022 - Nathan R. & Fabien Z.
         <?php if (isset($is_production) && !$is_production) : ?>
             <div class="bg-warning absolute bottom-0 p-5 w-screen text-center" style="width: 100vw">
                 WARNING: DEVELOPMENT MODE ENABLED
