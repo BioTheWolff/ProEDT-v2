@@ -8,6 +8,25 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
 <div class="container">
   <div class="columns">
 
+    <div class="column col-4 col-sm-12 col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title h5">The END</div>
+          <div class="card-subtitle">Auteur: <span class="chip bg-primary">Nathan R.</span> <span class="chip bg-success">Changelog</span></div>
+        </div>
+        <div class="card-body">
+          Bonjour ! 👋<br>
+          Comme vous le savez peut-être, c'est le moment où les deuxièmes années partent en stage, et donc les développeurs de ce site y compris 😥
+          <br>
+          Le projet ne continuera pas l'année prochaine (il reste en ligne jusqu'à Juillet 2022), nous nous sommes mis d'accord pour dire que nous n'aurions pas le temps de gérer un site sans être sur place, il vous faudra donc trouver une alternative malheureusement.<br>
+          Nous vous remercions énormément pour tout l'intérêt que vous avez apporté à ce projet, jamais je n'aurais pensé que celui-ci aille aussi loin.<br>
+          Un énorme merci à vous en espérant que vous avez adoré ce projet ! ❤
+          <br>
+          A la prochaine, prenez soin de vous !
+        </div>
+      </div>
+    </div>
+
     <?php if($ecole == "iut") { ?>
       <div class="column col-4 col-sm-12 col-md-12">
       <div class="card">
