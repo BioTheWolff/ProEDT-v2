@@ -12,7 +12,7 @@ if (isset($_COOKIE["ecole"])) $ecole = $_COOKIE["ecole"];
       <div class="card">
         <div class="card-header">
           <div class="card-title h5">The END</div>
-          <div class="card-subtitle">Auteur: <span class="chip bg-primary">Nathan R.</span> <span class="chip bg-success">Changelog</span></div>
+          <div class="card-subtitle">Auteur: <span class="chip bg-primary">Nathan R.</span></div>
         </div>
         <div class="card-body">
           Bonjour ! 👋<br>
